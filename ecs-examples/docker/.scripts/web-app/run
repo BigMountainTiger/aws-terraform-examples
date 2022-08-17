@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd web-app/
+
+if [ "$1" == "-s" ]
+then
+    npm run serve
+else
+    npm run start
+fi

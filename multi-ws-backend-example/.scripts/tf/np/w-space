@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export BACKEND="np"
+
+.scripts/tf/__terraform/tf-workspace "$@"

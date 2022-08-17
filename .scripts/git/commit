@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git reset --soft HEAD~
+git add-commit -m "Updated the aws-terraform-examples"
+git push -f

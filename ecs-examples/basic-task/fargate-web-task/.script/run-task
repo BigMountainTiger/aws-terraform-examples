@@ -1,0 +1,16 @@
+#!/bin/bash
+
+CLUSTER="basic-empty-web-cluster"
+TASK_DEFINITION="basic-fargate-web-task"
+
+task_raw=$(aws ecs run-task \
+    --task-definition ${TASK_DEFINITION} \
+    --launch-type FARGATE \
+    --cluster ${CLUSTER} \
+    --network-configuration \
+      "awsvpcConfiguration={subnets=[subnet-02d54645ebb66a2ee,subnet-00fa09bc94f79ff4e],securityGroups=[sg-0b538c149bb6032da],assignPublicIp=ENABLED}")
+
+taskArn=$(echo $task_raw | jq '.tasks[0].taskArn')
+
+echo -e "Task Started\n$taskArn"
+

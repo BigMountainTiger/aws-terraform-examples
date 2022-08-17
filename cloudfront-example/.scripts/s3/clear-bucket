@@ -1,0 +1,4 @@
+#!/bin/bash
+
+S3="cloudfront-huge.head.li"
+aws s3 rm s3://${S3} --recursive

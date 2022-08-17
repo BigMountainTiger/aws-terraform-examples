@@ -1,0 +1,8 @@
+Install terraform
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+Remote state and lock
+https://quileswest.medium.com/how-to-lock-terraform-state-with-s3-bucket-in-dynamodb-3ba7c4e637
+
+
+

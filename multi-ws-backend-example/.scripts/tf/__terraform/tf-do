@@ -1,0 +1,35 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default action to plan"
+    what="p"
+fi
+
+if [ -z "${BACKEND}" ]
+then
+    echo "You need to specify the BACKEND environment variable"
+    exit 0
+fi
+
+WORKSPACE=$(terraform workspace show)
+echo "Current backend ${BACKEND}"
+echo "Current workspace ${WORKSPACE}"
+
+terraform init -reconfigure -backend-config ${BACKEND}.tfbackend
+
+case "${what}" in
+    "p")
+        terraform plan -var-file=${BACKEND}.tfvars
+        ;;
+    "a")
+        terraform apply -auto-approve -var-file=${BACKEND}.tfvars
+        ;;
+    "d")
+        terraform destroy -auto-approve -var-file=${BACKEND}.tfvars
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: p,a,d"
+        ;; 
+esac

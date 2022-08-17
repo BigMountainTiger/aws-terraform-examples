@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Note: API-Key and authorizor are independent.
+
+API=0lwyxqgj22
+URL="https://${API}.execute-api.us-east-1.amazonaws.com/deploy_stage"
+
+curl --header "x-api-key: Test-0123456789-0123456789-0123456789" \
+    --header "authorization: ALLOW" ${URL}
+
+echo

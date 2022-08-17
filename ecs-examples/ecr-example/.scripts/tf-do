@@ -1,0 +1,4 @@
+#!/bin/bash
+
+../.scripts/__terraform/tf-do "$@"
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd step-app/
+
+TAG=step-app
+REPOSITORY=example_ecr_repository
+
+# docker system prune -a -f
+docker build -t ${REPOSITORY}:${TAG} -f Dockerfile .

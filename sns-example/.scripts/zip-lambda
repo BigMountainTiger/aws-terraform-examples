@@ -1,0 +1,13 @@
+#!/bin/bash
+
+rm -r dist
+mkdir dist
+
+cp -r src dist
+pip3 install -t dist -r dev-requirements.txt
+
+rm terraform/regional/loyalty-rewards-timeline-processor.zip
+
+cd dist
+chmod 755 *
+zip -r ../terraform/regional/loyalty-rewards-timeline-processor.zip *

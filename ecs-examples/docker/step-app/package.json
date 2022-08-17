@@ -1,0 +1,11 @@
+{
+  "name": "step-app",
+  "version": "1.0.0",
+  "description": "step-app application",
+  "author": "Song Li",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.165.0"
+  }
+}
