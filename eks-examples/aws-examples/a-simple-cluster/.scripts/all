@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "creating the cluster and node group"
+.scripts/tf-do a
+
+echo "updating kubeconfig"
+.scripts/update-kubeconfig
+
+echo "creating the service account"
+.scripts/establish-service-account

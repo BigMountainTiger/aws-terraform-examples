@@ -1,0 +1,4 @@
+#!/bin/bash
+
+IP="kafka.bigmountaintiger.com"
+ssh -i ~/Documents/Keypair/kp-huge-head-li-2023.pem ubuntu@${IP}

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default action to list"
+    what="l"
+fi
+
+terraform init -reconfigure -backend-config ${BACKEND}.tfbackend
+
+case "${what}" in
+    "l")
+        terraform workspace list
+        ;;
+    "s")
+        terraform workspace select $2
+        ;;
+    "n")
+        name=$2
+        REGIONS="|us-east-1|us-east-2|us-west-2|"
+        if [[ ! ${REGIONS} == *"|${name}|"* ]]; then
+            echo "${name} is not a valid region name"
+            exit
+        fi
+
+        terraform workspace new ${name}
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: l, s, n"
+        ;; 
+esac

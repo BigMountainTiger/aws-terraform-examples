@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sns_topic_arn="arn:aws:sns:us-east-1:275118158658:example-sns-topic"
+
+aws sns publish \
+    --topic-arn ${sns_topic_arn} \
+    --message "This is the message"

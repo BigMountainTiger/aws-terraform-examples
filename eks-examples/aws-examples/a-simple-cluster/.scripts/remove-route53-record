@@ -1,0 +1,34 @@
+#!/bin/bash
+
+domain="www.bigmountaintiger.com"
+hosted_zone_id="Z07604322QAVER7MUCRVQ"
+
+remove_route53_record() {
+  set=$(aws route53 list-resource-record-sets \
+      --hosted-zone-id ${hosted_zone_id})
+
+  list=$(echo ${set} | jq '.ResourceRecordSets')
+  record=$(echo ${list} | jq ".[] | select(.Name == \"${domain}.\")")
+
+  if [ -z "$record" ]; then
+      echo "CNAME ${domain} was not found, skiping"
+      return
+  fi
+
+  aws route53 change-resource-record-sets \
+      --hosted-zone-id Z07604322QAVER7MUCRVQ \
+      --change-batch '
+    {
+      "Changes": [{
+        "Action"              : "DELETE"
+        ,"ResourceRecordSet"  : '"${record}"'
+      }]
+    }
+    '
+
+  echo
+  echo "Deleting CNAME ${domain}"
+}
+
+
+remove_route53_record

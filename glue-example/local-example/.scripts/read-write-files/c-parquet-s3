@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="read-write-files/c-parquet-s3.py"
+.scripts/__run 

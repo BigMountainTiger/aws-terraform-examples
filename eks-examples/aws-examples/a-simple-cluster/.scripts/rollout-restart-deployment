@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "without sufficient resouce to start new pods before terminating older ones, this will not work"
+echo "Skip"
+exit
+
+kubectl rollout restart deployment web-app

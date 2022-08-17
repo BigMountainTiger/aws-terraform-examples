@@ -1,0 +1,34 @@
+#!/bin/bash
+
+source .scripts/terraform/.config/common
+.scripts/terraform/which
+
+if [ -z "${PROJECT}" ]
+then
+    echo "No project folder provided, exit"
+    exit
+fi
+
+BACKEND_PATH=".scripts/terraform/.config/.backend"
+BACKEND_FILE="${BACKEND_PATH}/backend.hcl"
+rm -rf ${BACKEND_PATH}
+mkdir -p ${BACKEND_PATH}
+
+BACKEND="hostname=\"${HOST_NAME}\"\n"
+BACKEND="${BACKEND}organization=\"${ORGANIZATION}\"\n"
+BACKEND="${BACKEND}workspaces{name=\"${PROJECT}-${WORKSPACE}\"}\n"
+
+echo
+printf ${BACKEND} >> ${BACKEND_FILE}
+echo "Backend configuration:"
+cat ${BACKEND_FILE}
+
+echo
+cd ${PROJECT_ROOT_DIR}/${PROJECT}/
+PWD=$(pwd)
+echo $PWD
+
+terraform init \
+    -reconfigure \
+    -backend-config="../../${BACKEND_FILE}"
+

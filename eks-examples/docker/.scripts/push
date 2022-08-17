@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ACCOUNT=939653976686
+
+REPOSITORY=example_ecr_repository:web-app
+ARN=${ACCOUNT}.dkr.ecr.us-east-1.amazonaws.com
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ARN}
+
+docker tag ${REPOSITORY} ${ARN}/${REPOSITORY}
+docker push ${ARN}/${REPOSITORY}

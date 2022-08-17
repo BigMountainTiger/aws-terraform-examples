@@ -1,0 +1,24 @@
+create fargate profile
+https://docs.aws.amazon.com/eks/latest/userguide/fargate-getting-started.html
+
+
+Load balancer controller
+https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
+
+Fargete profile
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_fargate_profile
+
+
+Fargete logging
+https://docs.aws.amazon.com/prescriptive-guidance/latest/implementing-logging-monitoring-cloudwatch/kubernetes-eks-logging.html
+https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html
+
+
+S3 access
+https://stackoverflow.com/questions/61391499/eks-pod-s3-access-denied
+
+
+coredns
+https://docs.aws.amazon.com/eks/latest/userguide/fargate-getting-started.html#fargate-gs-coredns
+
+Fargate task requires service account to gain access to AWS resources

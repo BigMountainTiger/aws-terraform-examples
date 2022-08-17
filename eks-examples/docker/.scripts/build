@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd web-app/
+
+TAG=web-app
+REPOSITORY=example_ecr_repository
+
+# docker system prune -a -f
+docker build -t ${REPOSITORY}:${TAG} -f Dockerfile .

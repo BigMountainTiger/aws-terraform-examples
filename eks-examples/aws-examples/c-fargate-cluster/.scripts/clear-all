@@ -1,0 +1,9 @@
+#!/bin/bash
+
+.scripts/deployment-to-c-fargate-cluster d
+
+.scripts/deployment-pod-to-c-fargate-cluster d
+
+.scripts/service-account d
+
+.scripts/tf-do d

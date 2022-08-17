@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="basic/a-get-started.py"
+.scripts/__run 

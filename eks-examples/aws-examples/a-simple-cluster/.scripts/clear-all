@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "deleting the deployments and services"
+echo "this is necessary as the service created a load balancer and it need to be deleted"
+.scripts/deployment-to-a-simple-cluster d
+
+echo "deleting the route53 record"
+.scripts/remove-route53-record
+
+echo "deleting the alb example"
+.scripts/deployment-alb-example d
+
+echo "deleting the one time job"
+.scripts/deployment-pod-to-a-simple-cluster d
+
+echo "deleting the alb controller"
+.scripts/remove-alb-controller 
+
+echo "deleting the fluent-bit, and its service account"
+.scripts/fluent-bit d 
+
+echo "deleting the service account and the openid provider"
+.scripts/remove-service-account
+
+echo "delteting the eks cluster and the node group and any associated resources"
+.scripts/tf-do d

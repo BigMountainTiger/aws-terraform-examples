@@ -1,0 +1,32 @@
+#!/bin/bash
+
+RESPONSE=$(aws ecs update-service \
+    --cluster basic-empty-web-cluster \
+    --service basic-fargate-web-task-service \
+    --force-new-deployment)
+
+ARN=$(echo ${RESPONSE} | jq -r ".service.serviceArn")
+
+echo "force-new-deployment"
+echo ${ARN}
+
+
+# SUBNETS_A="subnet-0e62562fb440ab186"
+# SUBNETS_B="subnet-019cab37972d253bb"
+
+# V2_SUBNETS="subnet-0051a26e2516579cf,subnet-0ec9abc1cdd3517a8,subnet-0689c536edb80f6ad"
+# SUBNETS="subnet-019cab37972d253bb,subnet-0e62562fb440ab186"
+
+# VPCCONFIG="awsvpcConfiguration={subnets=[${SUBNETS}],securityGroups=[sg-0ec15ef90282ba9da],assignPublicIp=ENABLED}"
+
+# RESPONSE=$(aws ecs update-service \
+#     --profile saml \
+#     --cluster loyalty-np \
+#     --service loyalty-profile-svc \
+#     --network-configuration ${VPCCONFIG} \
+#     --force-new-deployment)
+
+# ARN=$(echo ${RESPONSE} | jq -r ".service.serviceArn")
+
+# echo "force-new-deployment"
+# echo ${ARN}

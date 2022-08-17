@@ -1,0 +1,23 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default to apply"
+    what="a"
+fi
+
+case "${what}" in
+    "a")
+        kubectl apply -f deployment-alb-2048_full.yaml
+
+        sleep 30
+        kubectl get ingress/ingress-2048 -n game-2048
+        ;;
+    "d")
+        kubectl delete -f deployment-alb-2048_full.yaml
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: a, d"
+        ;; 
+esac

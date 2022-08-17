@@ -1,0 +1,10 @@
+#!/bin/bash
+
+l=$1
+if [ -z "${l}" ]
+then
+     l="-2"
+    echo "default to git log ${l}"
+fi
+
+git log ${l}

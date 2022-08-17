@@ -1,0 +1,14 @@
+https://adamtheautomator.com/terraform-vpc/
+
+VPC endpoint
+https://alexhladun.medium.com/create-a-vpc-endpoint-for-ecr-with-terraform-and-save-nat-gateway-1bc254c1f42
+
+Interface endpoint - Add ENI and set private DNS so the private IPs of the ENIs are used
+Gateway endpoint - Modify the route table, so the requests go through the endpoint
+
+Load Balancer / subnets relations
+https://docs.aws.amazon.com/prescriptive-guidance/latest/load-balancer-stickiness/subnets-routing.html
+
+EKS private subnets
+https://stackoverflow.com/questions/66398126/how-to-launch-eks-node-group-into-a-private-subnet-without-a-nat-gateway
+

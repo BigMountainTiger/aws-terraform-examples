@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source .scripts/terraform/.config/common
+.scripts/terraform/which
+
+if [ -z "${PROJECT}" ]
+then
+    echo "No project folder provided, exit"
+    exit
+fi
+
+cd ${PROJECT_ROOT_DIR}/${PROJECT}/
+terraform plan

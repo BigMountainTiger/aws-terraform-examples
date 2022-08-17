@@ -1,0 +1,6 @@
+#!/bin/bash
+
+DIR="web-content"
+S3="cloudfront-huge.head.li"
+
+aws s3 cp ./${DIR} s3://${S3} --recursive

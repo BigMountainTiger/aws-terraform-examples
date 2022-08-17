@@ -1,0 +1,14 @@
+#!/bin/bash
+
+CLUSTER="basic-empty-cluster"
+SERVICE="basic-ec2-web-task-service"
+
+RESPONSE=$(aws ecs update-service \
+    --cluster ${CLUSTER} \
+    --service ${SERVICE} \
+    --force-new-deployment)
+
+ARN=$(echo ${RESPONSE} | jq -r ".service.serviceArn")
+
+echo "force-new-deployment"
+echo ${ARN}

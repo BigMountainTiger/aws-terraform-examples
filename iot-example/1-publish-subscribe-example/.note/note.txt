@@ -1,0 +1,14 @@
+https://aws.amazon.com/premiumsupport/knowledge-center/iot-core-publish-mqtt-messages-python/
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iot_policy_attachment
+
+
+https://docs.aws.amazon.com/iot/latest/developerguide/sdk-tutorials.html
+Dependency -
+pip install awsiotsdk
+
+We can also use paho to connect to the broker
+https://www.eclipse.org/paho/index.php?page=clients/python/index.php
+https://pypi.org/project/paho-mqtt/
+https://gist.github.com/skirdey/9cdead881799a47742ff3cd296d06cc1
+
+

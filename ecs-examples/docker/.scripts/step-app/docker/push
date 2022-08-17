@@ -1,0 +1,11 @@
+#!/bin/bash
+
+.scripts/step-app/docker/build
+
+REPOSITORY=example_ecr_repository:step-app
+ARN=939653976686.dkr.ecr.us-east-1.amazonaws.com
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ARN}
+
+docker tag ${REPOSITORY} ${ARN}/${REPOSITORY}
+docker push ${ARN}/${REPOSITORY}

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default to create the cluster"
+    what="c"
+fi
+
+case "${what}" in
+    "c")
+        # kind create cluster -n local
+        kind create cluster -n local --config kind-config.yaml
+        ;;
+    "d")
+        kind delete cluster -n local
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: c, d"
+        ;; 
+esac

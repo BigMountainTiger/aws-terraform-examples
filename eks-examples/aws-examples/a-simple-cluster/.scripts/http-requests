@@ -1,0 +1,8 @@
+#!/bin/bash
+
+url="https://www.bigmountaintiger.com/${1}"
+
+echo "querying ${url}"
+echo
+
+curl -i ${url}

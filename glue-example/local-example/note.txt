@@ -1,0 +1,15 @@
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html
+
+Docker registory
+https://hub.docker.com/r/amazon/aws-glue-libs/tags
+docker pull amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+
+pyspark
+https://pypi.org/project/pyspark/
+pip install pyspark
+
+awsglue-dev
+https://pypi.org/project/awsglue-dev/2021.12.30/
+pip install awsglue-dev
+
+

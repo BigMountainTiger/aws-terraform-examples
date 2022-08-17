@@ -1,0 +1,34 @@
+https://opensource.com/article/20/11/run-kubernetes-locally
+
+Kind -
+https://github.com/kubernetes-sigs/kind
+https://kind.sigs.k8s.io/
+https://mcvidanagama.medium.com/set-up-a-multi-node-kubernetes-cluster-locally-using-kind-eafd46dd63e5
+https://kind.sigs.k8s.io/docs/user/configuration/
+kind port -
+https://stackoverflow.com/questions/62432961/how-to-use-nodeport-with-kind
+
+kind -h
+kind version
+kind create cluster -n local
+kind delete cluster -n local
+
+kubectl -
+https://kubernetes.io/docs/reference/kubectl/
+https://kubernetes.io/docs/tasks/tools/#kubectl
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+
+kubectl -h
+kubectl version
+kubectl config -h
+
+deploy -
+https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/
+https://docs.docker.com/get-started/kube-deploy/
+
+
+Extra volume mount
+https://stackoverflow.com/questions/62694361/how-to-reference-a-local-volume-in-kind-kubernetes-in-docker
+
+

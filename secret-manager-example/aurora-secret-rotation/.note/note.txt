@@ -1,0 +1,2 @@
+Aurora has its own password rotation method
+https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html

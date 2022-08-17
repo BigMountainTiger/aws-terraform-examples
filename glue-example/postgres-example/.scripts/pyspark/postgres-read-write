@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="postgres-read-write.py"
+.scripts/pyspark/__run 

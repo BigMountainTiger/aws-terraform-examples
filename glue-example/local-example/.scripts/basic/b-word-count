@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="basic/b-word-count.py"
+.scripts/__run 

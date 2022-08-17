@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# This is kept for a record
+# The fargate profile is created by the terraform now
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default to apply"
+    what="a"
+fi
+
+CLUSTER="c-fargate-cluster"
+PROFILE_NAME="test-fargate-profile"
+NAMESPACE="test-fargate"
+POD_EXECUTION_ROLE_ARN="arn:aws:iam::939653976686:role/eks-c-fargate-cluter-pod_execution_role"
+SUBNETS="subnet-092fbacc03653cc05 subnet-0cd2da4a2c2da750d"
+
+create() {
+    echo "Creating the fargate profile"
+
+    kubectl create namespace ${NAMESPACE}
+    
+    result=$(aws eks create-fargate-profile \
+        --fargate-profile-name ${PROFILE_NAME} \
+        --cluster-name ${CLUSTER} \
+        --pod-execution-role-arn ${POD_EXECUTION_ROLE_ARN} \
+        --subnets ${SUBNETS} \
+        --selectors '{"namespace": "'${NAMESPACE}'"}'
+    )
+
+    status=$(echo ${result} | jq .fargateProfile.status)
+    if [[ -z ${status} ]]; then status="N/A"; fi
+
+    echo "fargate profile is $status"
+}
+
+delete() {
+    echo "Deleting the fargate profile"
+    result=$(aws eks delete-fargate-profile --fargate-profile-name ${PROFILE_NAME} --cluster-name ${CLUSTER})
+
+    status=$(echo ${result} | jq .fargateProfile.status)
+    status=$(echo ${result} | jq .fargateProfile.status)
+    if [[ -z ${status} ]]; then status="N/A"; fi
+    
+    echo "fargate profile is $status"
+}
+
+case "${what}" in
+    "a")
+        create
+        ;;
+    "d")
+        delete
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: a, d"
+        ;; 
+esac

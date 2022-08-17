@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BUCKET="s3://example.huge.head.li.2023"
+
+aws s3 rm --recursive ${BUCKET}/glue-job-example/
+aws s3 rm ${BUCKET}/pkg1.zip
+aws s3 rm ${BUCKET}/run.py
+
+.scripts/tf-do d

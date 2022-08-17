@@ -1,0 +1,3 @@
+https://medium.com/@stefanroman/backend-for-terraform-backend-1e4d885f8283
+
+Need to add policy to block any deletions on the S3 bucket

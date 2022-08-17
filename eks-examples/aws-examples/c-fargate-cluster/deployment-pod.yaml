@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: one-time-task
+  namespace: test-fargate
+spec:
+  serviceAccountName: default-service-account
+  containers:
+  - name: one-time-task
+    image: 939653976686.dkr.ecr.us-east-1.amazonaws.com/example_ecr_repository:step-app
+    imagePullPolicy: Always
+  restartPolicy: Never

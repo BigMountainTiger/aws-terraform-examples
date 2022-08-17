@@ -1,0 +1,64 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default to apply"
+    what="a"
+fi
+
+cluster='ASimpleCluster'
+region='us-east-1'
+create() {
+    echo "Creating fluent-bit daemonset"
+
+    kubectl apply -f fluent-bit-namespace.yaml
+
+    eksctl create iamserviceaccount --name fluent-bit \
+        --namespace amazon-cloudwatch \
+        --cluster ${cluster} \
+        --override-existing-serviceaccounts \
+        --role-name ${cluster}-fluent-bit-role \
+        --attach-policy-arn arn:aws:iam::939653976686:policy/eks-a-simple-cluter-sa-policy \
+        --approve
+
+    FluentBitHttpPort='2020'
+    FluentBitReadFromHead='Off'
+    [[ ${FluentBitReadFromHead} = 'On' ]] && FluentBitReadFromTail='Off'|| FluentBitReadFromTail='On'
+    [[ -z ${FluentBitHttpPort} ]] && FluentBitHttpServer='Off' || FluentBitHttpServer='On'
+    kubectl create configmap fluent-bit-cluster-info \
+        --from-literal=cluster.name=${cluster} \
+        --from-literal=http.server=${FluentBitHttpServer} \
+        --from-literal=http.port=${FluentBitHttpPort} \
+        --from-literal=read.head=${FluentBitReadFromHead} \
+        --from-literal=read.tail=${FluentBitReadFromTail} \
+        --from-literal=logs.region=${region} -n amazon-cloudwatch
+
+
+    kubectl apply -f fluent-bit.yaml
+}
+
+delete() {
+    echo "Deletingh fluent-bit daemonset"
+
+    eksctl delete iamserviceaccount \
+        --region ${region} \
+        --name fluent-bit \
+        --namespace amazon-cloudwatch \
+        --cluster ${cluster}
+
+    kubectl delete configmap fluent-bit-cluster-info -n amazon-cloudwatch
+    kubectl delete -f fluent-bit.yaml
+}
+
+case "${what}" in
+    "a")
+        create
+        ;;
+    "d")
+        delete
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: a, d"
+        ;; 
+esac

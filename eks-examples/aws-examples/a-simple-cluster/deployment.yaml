@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      container: web-app
+  template:
+    metadata:
+      labels:
+        container: web-app
+    spec:
+      serviceAccountName: default-service-account
+      automountServiceAccountToken: true
+      containers:
+      - name: web-app
+        image: 939653976686.dkr.ecr.us-east-1.amazonaws.com/example_ecr_repository:web-app
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "0.25"
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /healthcheck
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-entrypoint
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:939653976686:certificate/b03a89f5-c38a-4854-b8f9-faaf9e59a119
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+spec:
+  type: LoadBalancer
+  selector:
+    container: web-app
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+  - name: https
+    port: 443
+    targetPort: 8000
+

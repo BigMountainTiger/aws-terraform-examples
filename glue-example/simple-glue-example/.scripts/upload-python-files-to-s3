@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Need to upload the files to the s3 for Pyspark job to use
+cd python
+
+zip -r pkg1.zip pkg1/
+
+echo
+aws s3 cp run.py s3://example.huge.head.li.2023
+aws s3 cp pkg1.zip s3://example.huge.head.li.2023
+
+rm pkg1.zip

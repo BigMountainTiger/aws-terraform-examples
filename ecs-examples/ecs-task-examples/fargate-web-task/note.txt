@@ -1,0 +1,5 @@
+https://section411.com/2019/07/hello-world/
+
+Experimented:
+Shutdown the task -> It will be automatically replaced by the service
+Failing the healthcheck at the ALB -> task will keep draining and restart

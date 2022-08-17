@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="read-write-files/a-local-file.py"
+.scripts/__run 

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+CLUSTER="basic-empty-cluster"
+TASK_DEFINITION="basic-fargate-task"
+
+SG="sg-026c949b494fa8127"
+SUBNETS="subnet-0bf73f879cc1598b7, subnet-07080dd7910cd3ad8"
+
+task_raw=$(aws ecs run-task \
+    --task-definition ${TASK_DEFINITION} \
+    --launch-type FARGATE \
+    --cluster ${CLUSTER} \
+    --network-configuration \
+      "awsvpcConfiguration={subnets=[${SUBNETS}],securityGroups=[${SG}],assignPublicIp=DISABLED}")
+
+taskArn=$(echo $task_raw | jq '.tasks[0].taskArn')
+
+echo -e "Task Started\n$taskArn"
+

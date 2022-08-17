@@ -1,0 +1,27 @@
+#!/bin/bash
+ENTRY="LoadBalancer Ingress:"
+
+cname=$(kubectl describe svc web-entrypoint | grep "${ENTRY}")
+cname=${cname//${ENTRY}/}
+cname=${cname// /}
+
+aws route53 change-resource-record-sets \
+    --hosted-zone-id Z07604322QAVER7MUCRVQ \
+    --change-batch '
+  {
+    "Changes": [{
+      "Action"              : "UPSERT"
+      ,"ResourceRecordSet"  : {
+        "Name"              : "www.bigmountaintiger.com"
+        ,"Type"             : "CNAME"
+        ,"TTL"              : 20
+        ,"ResourceRecords"  : [{
+            "Value"         : "'" ${cname} "'"
+        }]
+      }
+    }]
+  }
+  '
+
+echo
+echo "Updated CNAME www.bigmountaintiger.com => ${cname}"

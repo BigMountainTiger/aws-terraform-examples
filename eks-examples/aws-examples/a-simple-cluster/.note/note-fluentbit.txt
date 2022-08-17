@@ -1,0 +1,3 @@
+https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-stream-container-logs-eks/
+https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-logs.html
+

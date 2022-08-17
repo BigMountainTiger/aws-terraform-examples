@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kind load docker-image example_ecr_repository:web-app -n local

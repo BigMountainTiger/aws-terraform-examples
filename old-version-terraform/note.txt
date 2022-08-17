@@ -1,0 +1,9 @@
+This example is to show how to use an old version terraform
+-----------------------------------------------------------
+
+Download the version
+https://releases.hashicorp.com/terraform/
+
+unzip it and and make it to the path
+
+To use the apt-get installed version just remove the specific version of the terraform from the path

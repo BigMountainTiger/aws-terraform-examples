@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html#rds-secrets-manager-rotate-db-cluster
+
+CLUSTER="arn:aws:rds:us-east-1:939653976686:cluster:aurora-cluster"
+
+aws rds modify-db-cluster \
+    --db-cluster-identifier ${CLUSTER} \
+    --rotate-master-user-password \
+    --apply-immediately

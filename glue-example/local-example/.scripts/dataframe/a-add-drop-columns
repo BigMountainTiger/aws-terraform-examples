@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="dataframe/a-add-drop-columns.py"
+.scripts/__run 

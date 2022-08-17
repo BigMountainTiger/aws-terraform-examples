@@ -1,0 +1,17 @@
+{
+  "name": "web-app",
+  "version": "0.0.1",
+  "description": "web-app example",
+  "author": "Song Li",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "serve": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

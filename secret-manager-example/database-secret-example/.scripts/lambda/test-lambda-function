@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo
+
+python -m unittest tests.test_lambda_function.TestLambdafunction

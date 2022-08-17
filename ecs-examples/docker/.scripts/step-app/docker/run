@@ -1,0 +1,10 @@
+#!/bin/bash
+
+.scripts/step-app/docker/build
+
+TAG=step-app
+REPOSITORY=example_ecr_repository
+
+docker run -v ~/.aws:/root/.aws:ro \
+    -e LOG_GROUP_NAME="step-app" \
+    --rm ${REPOSITORY}:${TAG}

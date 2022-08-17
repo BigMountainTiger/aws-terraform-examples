@@ -1,0 +1,8 @@
+1	name string
+2	id	int
+
+Connection
+postgres_example_connection
+
+Location
+experiment.public.student

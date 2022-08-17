@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="basic/c-read-from-s3.py"
+.scripts/__run 

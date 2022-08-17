@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CLUSTER="basic-empty-cluster"
+TASK_DEFINITION="basic-ec2-web-task"
+
+task_raw=$(aws ecs run-task \
+    --task-definition ${TASK_DEFINITION} \
+    --launch-type EC2 \
+    --cluster ${CLUSTER})
+
+echo $task_raw
+echo
+
+taskArn=$(echo $task_raw | jq '.tasks[0].taskArn')
+
+echo -e "Task Started\n$taskArn"
+

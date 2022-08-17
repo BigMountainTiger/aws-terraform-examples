@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export AWS_DEFAULT_REGION=us-east-1
+
+python -m unittest ./tests/integration/test_lambda_function.py

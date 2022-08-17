@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Need to add the images to ECR, if the nodes are in
+# the private subnets
+
+kubectl apply --validate=false -f cert-manager.yaml
+
+kubectl apply -f v2_4_4_full.yaml
+
+kubectl apply -f v2_4_4_ingclass.yaml
+
+kubectl wait deployment -n cert-manager cert-manager --for condition=Available=True --timeout=120s
+kubectl wait deployment -n cert-manager cert-manager-webhook --for condition=Available=True --timeout=120s
+
+# Need to wait until the cert-manager is ready
+kubectl apply -f v2_4_4_cert.yaml

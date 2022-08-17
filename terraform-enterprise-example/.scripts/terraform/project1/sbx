@@ -1,0 +1,5 @@
+#!/bin/bash
+export PROJECT="project1"
+export WORKSPACE="sbx"
+
+.scripts/terraform/init

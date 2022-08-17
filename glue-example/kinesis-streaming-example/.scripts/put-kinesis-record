@@ -1,0 +1,9 @@
+#!/bin/bash
+
+STREAM="aws-glue-kinesis-test"
+
+aws kinesis put-record \
+    --stream-name ${STREAM} \
+    --data "Z2x1ZSBzdHJlYW1pbmcgdGVzdCBkYXRh" \
+    --partition-key "streaming-experiment"
+

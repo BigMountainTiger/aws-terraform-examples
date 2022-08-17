@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="dataframe/f-sorting.py"
+.scripts/__run 

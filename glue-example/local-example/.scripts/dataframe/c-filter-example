@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="dataframe/c-filter-example.py"
+.scripts/__run 

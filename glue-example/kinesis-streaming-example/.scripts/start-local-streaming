@@ -1,0 +1,17 @@
+#!/bin/bash
+
+WORKSPACE_LOCATION=$(pwd)
+PROFILE_NAME="default"
+SCRIPT_FILE_NAME="streaming.py"
+
+docker run -it \
+    -v ~/.aws:/home/glue_user/.aws \
+    -v $WORKSPACE_LOCATION:/home/glue_user/workspace/ \
+    -e AWS_PROFILE=$PROFILE_NAME \
+    -e DISABLE_SSL=true \
+    --rm \
+    -p 4040:4040 \
+    -p 18080:18080 \
+    --name glue_spark_submit amazon/aws-glue-streaming-libs:glue_streaming_libs_3.0.0_image_01 \
+    spark-submit /home/glue_user/workspace/pyspark/$SCRIPT_FILE_NAME 
+    # \ --conf spark.streaming.backpressure.enabled=true

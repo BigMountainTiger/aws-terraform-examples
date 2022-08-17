@@ -1,0 +1,21 @@
+https://dbeaver.io/download/
+
+sudo add-apt-repository ppa:serge-rider/dbeaver-ce
+sudo apt-get update
+sudo apt-get install dbeaver-ce
+
+CREATE TABLE public.student (
+	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+	"name" varchar NOT NULL,
+	CONSTRAINT student_pk PRIMARY KEY (id)
+);
+
+truncate table student ;
+alter sequence student_id_seq restart with 1;
+
+insert into student ("name") values ('Song Li 1');
+insert into student ("name") values ('Song Li 2');
+insert into student ("name") values ('Song Li 3');
+insert into student ("name") values ('Song Li 4');
+
+select * from student s;

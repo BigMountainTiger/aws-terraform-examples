@@ -1,0 +1,48 @@
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster
+https://antonputra.com/amazon/create-aws-eks-fargate-using-terraform/#create-aws-eks-fargate-using-terraform
+
+
+servcice account
+https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html
+https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html
+
+
+ACM Certificate
+https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/
+
+
+Healthcheck
+with livenessProbe - a pod will restart failed containers
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
+
+Rolling update
+This requires the cluster to have enough resource to launch new pods before terminating older ones
+https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/
+
+Resource Requirements
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/
+
+
+Application Load Balander
+https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
+https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
+https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy.json
+https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+
+
+
+1. Provisioned the cluster in private subnets, successfully deployed REST API pods and service. Proven accessible from the internet
+2. Tested healthcheck on container, proven that the pod can re-start the container and back to normal operations in case of healthcheck failures
+3. Tested terminating the EKS nodes, observed that the nodes re-created and the pods re-started and the service back to normal operations
+4. Tested pushing a new image to the ECR and made a new deployment, observed the API running on the new image. 
+5. Tested memory and CPU assignments on pods and containers
+6. Successfully deployed a fargate pod and observed the successful execution
+
+1. Tested sending cloudwatch logs from containers running in EKS pods
+2. Tested passing environment variables to kubernetes containers
+3. Installed fluent-bit daemonset and observed logs sent to cloudwatch from the kubernetes cluster
+
+
+1. Deployed Load balancer controller so kubernetes services can use AWS (ALB) application load balancers
+2. Deployed Load balancer controller in a kubernetes cluster with node_group in the private subnets
+

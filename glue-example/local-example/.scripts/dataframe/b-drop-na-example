@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="dataframe/b-drop-na-example.py"
+.scripts/__run 

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="s3-read-write-by-pandas.py"
+.scripts/pyspark/__run 
