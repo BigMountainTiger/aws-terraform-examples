@@ -1,0 +1,10 @@
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster
+https://antonputra.com/amazon/create-aws-eks-fargate-using-terraform/#create-aws-eks-fargate-using-terraform
+
+
+servcice account
+https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html
+https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html
+
+
+

@@ -55,6 +55,37 @@ def update():
     print(response)
 
 
+def read():
+    client = boto3.client('dynamodb')
+
+    id = '1'
+    key = {'id': {'S': id}}
+
+    response = None
+    try:
+        response = client.get_item(
+            TableName=TABLE_NAME,
+            Key=key,
+            ConsistentRead=True
+        )
+    except Exception as e:
+        print(type(e))
+        print(str(e))
+    finally:
+        client.close()
+
+    # If no item in the dynamodb, the following willl throw exception
+    # because item is None
+    item = response.get('Item')
+    
+    # If no entry_name attribute in the item, the following willl throw exception
+    # because attribute is None
+    attribute = item.get('entry_name')
+    entry_name = attribute.get('S')
+
+    print(entry_name)
+
+
 def delete():
     client = boto3.client('dynamodb')
 

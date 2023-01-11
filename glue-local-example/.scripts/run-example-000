@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="example-000.py"
+.scripts/__run 

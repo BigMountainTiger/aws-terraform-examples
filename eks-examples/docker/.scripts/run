@@ -1,0 +1,10 @@
+#!/bin/bash
+
+.scripts/build
+
+TAG=web-app
+REPOSITORY=example_ecr_repository
+
+docker run -p 8000:8000 \
+    -v ~/.aws:/root/.aws:ro \
+    --rm ${REPOSITORY}:${TAG}
