@@ -1,0 +1,3 @@
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster
+https://antonputra.com/amazon/create-aws-eks-fargate-using-terraform/#create-aws-eks-fargate-using-terraform
+

@@ -11,11 +11,12 @@ from src import write_transact_items_example
 def lambda_handler(event, context):
 
     test_item = True
-    test_transact_item = True
+    test_transact_item = False
 
     if test_item:
         write_item_example.put()
         write_item_example.update()
+        write_item_example.read()
         write_item_example.delete()
 
     if test_transact_item:

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default to apply"
+    what="a"
+fi
+
+case "${what}" in
+    "a")
+        kubectl apply -f deployment.yaml
+        ;;
+    "d")
+        kubectl delete -f deployment.yaml
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: a, d"
+        ;; 
+esac

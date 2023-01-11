@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DIR=".tf-zip"
+
+DIST="${DIR}/dist"
+ZIP="lambda-function.zip"
+
+rm -rf ${DIR}
+mkdir -p ${DIST}
+
+cp -r src ${DIST}
+pip install -t ${DIST} -r requirements.txt
+
+cd ${DIST}
+chmod 755 *
+zip -r ../${ZIP} *

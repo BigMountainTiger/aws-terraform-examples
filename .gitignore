@@ -4,6 +4,10 @@ terraform.tfstate
 terraform.tfstate.*
 .tf-zip
 
+!.infrastructure-terraform/terraform.tfstate
+!.infrastructure-terraform/terraform.tfstate.backup
+!.infrastructure-terraform/.terraform.lock.hcl
+
 node_modules
 package-lock.json
 
