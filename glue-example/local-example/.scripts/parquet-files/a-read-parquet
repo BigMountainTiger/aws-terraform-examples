@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export SCRIPT_FILE_NAME="parquet-files/a-read-parquet.py"
-.scripts/__run 
