@@ -8,4 +8,4 @@ echo
 echo "Wait for a second ..."
 sleep 1
 
-git log
+git log -2

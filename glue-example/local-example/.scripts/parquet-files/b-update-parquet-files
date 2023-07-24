@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SCRIPT_FILE_NAME="parquet-files/b-update-parquet-files.py"
+.scripts/__run 
