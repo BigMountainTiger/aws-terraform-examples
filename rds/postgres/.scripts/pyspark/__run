@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+WORKSPACE_LOCATION=$(pwd)
+AWS_PROFILE="default"
+
+CREDENTIAL=$(aws sts --profile $AWS_PROFILE get-session-token | jq .Credentials)
+if [ -z "$CREDENTIAL" ]
+then
+    echo "Unable to get the AWS credentials"
+    exit 1
+fi
+
+AWS_ACCESS_KEY_ID=$(echo $CREDENTIAL | jq -r .AccessKeyId)
+AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIAL | jq -r .SecretAccessKey)
+AWS_SESSION_TOKEN=$(echo $CREDENTIAL | jq -r .SessionToken)
+
+docker run -it \
+    -v ~/.aws:/home/glue_user/.aws:ro \
+    -v $WORKSPACE_LOCATION:/home/glue_user/workspace/ \
+    -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+    -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+    -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN \
+    -e DISABLE_SSL=true \
+    --rm \
+    -p 4040:4040 \
+    -p 18080:18080 \
+    --name glue_spark_submit amazon/aws-glue-libs:glue_libs_4.0.0_image_01 \
+    spark-submit /home/glue_user/workspace/pyspark/$SCRIPT_FILE_NAME

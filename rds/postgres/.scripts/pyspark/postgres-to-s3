@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo $BASH_SOURCE
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+echo $SCRIPT_PATH
+
+export SCRIPT_FILE_NAME="postgres-to-s3.py"
+$SCRIPT_PATH/__run 
