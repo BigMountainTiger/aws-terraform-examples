@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+if [[ -z "${AWS_LAMBDAS_VIRTUALENV}" ]]; then
+  echo "The environment variable AWS_LAMBDAS_VIRTUALENV is not set, skiping deletion"
+  exit 1
+fi
+
+rm -rf $AWS_LAMBDAS_VIRTUALENV

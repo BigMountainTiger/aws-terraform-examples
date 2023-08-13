@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+source $SCRIPT_PATH/_URL
+
+DATA="{\"long\": -10.2, \"lat\": 123.12}"
+
+curl -i -d "$DATA" -X POST $URL/post
+echo

@@ -16,3 +16,4 @@ __pycache__
 .env-3.10
 .env-3.11
 
+.aws-lambda-artifacts

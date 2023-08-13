@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TASK_ID=$1
+
+TASK_ARN=$(aws dms describe-replication-tasks --filters "Name=replication-task-id,Values=$TASK_ID" | jq -r .ReplicationTasks[0].ReplicationTaskArn)
+
+echo "Starting $TASK_ARN"
+RESULT=$(aws dms start-replication-task \
+    --replication-task-arn $TASK_ARN \
+    --start-replication-task-type reload-target \
+    | jq -r .ReplicationTask.ReplicationTaskIdentifier)
+
+echo "$RESULT started"

@@ -1,0 +1,16 @@
+{
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "python",
+            "name": "unittest experimental-lambda",
+            "request": "launch",
+            "module": "unittest",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/api-gw/api-method-example/lambdas/experimental-lambda",
+            "args": ["tests.lambda_test"]
+            // Virtualenv is selected by vscode
+        }
+    ]
+}

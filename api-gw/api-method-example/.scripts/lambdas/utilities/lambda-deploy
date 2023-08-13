@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+LAMBDA_DIR=$1
+AWS_LAMBDA_FUNCTION_NAME=$2
+
+LAMBDA_ZIP_FILE_PATH="$AWS_LAMBDAS_ARTIFACTS_BASE_DIR/$LAMBDA_DIR.zip"
+
+aws lambda update-function-code \
+    --region us-east-1 \
+    --no-verify-ssl \
+    --function-name $AWS_LAMBDA_FUNCTION_NAME \
+    --zip-file fileb://$LAMBDA_ZIP_FILE_PATH 

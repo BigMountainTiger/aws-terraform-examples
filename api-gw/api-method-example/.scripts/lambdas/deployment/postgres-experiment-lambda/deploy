@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+LAMBDA_DIR="postgres-experiment-lambda"
+AWS_LAMBDA_FUNCTION_NAME="api-method-example-template-lambda"
+
+$SCRIPT_PATH/../../utilities/lambda-zip $LAMBDA_DIR
+RESULT=$($SCRIPT_PATH/../../utilities/lambda-deploy $LAMBDA_DIR  $AWS_LAMBDA_FUNCTION_NAME)
+
+echo
+echo $RESULT
+
+
+
