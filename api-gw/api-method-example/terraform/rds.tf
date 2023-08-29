@@ -10,7 +10,12 @@ resource "aws_db_subnet_group" "postgres" {
   }
 }
 
+locals {
+  launch_rds = true
+}
+
 resource "aws_db_instance" "postgres" {
+  count                               = local.launch_rds ? 1 : 0
   identifier                          = "rds-postgres-example"
   instance_class                      = "db.t3.micro"
   engine                              = "postgres"
@@ -31,3 +36,22 @@ resource "aws_db_instance" "postgres" {
   skip_final_snapshot      = true
   apply_immediately        = true
 }
+
+# route53
+locals {
+  postgres_domain_name = "postgres.bigmountaintiger.com"
+}
+
+resource "aws_route53_record" "cname_route53_record" {
+  count   = local.launch_rds ? 1 : 0
+  zone_id = data.aws_route53_zone.primary.zone_id
+  name    = local.postgres_domain_name
+  type    = "CNAME"
+  ttl     = "60"
+
+  records = [
+    aws_db_instance.postgres[0].address
+  ]
+
+}
+

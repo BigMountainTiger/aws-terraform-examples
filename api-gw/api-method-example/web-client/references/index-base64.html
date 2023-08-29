@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+  </head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+  let binary = '';
+
+  const previewData = function(base64) {
+    const preview = document.querySelector('img');
+    preview.src = base64;
+  };
+
+  const previewFile = function() {
+
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+
+    // Non-image file is OK to get Base64 here
+    reader.addEventListener("load", function () {
+      let base64 = reader.result;
+      previewData(base64);
+
+      console.log(base64);
+
+      let i = base64.indexOf(',');
+      binary = base64.substring(i + 1);
+
+      console.log(binary);
+
+    }, false);
+
+    if (file) { reader.readAsDataURL(file); }
+  };
+
+  const post_data = function() {
+    const url = 'http://127.0.0.1:3000/base64';
+
+    let call = $.ajax({
+      type: 'POST',
+      url: url,
+      data: JSON.stringify({
+        content: binary
+      }),
+      contentType: 'text/plain'
+    }).done(function(jqx, status) {
+      console.log('Done');
+      console.log(status);
+      console.log(jqx);
+    }).fail(function(jqx)  {
+      console.log(jqx);
+    });
+
+  };
+
+  const clear_data = function() {
+    const file = document.querySelector('input[type=file]');
+    file.value = '';
+    binary = ''
+    previewData('');
+  };
+
+</script>
+
+<body>
+  <button onclick="clear_data()">Clear</button><button onclick="post_data()">Submit</button><input type="file" autocomplete="off" onchange="previewFile()">
+  <br><br>
+  <img src="" alt="Image preview...">
+</body>
+
+</html>

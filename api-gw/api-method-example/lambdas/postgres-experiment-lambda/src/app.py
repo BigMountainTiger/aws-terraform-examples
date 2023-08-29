@@ -36,7 +36,7 @@ def lambdaHandler(event, context):
         conn = psycopg2.connect(conn_str)
         # conn = psycopg2.connect(host=d.get('ENDPOINT'), port=d.get('PORT'), database=d.get(
         #     'DBNAME'), user=d.get('USER'), password=d.get('TOKEN'))
-        
+
         cur = conn.cursor()
         cur.execute(sql.get('text'), sql.get('params'))
 
@@ -55,5 +55,8 @@ def lambdaHandler(event, context):
 
     return {
         'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Origin': '*'
+        },
         'body': json.dumps(rows)
     }

@@ -1,0 +1,8 @@
+flyway cli downnload
+
+https://documentation.red-gate.com/fd/quickstart-how-flyway-works-184127223.html
+https://documentation.red-gate.com/fd/quickstart-command-line-184127576.html
+https://documentation.red-gate.com/fd/installers-172490864.html
+https://documentation.red-gate.com/fd/command-line-184127404.html
+
+

@@ -11,6 +11,11 @@ resource "aws_lambda_function" "template_lambda" {
   role             = aws_iam_role.lambda_execution_role.arn
   handler          = "app.lambdaHandler"
   runtime          = "python3.10"
+
+  layers = [
+    aws_lambda_layer_version.psycopg2.arn
+  ]
+
   depends_on = [
     data.archive_file.template_lambda_zip
   ]
