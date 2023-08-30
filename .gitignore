@@ -3,6 +3,7 @@
 terraform.tfstate
 terraform.tfstate.*
 .tf-zip
+.swagger
 
 !.infrastructure-terraform/terraform.tfstate
 !.infrastructure-terraform/terraform.tfstate.backup

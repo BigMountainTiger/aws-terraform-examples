@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+ID=$(aws apigateway get-rest-apis --query 'items[?name==`swagger-example`]' | jq -r .[0].id)
+export URL="https://${ID}.execute-api.us-east-1.amazonaws.com/default"
