@@ -7,12 +7,11 @@ then
     what="p"
 fi
 
+cd terraform
+
 terraform init -reconfigure -upgrade
 
 case "${what}" in
-    "i")
-        terraform init -reconfigure -upgrade
-        ;;
     "p")
         terraform plan
         ;;
@@ -23,6 +22,6 @@ case "${what}" in
         terraform destroy -auto-approve
         ;;
     *)
-        echo "Nothing to do for ${what}. Available options: i,p,a,d"
+        echo "Nothing to do for ${what}. Available options: p,a,d"
         ;; 
 esac

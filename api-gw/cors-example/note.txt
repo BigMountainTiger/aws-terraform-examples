@@ -1,0 +1,6 @@
+The examples are in the "api-method-example" and "swagger-example".
+
+To enable cors
+1. POST - look at the example in "api-method-example"
+2. GET - If special header is sent from the request (ie. Authorization, etc), cors is required.
+    look at the example in "swagger-example", it requires "request_templates" to work.

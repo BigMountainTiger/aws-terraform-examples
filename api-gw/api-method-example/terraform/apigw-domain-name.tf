@@ -1,9 +1,10 @@
 locals {
-  www_domain_name = "www.bigmountaintiger.com"
+  www_certificate_name = "*.bigmountaintiger.com"
+  www_domain_name      = "www.bigmountaintiger.com"
 }
 
 data "aws_acm_certificate" "acm_certificate" {
-  domain      = local.www_domain_name
+  domain      = local.www_certificate_name
   types       = ["AMAZON_ISSUED"]
   most_recent = true
 }

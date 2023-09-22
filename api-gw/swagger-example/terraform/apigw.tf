@@ -13,33 +13,26 @@ resource "aws_lambda_permission" "lambda_execution_permission" {
   source_arn    = "${aws_api_gateway_rest_api.api_gw.execution_arn}/*"
 }
 
-resource "aws_api_gateway_deployment" "gateway_deployment" {
-  rest_api_id = aws_api_gateway_rest_api.api_gw.id
+resource "aws_api_gateway_stage" "gateway_stage" {
+  deployment_id = aws_api_gateway_deployment.gateway_deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.api_gw.id
+  stage_name    = "default"
+}
 
-  triggers = {
-    redeployment = sha1(join("|",
-      [
-        jsonencode(aws_api_gateway_rest_api.api_gw),
-        jsonencode(aws_api_gateway_resource.get),
-        jsonencode(aws_api_gateway_method.get),
-        jsonencode(aws_api_gateway_integration.get)
-      ]
-    ))
-  }
+resource "aws_api_gateway_deployment" "gateway_deployment" {
+  rest_api_id       = aws_api_gateway_rest_api.api_gw.id
+
+  # Make the deployment at every terraform apply
+  stage_description = "Deployed at ${timestamp()}"
 
   depends_on = [
-    aws_api_gateway_integration.get
+    aws_api_gateway_integration.get,
+    aws_api_gateway_integration.get_cors
   ]
 
   lifecycle {
     create_before_destroy = true
   }
-}
-
-resource "aws_api_gateway_stage" "gateway_stage" {
-  deployment_id = aws_api_gateway_deployment.gateway_deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.api_gw.id
-  stage_name    = "default"
 }
 
 

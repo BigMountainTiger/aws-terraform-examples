@@ -1,0 +1,33 @@
+Install postgis on RDS
+Use the terraform in the postgres directory to create the RDS instance
+
+Install into the public schema
+Install postgis - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.PostGIS.html
+
+Different versions of postgis is available on different versions of postgres RDS 
+- https://docs.aws.amazon.com/AmazonRDS/latest/PostgreSQLReleaseNotes/postgresql-versions.html
+
+-- The following script installs postgis on the rds
+-- Make sure to run in the public schema, so it available to other schemas by default
+DROP EXTENSION if exists address_standardizer_data_us;
+DROP EXTENSION if exists postgis_topology;
+DROP EXTENSION if exists postgis_tiger_geocoder;
+DROP EXTENSION if exists fuzzystrmatch;
+DROP EXTENSION if exists postgis_raster;
+DROP extension if exists postgis;
+
+
+CREATE extension if not exists postgis;
+CREATE EXTENSION if not exists postgis_raster;
+CREATE EXTENSION if not exists fuzzystrmatch;
+CREATE EXTENSION if not exists postgis_tiger_geocoder;
+CREATE EXTENSION if not exists postgis_topology;
+--CREATE EXTENSION if not exists address_standardizer_data_us;
+
+schemas
+postgis can be installed into the public schema
+- https://postgis.net/documentation/tips/tip-move-postgis-schema/
+
+1. As of PostGIS 2.3, the postgis extension was changed to no longer allow relocation. All function calls within the extension are now schema qualified.
+2. Postgres database has a "search_path" property - sql => "show search_path;"
+3. The search_path typically include the "public" schema, so postgis is available to other schemas by default.

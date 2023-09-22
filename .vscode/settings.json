@@ -12,6 +12,8 @@
         "**/.env-3.9": true,
         "**/.env-3.10": true,
         "**/.env-3.11": true,
-        "**/.aws-lambda-artifacts": true
+        "**/.aws-lambda-artifacts": true,
+        "**/.ipynb_checkpoints": true,
+        // "**/.swagger": true
     }
 }

@@ -1,0 +1,2 @@
+https://jupyter.org/install
+https://saturncloud.io/blog/how-to-use-sql-in-a-jupyter-notebook/

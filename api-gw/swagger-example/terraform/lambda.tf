@@ -1,22 +1,3 @@
-data "archive_file" "template_lambda_zip" {
-  type        = "zip"
-  output_path = "${path.module}/../.tf-zip/template-lambda.zip"
-  source_dir  = "${path.module}/../lambdas/.template-lambda"
-}
-
-resource "aws_lambda_function" "template_lambda" {
-  function_name    = "${local.app_name}-lambda"
-  filename         = data.archive_file.template_lambda_zip.output_path
-  source_code_hash = data.archive_file.template_lambda_zip.output_base64sha256
-  role             = aws_iam_role.lambda_execution_role.arn
-  handler          = "app.lambdaHandler"
-  runtime          = "python3.10"
-
-  depends_on = [
-    data.archive_file.template_lambda_zip
-  ]
-}
-
 resource "aws_iam_role" "lambda_execution_role" {
   name = "${local.app_name}_lambda_execution_role"
   assume_role_policy = jsonencode({
@@ -52,4 +33,42 @@ resource "aws_iam_role_policy" "lambda_execution_role" {
       }
     ]
   })
+}
+
+data "archive_file" "template_lambda_zip" {
+  type        = "zip"
+  output_path = "${path.module}/../.tf-zip/template-lambda.zip"
+  source_dir  = "${path.module}/../lambdas/.template-lambda"
+}
+
+resource "aws_lambda_function" "template_lambda" {
+  function_name    = "${local.app_name}-lambda"
+  filename         = data.archive_file.template_lambda_zip.output_path
+  source_code_hash = data.archive_file.template_lambda_zip.output_base64sha256
+  role             = aws_iam_role.lambda_execution_role.arn
+  handler          = "app.lambdaHandler"
+  runtime          = "python3.10"
+
+  depends_on = [
+    data.archive_file.template_lambda_zip
+  ]
+}
+
+data "archive_file" "authorizer_lambda_zip" {
+  type        = "zip"
+  output_path = "${path.module}/../.tf-zip/authorizer.zip"
+  source_dir  = "${path.module}/../lambdas/authorizer"
+}
+
+resource "aws_lambda_function" "authorizer_lambda" {
+  function_name    = "${local.app_name}-authorizer-lambda"
+  filename         = data.archive_file.authorizer_lambda_zip.output_path
+  source_code_hash = data.archive_file.authorizer_lambda_zip.output_base64sha256
+  role             = aws_iam_role.lambda_execution_role.arn
+  handler          = "app.lambdaHandler"
+  runtime          = "python3.10"
+
+  depends_on = [
+    data.archive_file.authorizer_lambda_zip
+  ]
 }

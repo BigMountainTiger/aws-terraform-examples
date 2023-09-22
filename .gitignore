@@ -16,5 +16,6 @@ __pycache__
 .env-3.9
 .env-3.10
 .env-3.11
+.ipynb_checkpoints
 
 .aws-lambda-artifacts

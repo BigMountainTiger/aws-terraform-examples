@@ -19,7 +19,7 @@ resource "aws_db_instance" "postgres" {
   identifier           = "rds-postgres-example"
   instance_class       = "db.t3.micro"
   engine               = "postgres"
-  engine_version       = "14.7"
+  engine_version       = "15.3"
   db_name              = "experiment"
   allocated_storage    = 20
   username             = local.postgres-username

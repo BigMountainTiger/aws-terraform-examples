@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+ROOT_PATH="$SCRIPT_PATH/../../../.."
+
+ENV_PATH="$ROOT_PATH/.env-3.10/bin/activate"
+if [ ! -f $ENV_PATH ]; then
+    echo "Virtualevn not found $ENV_PATH"
+    exit
+fi
+
+source $ENV_PATH
+python --version
+pip --version
+
+echo "Installing requirements.txt ..."
+pip install -q -r "$SCRIPT_PATH/requirements.txt"
+which jupyter
+
+cd notebooks
+
+echo
+echo "Starting jupyter lab $PWD"
+jupyter lab

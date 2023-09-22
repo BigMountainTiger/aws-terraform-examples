@@ -1,0 +1,9 @@
+1. ST_Equals
+2. ST_Intersects, ST_Disjoint, ST_Crosses and ST_Overlaps
+3. ST_Touches
+4. ST_Within and ST_Contains
+5. ST_Distance and ST_DWithin
+
+* A point does not apply to ST_Crosses and ST_Overlaps
+* The boundary of a poly line is defined as its start and end points
+* ST_DWithin is inclusive
