@@ -1,5 +1,5 @@
 locals {
-  bucket_name = "kinesis-example-huge-head-li"
+  bucket_name = "kinesis-firehose-bucket-huge-head-li"
 }
 
 resource "aws_s3_bucket" "kinesis_example_s3" {

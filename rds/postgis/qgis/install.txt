@@ -1,0 +1,34 @@
+On Ubuntu, qgis is available by default
+apt policy qgis
+sudo apt update
+sudo apt install qgis qgis-plugin-grass
+
+-----------------------------------------------------------------
+https://www.qgis.org/en/site/
+https://www.qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu
+
+-----------------------------------------------------------------
+The following is needed only when the recent versions are needed:
+
+1. This is most likely not necessary as they should have been installed
+sudo apt install gnupg software-properties-common
+
+2. Download the qgis keyring
+sudo mkdir -p /etc/apt/keyrings - This directory likely already exits
+sudo wget -O /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg
+
+3. Get linux distribution name
+lsb_release -cs
+
+4. Add /etc/apt/sources.list.d/qgis.sources file
+Types: deb deb-src
+URIs: https://qgis.org/debian
+Suites: jammy
+Architectures: amd64
+Components: main
+Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg
+
+-----------------------------
+TO DELETE THE qgis REPO
+sudo rm /etc/apt/sources.list.d/qgis.sources
+sudo rm /etc/apt/keyrings/qgis-archive-keyring.gpg

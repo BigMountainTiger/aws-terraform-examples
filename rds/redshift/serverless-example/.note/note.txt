@@ -1,0 +1,12 @@
+Redshift has two building blocks
+namespace
+workgroup
+
+1. To be accessible from the internet, the workgroup need to be provisioned into public subnets
+2. To be accessible by the client, the security group needs to open the port 5439 (or the port of choice)
+
+Load and query data
+Document - https://docs.aws.amazon.com/redshift/latest/gsg/database-tasks.html
+Sample data - https://docs.aws.amazon.com/redshift/latest/gsg/cm-dev-t-load-sample-data.html
+
+

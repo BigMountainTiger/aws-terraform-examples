@@ -3,7 +3,7 @@ terraform {
     encrypt        = true
     bucket         = "terraform.huge.head.li.2023"
     dynamodb_table = "terraform-state-lock"
-    key            = "module-example"
+    key            = "kinesis-firehose-cloudwatch-metrics"
     region         = "us-east-1"
   }
 }

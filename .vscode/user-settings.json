@@ -1,0 +1,13 @@
+{
+    "workbench.startupEditor": "none",
+    "editor.minimap.enabled": false,
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "terminal.integrated.persistentSessionReviveProcess": "never",
+    "redhat.telemetry.enabled": false,
+    "files.enableTrash": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.shellIntegration.enabled": false,
+    "go.toolsManagement.autoUpdate": true
+}

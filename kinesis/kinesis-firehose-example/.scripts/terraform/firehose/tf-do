@@ -1,0 +1,27 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]
+then
+    echo "default action to plan"
+    what="p"
+fi
+
+cd terraform/firehose
+
+terraform init -reconfigure -upgrade
+
+case "${what}" in
+    "p")
+        terraform plan
+        ;;
+    "a")
+        terraform apply -auto-approve
+        ;;
+    "d")
+        terraform destroy -auto-approve
+        ;;
+    *)
+        echo "Nothing to do for ${what}. Available options: p,a,d"
+        ;; 
+esac

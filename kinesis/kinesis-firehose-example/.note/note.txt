@@ -1,0 +1,7 @@
+Failure handling
+
+https://docs.aws.amazon.com/firehose/latest/dev/troubleshooting.html
+
+1. It sends error logs to configured cloudwatch
+2. It retries until the retention period
+3. It dumps the backup to the configured S3 location

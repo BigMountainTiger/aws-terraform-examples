@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudwatch/index.html#cli-aws-cloudwatch
+
+echo "Get a cloudwatch metrics statics"
+
+REGION="us-east-1"
+NAMESPACE="custom-metrics-example-namespace"
+NAME="custom-metrics-example"
+
+# PERIOD is in minute
+PERIOD=60
+START=$(date --date "-${PERIOD} min" -u +"%Y-%m-%dT%H:%M:%S%z")
+STOP=$(date -u +"%Y-%m-%dT%H:%M:%S%z")
+
+echo "Getting statistics for ${START} to ${STOP}"
+echo
+
+# --period is in second
+aws cloudwatch get-metric-statistics \
+    --region ${REGION} \
+    --namespace ${NAMESPACE} \
+    --metric-name ${NAME} \
+    --statistics Maximum \
+    --period $((${PERIOD} * 60)) \
+    --start-time ${START} \
+    --end-time ${STOP}

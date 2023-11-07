@@ -7,4 +7,22 @@ https://documentation.red-gate.com/fd/quickstart-command-line-184127576.html
 https://documentation.red-gate.com/fd/installers-172490864.html
 https://documentation.red-gate.com/fd/command-line-184127404.html
 
+Install Flyway
+https://documentation.red-gate.com/fd/command-line-184127404.html
+Download -> Unzip -> Add to the PATH environment variable (.profile file)
+For example in the .profile file:
+PATH="/home/song/Development/flyway/flyway-commandline-9.22.3-linux-x64/flyway-9.21.2:$PATH"
 
+To use Flyway command, the database URL and credentials are needed
+For exampe:
+
+URL="jdbc:postgresql://localhost:5432/postgres"
+USR="postgres"
+PWD="docker"
+LOCATION="filesystem:./flyway/sql"
+
+flyway info \
+    -url="${URL}" \
+    -user="${USR}" \
+    -password="${PWD}" \
+    -locations="${LOCATION}"

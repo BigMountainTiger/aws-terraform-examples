@@ -1,0 +1,8 @@
+https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cwe-now-eb.html
+
+EventBridge is the evolution of Amazon CloudWatch Events
+
+Amazon EventBridge Event Bus
+Amazon EventBridge rules
+Amazon EventBridge events
+Events from AWS services
