@@ -1,0 +1,38 @@
+#!/bin/bash
+
+TABLE="kafka-connector-example-table"
+
+# NOW=$(date -u +"%Y-%m-%dT%H:%M:%S%z")
+# With -u, we get the UTC time
+
+NOW=$(date +"%Y-%m-%dT%H:%M:%S%z")
+DATA1='{"id":{"S":"1"},"time":{"S":"'$NOW'"}}'
+DATA2='{"id":{"S":"2"},"time":{"S":"'$NOW'"}}'
+DATA3='{"id":{"S":"3"},"time":{"S":"'$NOW'"}}'
+
+BATCH='{
+    "'$TABLE'": [
+        {
+            "PutRequest": {
+                "Item": '$DATA1'
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": '$DATA2'
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": '$DATA3'
+            }
+        }
+    ]
+}'
+
+# echo $BATCH
+
+aws dynamodb batch-write-item \
+    --request-items "$BATCH"
+
+echo "Exit code $?"

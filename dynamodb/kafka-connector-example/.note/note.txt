@@ -1,0 +1,10 @@
+https://docs.confluent.io/kafka-connectors/aws-dynamodb/current/overview.html
+https://docs.confluent.io/kafka-connectors/aws-dynamodb/current/configuration_options.html#connect-dynamodb-configuration-options
+
+
+kerberos
+https://docs.confluent.io/platform/current/connect/security.html
+
+
+confluent cli
+https://docs.confluent.io/confluent-cli/current/install.html
