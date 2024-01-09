@@ -1,0 +1,30 @@
+#!/bin/bash
+# https://docs.aws.amazon.com/cli/latest/reference/dms/#cli-aws-dms
+
+WHAT=$1
+
+case "$WHAT" in
+    "reload")
+        TASK_TYPE="reload-target"
+        ;;
+    "resume")
+        TASK_TYPE="resume-processing"
+        ;;
+    *)
+        echo "Only the following operations are supported (reload-target / resume-processing):"
+        echo "start-replicaton-task reload"
+        echo "start-replicaton-task resume"
+        exit 1
+        ;;
+esac
+
+CONFIG_ARN="arn:aws:dms:us-east-1:939653976686:replication-config:dms-config"
+
+echo -e "Starting $CONFIG_ARN \n"
+
+# Need a recent version of AWS CLI
+RESULT=$(aws dms start-replication \
+    --replication-config-arn $CONFIG_ARN \
+    --start-replication-type $TASK_TYPE)
+
+echo $RESULT

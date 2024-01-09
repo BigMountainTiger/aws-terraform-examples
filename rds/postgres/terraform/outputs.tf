@@ -6,10 +6,6 @@ output "domain_name" {
   value = local.domain_name
 }
 
-output "username" {
-  value = local.postgres-username
-}
-
-output "password" {
-  value = local.postgres-pwd
+output "database_credentials" {
+  value = nonsensitive(jsondecode(data.aws_secretsmanager_secret_version.postgres.secret_string))
 }

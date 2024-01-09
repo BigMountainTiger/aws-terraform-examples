@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TASK_ID=dms-oracle-cdc-example-oracle-cdc-task
+
+TASK_ARN=$(aws dms describe-replication-tasks --filters "Name=replication-task-id,Values=$TASK_ID" | jq -r .ReplicationTasks[0].ReplicationTaskArn)
+
+echo "Stopping $TASK_ARN"
+
+RESULT=$(aws dms stop-replication-task --replication-task-arn $TASK_ARN | jq -r .ReplicationTask.ReplicationTaskIdentifier)
+
+if [[ $RESULT ]]; then
+    echo "Stopped $RESULT"
+fi

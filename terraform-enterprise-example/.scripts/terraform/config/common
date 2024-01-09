@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# The TFE host name and organization
+export HOST_NAME="terraform.example.com"
+export ORGANIZATION="example-organization"
+
+# The path to the directory of the git repo
+# It can be absolute or relative to the directory where you issue the commands
+# If absolute path is given, you can run the scripts from any pwd location
+export PROJECT_ROOT_DIR="the-directory-that-has-the-terraform-projects"

@@ -1,0 +1,13 @@
+Enable CDC Oracle
+https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html
+https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Amazon-Managed
+
+Suppliment log
+https://docs.aws.amazon.com/dms/latest/sbs/chap-on-premoracle2aurora.steps.configureoracle.html
+
+
+RDS Oracle Previlege
+https://repost.aws/knowledge-center/rds-oracle-user-privileges-roles
+
+Set up Redo Logs for Replication
+https://docs.hevodata.com/sources/dbfs/databases/oracle/amazon-rds-oracle/#set-up-redo-logs-for-replication

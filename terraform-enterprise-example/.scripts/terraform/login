@@ -1,4 +1,0 @@
-#!/bin/bash -e
-
-source .scripts/terraform/.config/common
-terraform login ${HOST_NAME}

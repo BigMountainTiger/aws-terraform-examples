@@ -26,3 +26,14 @@ flyway info \
     -user="${USR}" \
     -password="${PWD}" \
     -locations="${LOCATION}"
+
+The migration script version is sorted as number, not string (It makes sense)
++-----------+---------+--------------+------+---------------------+---------+----------+
+| Category  | Version | Description  | Type | Installed On        | State   | Undoable |
++-----------+---------+--------------+------+---------------------+---------+----------+
+| Versioned | 1.1     | create table | SQL  | 2024-01-04 14:50:43 | Success | No       |
+| Versioned | 1.2     | insert data  | SQL  | 2024-01-04 14:50:43 | Success | No       |
+| Versioned | 1.2.1   | insert data  | SQL  | 2024-01-04 14:50:44 | Success | No       |
+| Versioned | 1.3     | insert data  | SQL  | 2024-01-04 14:50:44 | Success | No       |
+| Versioned | 1.12    | insert data  | SQL  | 2024-01-04 14:50:44 | Success | No       |
++-----------+---------+--------------+------+---------------------+---------+----------+

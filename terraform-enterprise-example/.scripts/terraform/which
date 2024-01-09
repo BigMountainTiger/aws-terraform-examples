@@ -1,9 +1,0 @@
-#!/bin/bash
-
-source .scripts/terraform/.config/common
-
-echo "HOST_NAME = ${HOST_NAME}"
-echo "ORGANIZATION = ${ORGANIZATION}"
-echo "PROJECT_ROOT_DIR = ${PROJECT_ROOT_DIR}"
-echo "PROJECT = ${PROJECT}"
-echo "WORKSPACE = ${WORKSPACE}"

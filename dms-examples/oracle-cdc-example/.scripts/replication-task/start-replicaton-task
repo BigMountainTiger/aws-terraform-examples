@@ -1,0 +1,34 @@
+#!/bin/bash
+
+WHAT=$1
+
+case "$WHAT" in
+    "reload")
+        TASK_TYPE="reload-target"
+        ;;
+    "resume")
+        TASK_TYPE="resume-processing"
+        ;;
+    *)
+        echo "Only the following operations are supported (reload-target / resume-processing):"
+        echo "start-replicaton-task reload"
+        echo "start-replicaton-task resume"
+        exit 1
+        ;;
+esac
+
+TASK_ID=dms-oracle-cdc-example-oracle-cdc-task
+TASK_ARN=$(aws dms describe-replication-tasks --filters "Name=replication-task-id,Values=$TASK_ID" \
+    | jq -r .ReplicationTasks[0].ReplicationTaskArn)
+
+
+echo "Starting $TASK_ARN"
+RESULT=$(aws dms start-replication-task \
+    --replication-task-arn $TASK_ARN \
+    --start-replication-task-type $TASK_TYPE \
+    | jq -r .ReplicationTask.ReplicationTaskIdentifier)
+
+
+if [[ $RESULT ]]; then
+    echo "$RESULT started"
+fi

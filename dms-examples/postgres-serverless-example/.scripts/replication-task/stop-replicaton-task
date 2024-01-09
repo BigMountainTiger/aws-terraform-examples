@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CONFIG_ARN="arn:aws:dms:us-east-1:939653976686:replication-config:dms-config"
+
+echo -e "Stopping $CONFIG_ARN \n"
+
+RESULT=$(aws dms stop-replication --replication-config-arn $CONFIG_ARN)
+echo $RESULT
