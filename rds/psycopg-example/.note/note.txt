@@ -1,0 +1,13 @@
+This is the psychopg 3
+Fun fact: there is no psycopg3 package, only psycopg!
+
+https://www.psycopg.org/
+https://www.psycopg.org/psycopg3/docs/
+https://medium.com/@benshearlaw/asynchronous-postgres-with-python-fastapi-and-psycopg-3-fafa5faa2c08
+
+Async Operations
+https://www.psycopg.org/psycopg3/docs/advanced/async.html#async
+
+Install
+pip install psycopg[binary]
+pip install psycopg[binary,pool] - If AsyncConnectionPool will be used

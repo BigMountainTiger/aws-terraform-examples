@@ -1,0 +1,1 @@
+CONSTR = 'postgres://postgres:docker@localhost:5432/postgres'

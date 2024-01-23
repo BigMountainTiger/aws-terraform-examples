@@ -1,14 +1,10 @@
-locals {
-  vpc_name = "aws-batch-basic-example-vpc"
-}
-
 # VPC
 resource "aws_vpc" "vpc-example" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = local.vpc_name
+    Name = local.app_name
   }
 }
 
@@ -16,7 +12,7 @@ resource "aws_vpc" "vpc-example" {
 resource "aws_internet_gateway" "IGW" {
   vpc_id = aws_vpc.vpc-example.id
   tags = {
-    Name = local.vpc_name
+    Name = local.app_name
   }
 }
 
@@ -30,7 +26,7 @@ resource "aws_default_route_table" "default-route" {
   }
 
   tags = {
-    Name = "public-rt-${local.vpc_name}"
+    Name = "public-rt-${local.app_name}"
   }
 }
 
@@ -42,7 +38,7 @@ resource "aws_subnet" "public-subnet-1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public-1-${local.vpc_name}"
+    Name = "public-1-${local.app_name}"
   }
 }
 
@@ -53,7 +49,7 @@ resource "aws_subnet" "public-subnet-2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "public-2-${local.vpc_name}"
+    Name = "public-2-${local.app_name}"
   }
 }
 
@@ -76,10 +72,16 @@ resource "aws_default_security_group" "default-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "default-sg-${local.vpc_name}"
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
+  tags = {
+    Name = "default-sg-${local.app_name}"
+  }
 }
 
 
