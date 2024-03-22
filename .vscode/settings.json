@@ -14,5 +14,6 @@
         "**/.ipynb_checkpoints": true,
         "**/.swagger": true,
         "**/flyway-example/report.*": true
-    }
+    },
+    "python.terminal.activateEnvironment": false
 }

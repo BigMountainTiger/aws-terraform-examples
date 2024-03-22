@@ -13,6 +13,9 @@ Download -> Unzip -> Add to the PATH environment variable (.profile file)
 For example in the .profile file:
 PATH="/home/song/Development/flyway/flyway-commandline-9.22.3-linux-x64/flyway-9.21.2:$PATH"
 
+It is possible to pass data to the SQL scripts through environment variables (placeholders)
+https://documentation.red-gate.com/fd/placeholders-224919737.html
+
 To use Flyway command, the database URL and credentials are needed
 For exampe:
 

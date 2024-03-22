@@ -9,5 +9,8 @@
     "files.enableTrash": false,
     "security.workspace.trust.untrustedFiles": "open",
     "terminal.integrated.shellIntegration.enabled": false,
-    "go.toolsManagement.autoUpdate": true
+    "go.toolsManagement.autoUpdate": true,
+    "files.associations": {
+        "*.yml": "yaml"
+    }
 }

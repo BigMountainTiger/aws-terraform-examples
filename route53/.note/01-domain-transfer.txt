@@ -1,0 +1,19 @@
+Transfer a domain to anther AWS account
+Now can be done on the console
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-between-aws-accounts.html
+
+When a domain is transfered, the hosted zone is not automatically transfered
+We can create a new hosted zone in the new account
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-migrating.html
+
+After creating the new hosted zone, we need to update the domain register (AWS domain in this case) name server
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-inactive.html
+
+Steps:
+1. In the Route 53 console, get the name servers for your Route 53 hosted zone:
+- In the navigation pane, choose Hosted zones
+- On the Hosted zones page, choose the "radio button" (not the name) for the hosted zone, then choose View details
+- On the details page for the hosted zone, choose Hosted zone details
+- Make note of the four servers listed for Name servers
+
+2. Use the method provided by the registrar for the domain to change the name servers for the domain to use the four Route 53 name servers 

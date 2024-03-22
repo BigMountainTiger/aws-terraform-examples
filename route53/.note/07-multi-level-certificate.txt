@@ -1,0 +1,6 @@
+It is possible to request a multi-level certificate
+
+For example
+We can request a certificate for "aa.bb.cc.dd.ee.ff.example.com" using the "example.com" hosted zone
+
+It is also possible to request a "*" certificate, like "*.example.com"
