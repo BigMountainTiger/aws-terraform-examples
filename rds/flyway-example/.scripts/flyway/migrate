@@ -5,6 +5,9 @@ USR="postgres"
 PWD="docker"
 LOCATION="filesystem:./flyway/sql"
 
+# We can pass data into the SQL scripts through the environment variables
+export FLYWAY_PLACEHOLDERS_ENV_USER="A user passed into from an environment variable"
+
 flyway migrate \
     -url="${URL}" \
     -user="${USR}" \

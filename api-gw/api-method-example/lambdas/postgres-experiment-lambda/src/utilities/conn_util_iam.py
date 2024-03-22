@@ -22,6 +22,9 @@ def get_conn_dict(rds_id, db_name):
         endpoint_address = endpoint.get('Address')
         endpoint_port = endpoint.get('Port')
 
+        # Endpoint needs to be the rds endpoint, domain-name does not work
+        # endpoint_address = 'postgres.bigmountaintiger.com'
+
         username = 'api_user'
         aws_region = 'us-east-1'
         token = rds_client.generate_db_auth_token(

@@ -1,1 +1,7 @@
 This is an example to use IAM (and / or) RDS proxy to connect to the database
+
+https://www.psycopg.org/psycopg3/docs/basic/install.html#binary-installation
+pip install "psycopg[binary]"
+
+RDS proxy
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_proxy_target

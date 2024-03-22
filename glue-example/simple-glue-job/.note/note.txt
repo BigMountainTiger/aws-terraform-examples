@@ -1,0 +1,11 @@
+terraform:
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_job
+
+default_arguments:
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html
+
+--extra-py-files => The Amazon S3 paths to additional Python modules that AWS Glue adds to the Python path before running your script
+--additional-python-modules => A comma delimited list representing a set of Python packages to be installed (package==version, comma separated)
+--python-modules-installer-option => A plaintext string that defines options to be passed to pip3 when installing modules with --additional-python-modules
+
+https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#extra-py-files-support

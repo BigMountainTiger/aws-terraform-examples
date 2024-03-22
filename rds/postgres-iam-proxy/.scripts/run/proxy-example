@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/postgres-iam-proxy_iam_db_role"
+
+CREDENTIAL=$(aws sts assume-role \
+    --role-arn $ROLE_ARN \
+    --role-session-name "iam-db-role-session" | jq .Credentials)
+
+export AWS_ACCESS_KEY_ID=$(echo $CREDENTIAL | jq -r .AccessKeyId)
+export AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIAL | jq -r .SecretAccessKey)
+export AWS_SESSION_TOKEN=$(echo $CREDENTIAL | jq -r .SessionToken)
+
+# Run the python example
+echo "No success, it hangs - https://github.com/MagicStack/asyncpg/issues/952#issuecomment-1526168429"
+# python python/proxy_example.py

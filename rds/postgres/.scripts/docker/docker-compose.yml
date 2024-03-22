@@ -1,0 +1,13 @@
+# https://registry.hub.docker.com/r/postgis/postgis/
+
+version: "3.7"
+services:
+  postgres:
+    image: postgis/postgis:14-3.4-alpine
+    container_name: postgis-example
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
