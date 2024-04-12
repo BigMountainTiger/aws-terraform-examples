@@ -1,0 +1,1 @@
+https://repost.aws/questions/QUJ0rOYLvvRUGQxIddfVnCOg/api-gateway-claims-it-s-invoking-a-custom-authorizer-but-rejects-before-calling

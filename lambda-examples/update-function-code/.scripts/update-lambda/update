@@ -1,0 +1,23 @@
+#!/bin/bash
+
+ZIP_DIR="/home/song/Sandbox/aws-terraform-examples/.zip"
+LAMBDA_DIR="/home/song/Sandbox/aws-terraform-examples/lambda-examples/update-function-code/lambdas/example"
+
+rm -rf $ZIP_DIR
+mkdir -p $ZIP_DIR/lambda
+
+cp -r $LAMBDA_DIR/* $ZIP_DIR/lambda
+
+pwd
+
+go() {
+    cd $ZIP_DIR/lambda
+    pwd
+}
+
+go
+
+pwd
+
+
+

@@ -1,6 +1,5 @@
 # https://registry.hub.docker.com/r/postgis/postgis/
 
-version: "3.7"
 services:
   postgres:
     image: postgis/postgis:14-3.4-alpine

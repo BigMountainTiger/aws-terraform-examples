@@ -1,0 +1,8 @@
+#!/bin/bash
+
+FUNC="lambda-examples-update-function-code"
+
+aws lambda invoke \
+    --function-name "$FUNC" \
+    --output json \
+    /dev/stdout
