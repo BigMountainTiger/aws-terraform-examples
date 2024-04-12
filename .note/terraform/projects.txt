@@ -1,0 +1,7 @@
+Terraform projects
+
+1. Remote state and lock
+    - https://quileswest.medium.com/how-to-lock-terraform-state-with-s3-bucket-in-dynamodb-3ba7c4e637
+
+2. Need to add policy to block any deletions on the S3 bucket (optional for not to accidentally delete the workspace state)
+    - https://medium.com/@stefanroman/backend-for-terraform-backend-1e4d885f8283

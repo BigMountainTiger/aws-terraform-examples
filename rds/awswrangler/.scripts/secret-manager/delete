@@ -1,0 +1,7 @@
+#!/bin/bash
+
+NAME="docker-secret"
+
+aws secretsmanager delete-secret \
+    --secret-id  $NAME \
+    --force-delete-without-recovery

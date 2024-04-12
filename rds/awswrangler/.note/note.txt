@@ -1,0 +1,21 @@
+https://pypi.org/project/awswrangler/
+ - pip install awswrangler
+ - pip install 'awswrangler[redshift]'
+
+ https://aws-sdk-pandas.readthedocs.io/en/stable/install.html#pypi-pip
+ Starting version 3.0, some awswrangler modules are optional and must be installed explicitly
+ - redshift
+ - mysql
+ - postgres
+ - sqlserver
+ - oracle
+ - gremlin
+ - sparql
+ - opencypher
+ - openpyxl
+ - opensearch
+ - deltalake
+
+ postgres
+ https://aws-sdk-pandas.readthedocs.io/en/3.9.0/stubs/awswrangler.postgresql.connect.html
+ https://aws-sdk-pandas.readthedocs.io/en/stable/

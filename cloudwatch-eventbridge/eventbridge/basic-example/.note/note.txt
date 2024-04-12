@@ -1,0 +1,34 @@
+https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cwe-now-eb.html
+
+EventBridge is the evolution of Amazon CloudWatch Events
+
+Amazon EventBridge Event Bus
+Amazon EventBridge rules
+Amazon EventBridge events
+Events from AWS services
+
+1. There are 2 kinds of events:
+    - Scheduled events - Time based events, do not rely on an event Bus
+    - Non-Scheduled events - rely on an event Bus
+2. Every AWS account has a default event Bus
+    - We can create additional event buses as needed
+3. Events are routed by the rules - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rules.html
+    - An event is evaluated against all the rules on the event bus and delivered to all the targets of all the matching rules
+    - If no matching rule found, the event is discarded. If you have archive enabled, they will be added to the archive
+    - An event rule can have up to 5 targets
+
+Scheduled events are defined by cron expressions
+No-Scheduled event rules are defined by event matching pattern defind as a json
+    - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html
+    - * Notice the matching value is in the "[]" square brackets
+    - We can build more complex matching rules - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-pattern-operators.html
+        - prefix, suffix, anything-but, wildcard, and many more
+
+This is a pattern that matches all the events
+{
+  "source": [{
+    "prefix": ""
+  }]
+}
+
+

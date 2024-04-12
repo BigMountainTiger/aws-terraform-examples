@@ -1,0 +1,38 @@
+#!/bin/bash -e
+
+LAMBDA="lambda-examples-update-function-code"
+LAMBDA_DIR="/home/song/Sandbox/aws-terraform-examples/lambda-examples/update-function-code/lambdas/example"
+
+WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
+
+(
+    rm -rf $WORKSPACE && mkdir -p $WORKSPACE
+    cp -r $LAMBDA_DIR $WORKSPACE/lambda
+)
+
+(
+    REQUIREMENTS="requirements.txt"
+    cd $WORKSPACE/lambda
+    if [ -f "$REQUIREMENTS" ]; then
+
+        # May need the --platform to install the dependencies for aws lambda
+        # --platform=manylinux2014_x86_64 --only-binary=:all:
+        pip install -r "$REQUIREMENTS" -q -t .
+    fi
+
+    zip -rq "../lambda.zip" .
+)
+
+(
+    cd $WORKSPACE
+    FUNCTION_NAME=$(aws lambda update-function-code \
+        --region us-east-1 \
+        --no-verify-ssl \
+        --function-name "$LAMBDA" \
+        --zip-file fileb://lambda.zip 2>/dev/null | jq .FunctionName)
+
+    echo "Waiting for lamnda $FUNCTION_NAME update to complete"
+    aws lambda wait function-updated --function-name $LAMBDA
+
+    echo "Done"
+)

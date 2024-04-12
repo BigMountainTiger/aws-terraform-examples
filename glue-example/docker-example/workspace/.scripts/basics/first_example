@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# This script is intended to run inside the contaier
+spark-submit python/basics/first_example.py

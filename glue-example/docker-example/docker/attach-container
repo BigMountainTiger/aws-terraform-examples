@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# 1. If the host is Windows, the WORKSPACE_LOCATION path needs to be in the windows format
+#   - It need to pre-exists before attached to the docker container, otherwise it will be some permission issues
+# 2. It is better to create folders and files within the container (mkdir, touch, etc)
+#   - Files created in Windows shows weird permissions in linx
+# 3. May need to run as root => --user root, so we can work on the folders and files in the host
+# 3. The current image "lue_libs_4.0.0_image_01" using python3.10.2 => python3 --version
+# 4. If additional python packages needed, we need to install it like => python3 -m pip "package-name"
+# 5. In Linux host, the glue_user in the container does not have the permission to create and edit files in the workspace
+#   - It is OK because we will be using VSCODE to edit file most of the times
+
+# Use realpath for the absolute path
+HOST_WORKSPACE="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")/../workspace")"
+CONTAINER_WORKSPACE="/home/glue_user/workspace"
+
+IMAGE="amazon/aws-glue-libs:glue_libs_4.0.0_image_01"
+CONTAINER_NAME="glue_local"
+
+if [ ! "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
+    
+    docker run -it \
+        -v $HOST_WORKSPACE:$CONTAINER_WORKSPACE:rw \
+        -e DISABLE_SSL=true \
+        -p 4040:4040 \
+        -p 18080:18080 \
+        --name "$CONTAINER_NAME" \
+        -w $CONTAINER_WORKSPACE \
+        "$IMAGE"
+
+else
+    docker container start -i "$CONTAINER_NAME"
+fi

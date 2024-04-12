@@ -18,3 +18,4 @@ __pycache__
 
 .aws-lambda-artifacts
 .env
+.zip

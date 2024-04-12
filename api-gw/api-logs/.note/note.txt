@@ -1,0 +1,4 @@
+This is the example for
+----
+1. API GW access log
+2. API GW execution log

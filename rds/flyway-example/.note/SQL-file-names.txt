@@ -1,0 +1,21 @@
+https://voiceofthedba.com/2023/06/26/the-four-different-types-of-flyway-files/
+https://www.red-gate.com/blog/database-devops/flyway-naming-patterns-matter
+
+1. Baseline - B
+    - https://documentation.red-gate.com/flyway/flyway-cli-and-api/commands/baseline
+    - https://documentation.red-gate.com/fd/command-line-baseline-184127411.html
+
+2. Versioned - V
+    - The verions are sorted as numbers
+    - Will only run exactly one-time if successful
+    - This is the most common case
+
+3. Repeatable - R
+    - https://documentation.red-gate.com/fd/using-repeatable-migrations-to-manage-data-190578952.html
+    - https://documentation.red-gate.com/fd/tutorial-repeatable-migrations-184127625.html
+    - Repeatable Migrations run after pending versioned migrations
+    - Repeatable Migrations only run if the script file changes
+
+4. Undo - U
+    - Flyway Undo is a commercial feature of Flyway and isn’t available in the Community Edition
+    - Flyway can not really undo anything, so it is better to just roll-forward. used versioned script with a name indicating that it is "undo"

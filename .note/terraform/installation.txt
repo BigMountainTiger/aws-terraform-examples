@@ -1,0 +1,12 @@
+Install terraform
+
+1. Terraform is a single executable
+    - It can be downloaded here - https://releases.hashicorp.com/terraform/
+    - Since terraform version needs to match what specified in the project
+        - it is more convinent to download the executable and create a symlink to it
+        - When needed, it is easier to change the link to point to the desired version
+
+2. We can also add the terraform repository for the "apt" and use "apt" to install terraform
+    - https://learn.hashicorp.com/tutorials/terraform/install-cli
+    - It is easier to keep the terraform version updated, but not very convinent to revert to older versions
+

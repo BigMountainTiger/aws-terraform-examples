@@ -24,7 +24,7 @@ resource "aws_s3_bucket_policy" "s3" {
 }
 
 locals {
-  deploy_cloudfront = false
+  deploy_cloudfront = true
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
@@ -46,7 +46,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   aliases = [local.swagger_domain_name]
 
   viewer_certificate {
-    acm_certificate_arn            = data.aws_acm_certificate.acm_certificate.arn
+    acm_certificate_arn            = aws_acm_certificate.swagger.arn
     cloudfront_default_certificate = false
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1"

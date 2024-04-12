@@ -1,0 +1,16 @@
+https://www.youtube.com/watch?v=dQnRP6X8QAU&ab_channel=JohnnyChivers
+
+AWS Glue is a fully managed ETL service which has the following main components:
+1. Glue data catalog (region specific) - It is a meta data repository, which does not host the actual data
+    - Glue database
+    - Glue table
+    - Glue crowler
+2. A serverless Spark ETL engine for the Glue jobs
+3. Glue job scheduler
+    - Cron style scheduling
+4. Data conections
+    - Support both user name / password and secret manager for authentication information
+    - Can be deployed into a VPC to access resources in a VPC
+
+https://www.youtube.com/watch?v=DICsZiwuHJo&ab_channel=JohnnyChivers
+Pyspark in AWS Glue

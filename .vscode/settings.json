@@ -13,7 +13,9 @@
         "**/.aws-lambda-artifacts": true,
         "**/.ipynb_checkpoints": true,
         "**/.swagger": true,
-        "**/flyway-example/report.*": true
+        "**/flyway-example/report.*": true,
+        "**/.zip": true
     },
-    "python.terminal.activateEnvironment": false
+    "python.terminal.activateEnvironment": false,
+    "terminal.integrated.gpuAcceleration": "off"
 }
