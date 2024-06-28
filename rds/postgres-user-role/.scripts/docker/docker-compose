@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+WHAT=$1
+
+case "$WHAT" in
+    "up") 
+        docker compose -f $SCRIPT_PATH/docker-compose.yml up -d
+    ;;
+    "down")
+        docker compose -f $SCRIPT_PATH/docker-compose.yml down
+        ;;
+    *)
+        echo -e "Only the following operations are supported:\n"
+        echo "docker-compose up"
+        echo "docker-compose down"
+        exit 1
+        ;;
+esac

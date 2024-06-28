@@ -16,5 +16,6 @@
         "**/flyway-example/report.*": true,
         "**/.zip": true
     },
-    "python.terminal.activateEnvironment": false
+    "python.terminal.activateEnvironment": false,
+    "terminal.integrated.gpuAcceleration": "off"
 }
