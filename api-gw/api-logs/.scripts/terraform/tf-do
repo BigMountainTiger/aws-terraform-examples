@@ -12,15 +12,6 @@ init() {
     terraform init -reconfigure -upgrade
 }
 
-# Pass variables to terraform
-# Manual, FunctionUpdate, or Auto
-# Manual requires runtime_version_arn
-export TF_VAR_lambda_runtime_config='{
-    update_runtime_on: "FunctionUpdate",
-    qualifier: null,
-    runtime_version_arn: null
-}'
-
 case "${what}" in
 "p")
     init
