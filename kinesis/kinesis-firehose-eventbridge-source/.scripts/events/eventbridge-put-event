@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Put a event to the evenbridge to test eventbridge => firehose => s3
+
+EVENT_BUS="kinesis-firehose-eventbridge-source"
+
+DATA='{
+  "A": "value a",
+  "B": "value b"
+}'
+
+DATA=${DATA//\"/\\\"}
+DATA=${DATA//$'\n'/}
+
+ENTRIES='[
+  {
+    "Time": "'"$(date +%FT%T%z)"'",
+    "Source": "string",
+    "Resources": ["string"],
+    "DetailType": "string",
+    "Detail": "'"$DATA"'",
+    "EventBusName": "'"$EVENT_BUS"'",
+    "TraceHeader": "string"
+  }
+]'
+
+# echo $ENTRIES
+
+aws events put-events \
+  --entries "$ENTRIES"

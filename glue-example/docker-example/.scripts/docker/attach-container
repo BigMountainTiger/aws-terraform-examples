@@ -11,8 +11,10 @@
 #   - It is OK because we will be using VSCODE to edit file most of the times
 
 # Use realpath for the absolute path
-HOST_WORKSPACE="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")/../workspace")"
-CONTAINER_WORKSPACE="/home/glue_user/workspace"
+SCRIPT_PATH="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
+
+HOST_GLUE_WORKSPACE="$SCRIPT_PATH/../../workspace/glue"
+CONTAINER_GLUE_WORKSPACE="/home/glue_user/workspace/glue"
 
 IMAGE="amazon/aws-glue-libs:glue_libs_4.0.0_image_01"
 CONTAINER_NAME="glue_local"
@@ -20,12 +22,12 @@ CONTAINER_NAME="glue_local"
 if [ ! "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
     
     docker run -it \
-        -v $HOST_WORKSPACE:$CONTAINER_WORKSPACE:rw \
+        -v $HOST_GLUE_WORKSPACE:$CONTAINER_GLUE_WORKSPACE:rw \
         -e DISABLE_SSL=true \
         -p 4040:4040 \
         -p 18080:18080 \
         --name "$CONTAINER_NAME" \
-        -w $CONTAINER_WORKSPACE \
+        -w $CONTAINER_GLUE_WORKSPACE \
         "$IMAGE"
 
 else
