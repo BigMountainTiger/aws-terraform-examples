@@ -1,0 +1,36 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ActionsForFirehose",
+            "Effect": "Allow",
+            "Action": [
+                "firehose:PutRecord",
+                "firehose:PutRecordBatch"
+            ],
+            "Resource": [
+                "arn:aws:firehose:us-east-1:939653976686:deliverystream/kinesis-firehose-eventbridge-to-s3"
+            ]
+        }
+    ]
+}
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "TrustEventBridgeService",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "events.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "939653976686",
+                    "aws:SourceArn": "arn:aws:events:us-east-1:939653976686:rule/kinesis-firehose-eventbridge-source/firehose"
+                }
+            }
+        }
+    ]
+}

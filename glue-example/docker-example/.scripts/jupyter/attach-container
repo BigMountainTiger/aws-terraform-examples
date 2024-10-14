@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Use realpath for the absolute path
+SCRIPT_PATH="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
+
+JUPYTER_WORKSPACE_LOCATION="$SCRIPT_PATH/../../workspace/jupyter"
+
+# https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-libraries.html
+# The container does not write file to this location, it writes files to "jupyter_workspace"
+# for some reason, it has permission issue to create files to the host
+CONTAINER_JUPYTER_WORKSPACE="/home/glue_user/workspace/jupyter/"
+
+IMAGE="amazon/aws-glue-libs:glue_libs_4.0.0_image_01"
+CONTAINER_NAME="glue_jupyter_lab"
+
+if [ ! "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
+    
+    docker run -it \
+        -v $JUPYTER_WORKSPACE_LOCATION:$CONTAINER_JUPYTER_WORKSPACE:rw \
+        -e DISABLE_SSL=true \
+        -p 4040:4040 \
+        -p 18080:18080 \
+        -p 8998:8998 \
+        -p 8888:8888 \
+        --name "$CONTAINER_NAME" \
+        "$IMAGE" /home/glue_user/jupyter/jupyter_start.sh
+
+else
+    docker container start -i "$CONTAINER_NAME"
+fi

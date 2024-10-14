@@ -24,6 +24,9 @@ No-Scheduled event rules are defined by event matching pattern defind as a json
     - We can build more complex matching rules - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-pattern-operators.html
         - prefix, suffix, anything-but, wildcard, and many more
 
+EventBridge has the following limitations
+ - https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-quota.html
+
 This is a pattern that matches all the events
 {
   "source": [{
