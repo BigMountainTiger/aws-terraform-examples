@@ -1,0 +1,3 @@
+# This is an experiment to test 
+    - how terraform work with external code deployment for the lambdas
+

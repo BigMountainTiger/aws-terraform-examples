@@ -19,3 +19,5 @@ __pycache__
 .aws-lambda-artifacts
 .env
 .zip
+
+lambdas_copy

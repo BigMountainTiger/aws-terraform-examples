@@ -14,7 +14,8 @@
         "**/.ipynb_checkpoints": true,
         "**/.swagger": true,
         "**/flyway-example/report.*": true,
-        "**/.zip": true
+        "**/.zip": true,
+        "**/lambdas_copy": true
     },
     "python.terminal.activateEnvironment": false,
     "terminal.integrated.gpuAcceleration": "off"
