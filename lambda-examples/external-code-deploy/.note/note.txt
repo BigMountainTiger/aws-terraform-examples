@@ -1,3 +1,9 @@
 # This is an experiment to test 
-    - how terraform work with external code deployment for the lambdas
+    - How terraform work with external code deployment for the lambdas
+        - Make sure terraform does not overwrite the exterally deployed code
+    - This is also an example to use nested terraform modules
+
+It is confirmed that terraform will only deploy the lambda code at the creation time
+    - source_code_hash = base64sha256("Never_replace_lambda_code")
+    - Give a static source_code_hash that never changes
 
