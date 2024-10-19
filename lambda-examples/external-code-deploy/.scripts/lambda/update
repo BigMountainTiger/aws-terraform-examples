@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Need the following information
+# 1. The lambda name
+# 2. The directory of the lambda source code
+# 3. The temporary folder to do the work. The source code it copied to the workspace so it does not affect the soure directory
+
+LAMBDA="external-code-deploy-example"
+LAMBDA_DIR="/home/song/Sandbox/aws-terraform-examples/lambda-examples/external-code-deploy/lambdas/external-lambda-code"
+WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
+
+(
+    rm -rf $WORKSPACE && mkdir -p $WORKSPACE
+    cp -r $LAMBDA_DIR $WORKSPACE/lambda
+)
+
+(
+    REQUIREMENTS="requirements.txt"
+    cd $WORKSPACE/lambda
+
+    if [ -f "$REQUIREMENTS" ]; then
+
+        # May need the --platform to install the dependencies for aws lambda
+        # --platform=manylinux2014_x86_64 --only-binary=:all:
+        pip install -r "$REQUIREMENTS" -q -t .
+    fi
+
+    zip -rq "../lambda.zip" .
+)
+
+(
+    cd $WORKSPACE
+    FUNCTION_NAME=$(aws lambda update-function-code \
+        --region us-east-1 \
+        --no-verify-ssl \
+        --function-name "abc$LAMBDA" \
+        --zip-file fileb://lambda.zip 2>/dev/null | jq .FunctionName)
+
+    # Possible to improve for error reporting here
+    # (
+    #     RESPONSE=$(aws lambda update-function-code \
+    #         --region us-east-1 \
+    #         --no-verify-ssl \
+    #         --function-name "abc$LAMBDA" \
+    #         --zip-file fileb://lambda.zip)
+    # )
+
+    echo $?
+
+    echo "Lambda code deployed for $FUNCTION_NAME"
+    echo "Waiting for aws to complete the update"
+    aws lambda wait function-updated --function-name $LAMBDA
+
+    echo "Done"
+)
+
+(
+    rm -rf $WORKSPACE
+)
