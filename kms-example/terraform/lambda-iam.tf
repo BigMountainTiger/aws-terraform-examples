@@ -1,4 +1,4 @@
-resource "aws_iam_role" "lambda" {
+resource "aws_iam_role" "lambda_role" {
   name = "eventbridge_sqs_example_lambda_execution_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -9,7 +9,6 @@ resource "aws_iam_role" "lambda" {
           "Service" : "lambda.amazonaws.com"
         },
         "Effect" : "Allow",
-        "Sid" : ""
       }
     ]
   })
@@ -17,7 +16,7 @@ resource "aws_iam_role" "lambda" {
 
 resource "aws_iam_role_policy" "lambda_execution_role" {
   name = "lambda_execution_role_policy"
-  role = aws_iam_role.lambda.name
+  role = aws_iam_role.lambda_role.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -29,30 +28,48 @@ resource "aws_iam_role_policy" "lambda_execution_role" {
           "logs:PutLogEvents",
           "logs:DescribeLogStreams"
         ],
-        "Resource" : "*"
+        "Resource" : [
+          "arn:aws:logs:*:${local.aws_account_id}:*"
+        ]
       },
       {
         "Effect" : "Allow",
         "Action" : [
-          "sqs:DeleteMessage",
-          "sqs:GetQueueAttributes",
-          "sqs:ReceiveMessage"
+          "kms:ListKeys",
+          "kms:ListAliases",
+          "kms:GetPublicKey",
+          "kms:DescribeKey",
+          "kms:Decrypt"
         ],
-        "Resource" : "${aws_sqs_queue.queue.arn}"
+        "Resource" : "*",
+        "Condition" : {
+          "StringEquals" : {
+            "kms:CallerAccount" : "${local.aws_account_id}"
+          }
+        }
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "secretsmanager:GetSecretValue"
+        ],
+        "Resource" : [
+          "arn:aws:secretsmanager:*:${local.aws_account_id}:*"
+        ]
       },
       {
         "Effect" : "Allow",
         "Action" : [
           "s3:AbortMultipartUpload",
           "s3:GetBucketLocation",
-          "s3:GetObject",
           "s3:ListBucket",
           "s3:ListBucketMultipartUploads",
+          "s3:GetObject",
           "s3:PutObject"
         ],
         "Resource" : [
-          "${aws_s3_bucket.s3.arn}",
-          "${aws_s3_bucket.s3.arn}/*"
+          "arn:aws:s3:::${aws_s3_bucket.s3.bucket}",
+          "arn:aws:s3:::${aws_s3_bucket.s3.bucket}/*"
         ]
       }
     ]

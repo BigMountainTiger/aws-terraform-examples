@@ -34,6 +34,9 @@ resource "aws_lambda_event_source_mapping" "lambda" {
 
   maximum_batching_window_in_seconds = 0
 
+  function_response_types = [
+    "ReportBatchItemFailures"
+  ]
   batch_size = 3
   enabled    = true
 }
