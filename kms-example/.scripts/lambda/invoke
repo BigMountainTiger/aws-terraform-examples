@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FUNCTION_NAME="kms_example_lambda"
+
+aws lambda invoke \
+    --function-name $FUNCTION_NAME \
+    /dev/stdout

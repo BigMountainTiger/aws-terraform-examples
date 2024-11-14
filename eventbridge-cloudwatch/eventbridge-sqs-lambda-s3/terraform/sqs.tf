@@ -26,26 +26,29 @@ resource "aws_sqs_queue_policy" "queue" {
             "aws:SourceArn" : "${aws_cloudwatch_event_rule.rule.arn}"
           }
         }
-      },
-      {
-        "Effect" : "Allow",
-        "Principal" : {
-          "Service" : "lambda.amazonaws.com"
-        },
-        "Action" : [
-          "sqs:SendMessage",
-          "sqs:ReceiveMessage",
-          "sqs:DeleteMessage",
-          "sqs:GetQueueAttributes"
-        ],
-        "Resource" : "${aws_sqs_queue.queue.arn}",
-        "Condition" : {
-          "ArnEquals" : {
-            "aws:SourceArn" : "${aws_lambda_function.lambda.arn}"
-          }
-        }
       }
     ]
   })
 
 }
+
+# It is confirmed that the following resource based policy is not needed
+# as long as the lambda has a policy to grant the permissions to the SQS
+# {
+#   "Effect" : "Allow",
+#   "Principal" : {
+#     "Service" : "lambda.amazonaws.com"
+#   },
+#   "Action" : [
+#     "sqs:SendMessage",
+#     "sqs:ReceiveMessage",
+#     "sqs:DeleteMessage",
+#     "sqs:GetQueueAttributes"
+#   ],
+#   "Resource" : "${aws_sqs_queue.queue.arn}",
+#   "Condition" : {
+#     "ArnEquals" : {
+#       "aws:SourceArn" : "${aws_lambda_function.lambda.arn}"
+#     }
+#   }
+# }

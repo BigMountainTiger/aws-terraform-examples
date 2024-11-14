@@ -43,15 +43,6 @@ resource "aws_iam_role_policy" "lambda_execution_role" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "sqs:DeleteMessage",
-          "sqs:GetQueueAttributes",
-          "sqs:ReceiveMessage"
-        ],
-        "Resource" : "${aws_sqs_queue.queue.arn}"
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
           "s3:AbortMultipartUpload",
           "s3:GetBucketLocation",
           "s3:GetObject",

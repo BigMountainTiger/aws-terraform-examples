@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FUNCTION_NAME="parameter_store_example_lambda"
+
+aws lambda invoke \
+    --function-name $FUNCTION_NAME \
+    /dev/stdout
