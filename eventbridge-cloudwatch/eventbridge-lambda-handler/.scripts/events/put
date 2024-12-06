@@ -1,0 +1,28 @@
+#!/bin/bash
+
+EVENT_BUS="eventbridge-lmbdda-handler-example-bus"
+
+DATA='{
+  "A": "value a",
+  "B": "value b"
+}'
+
+DATA=${DATA//\"/\\\"}
+DATA=${DATA//$'\n'/}
+
+ENTRIES='[
+  {
+    "Time": "'"$(date +%FT%T%z)"'",
+    "Source": "string",
+    "Resources": ["string"],
+    "DetailType": "example-type",
+    "Detail": "'"$DATA"'",
+    "EventBusName": "'"$EVENT_BUS"'",
+    "TraceHeader": "string"
+  }
+]'
+
+# echo $ENTRIES
+
+aws events put-events \
+  --entries "$ENTRIES"
