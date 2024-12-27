@@ -21,3 +21,5 @@ SELECT format('Hello %I', 'to the world');
 -- Single quote is added
 SELECT format('Hello %L', null);
 SELECT format('Hello %L', 'world');
+
+-- %% escape % in the format string
