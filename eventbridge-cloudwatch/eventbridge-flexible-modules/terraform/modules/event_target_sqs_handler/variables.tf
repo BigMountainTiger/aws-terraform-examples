@@ -1,9 +1,17 @@
-variable "rule_name" {
+variable "environment" {
   type = string
 }
 
-variable "target_name" {
+variable "sqs_name" {
   type = string
+}
+
+variable "sqs_arn" {
+  type = string
+}
+
+variable "sqs_mapping_enabled" {
+  type = bool
 }
 
 variable "lambda_runtime" {
@@ -11,8 +19,14 @@ variable "lambda_runtime" {
   default = "python3.11"
 }
 
-variable "sqs_arn" {
-  type = string
+variable "lambda_memory_size" {
+  type    = number
+  default = 1024
+}
+
+variable "lambda_timeout" {
+  type    = number
+  default = 900
 }
 
 variable "sqs_batch_window" {
@@ -25,18 +39,12 @@ variable "sqs_batch_size" {
   default = 100
 }
 
-variable "sqs_mapping_enabled" {
-  type = bool
+variable "lambda_layers_deployed" {
+  type    = bool
+  default = false
 }
 
-variable "config_envs" {
-  type = any
-}
-
-variable "data_bucket" {
-  type = string
-}
-
-variable "credential_secret" {
-  type = string
+variable "lambda_config_envs" {
+  type    = any
+  default = {}
 }

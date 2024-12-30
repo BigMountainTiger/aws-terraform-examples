@@ -8,7 +8,7 @@ resource "aws_iam_role" "lambda_execution_role" {
         "Principal" : {
           "Service" : "lambda.amazonaws.com"
         },
-        "Effect" : "Allow"
+        "Effect" : "Allow",
       }
     ]
   })
@@ -51,14 +51,14 @@ data "aws_iam_policy_document" "lambda_execution_role" {
     actions = [
       "s3:AbortMultipartUpload",
       "s3:GetBucketLocation",
-      "s3:GetObject",
       "s3:ListBucket",
       "s3:ListBucketMultipartUploads",
+      "s3:GetObject",
       "s3:PutObject"
     ]
     resources = [
-      "arn:aws:s3:::${var.data_bucket}",
-      "arn:aws:s3:::${var.data_bucket}/*"
+      "arn:aws:s3:::*",
+      "arn:aws:s3:::*/*"
     ]
   }
 
@@ -76,7 +76,8 @@ data "aws_iam_policy_document" "lambda_execution_role" {
     condition {
       test     = "StringEquals"
       variable = "kms:CallerAccount"
-      values   = ["${local.aws_account_id}"]
+
+      values = ["${local.aws_account_id}"]
     }
   }
 
@@ -85,6 +86,8 @@ data "aws_iam_policy_document" "lambda_execution_role" {
     actions = [
       "secretsmanager:GetSecretValue"
     ]
-    resources = ["arn:aws:secretsmanager:${local.aws_region}:${local.aws_account_id}:secret:${var.credential_secret}*"]
+    resources = [
+      "arn:aws:secretsmanager:${local.aws_region}:${local.aws_account_id}:secret:*"
+    ]
   }
 }

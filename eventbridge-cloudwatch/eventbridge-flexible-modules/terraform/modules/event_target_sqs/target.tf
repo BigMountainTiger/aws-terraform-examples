@@ -1,5 +1,5 @@
 locals {
-  sqs_name = "${var.rule_name}-${var.target_purpose}"
+  sqs_name = "${replace(var.rule_name, "-${var.environment}", "")}-${var.target_purpose}-${var.environment}"
 }
 
 resource "aws_sqs_queue" "sqs" {

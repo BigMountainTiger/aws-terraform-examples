@@ -1,5 +1,5 @@
 locals {
-  lambda_name = "${var.rule_name}-${var.target_name}-handler"
+  lambda_name = "${replace(var.sqs_name, "-${var.environment}", "")}-handler-${var.environment}"
 }
 
 data "archive_file" "zip" {
@@ -14,11 +14,14 @@ resource "aws_lambda_function" "lambda" {
   handler       = "app.lambda_handler"
   runtime       = var.lambda_runtime
 
+  memory_size = var.lambda_memory_size
+  timeout     = var.lambda_timeout
+
   filename         = data.archive_file.zip.output_path
   source_code_hash = base64sha512("Never_replace_lambda_code")
 
   environment {
-    variables = {}
+    variables = var.lambda_config_envs
   }
 
   depends_on = [
