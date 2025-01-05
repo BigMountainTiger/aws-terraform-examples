@@ -1,0 +1,9 @@
+services:
+  localstack:
+    container_name: "localstack-main"
+    image: localstack/localstack:4.0
+    ports:
+      - 4566:4566
+      - 5439:5439
+      - 4510-4559:4510-4559
+      - 4566-4584:4566-4584

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+REDSHIFT_CLUSTER_IDENTIFIER="docker_redshift_cluster"
+
+
+# aws-local redshift describe-clusters \
+#       --cluster-identifier $REDSHIFT_CLUSTER_IDENTIFIER
+
+echo
+
+REDSHIFT_URL=$(aws-local redshift describe-clusters \
+      --cluster-identifier $REDSHIFT_CLUSTER_IDENTIFIER | jq -r '(.Clusters[0].Endpoint.Address) + ":" + (.Clusters[0].Endpoint.Port|tostring)')
+
+echo $REDSHIFT_URL
+
+
+# Still unable to connect from the cluster
