@@ -1,2 +1,39 @@
 https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/sync.html
 
+What does sync do?
+- Syncs directories and S3 prefixes.
+- Recursively copies new and updated files from the source directory to the destination.
+- Only creates folders in the destination if they contain one or more files.
+
+
+include & exclude
+https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters
+
+
+1. Basics
+    --exclude "<value>" and --include "<value>" 
+
+    - *: Matches everything
+    - ?: Matches any single character
+    - [sequence]: Matches any character in sequence
+    - [!sequence]: Matches any character not in sequence
+
+2. The rule is the filters that appear later in the command take precedence over filters that appear earlier
+
+    --exclude "*" --include "*.txt" => All files will be excluded from the command except for files ending with .txt
+    --include "*.txt" --exclude "*" => All files will be excluded from the command.
+
+3. Each filter is evaluated against the source directory.
+
+    - If the source location is a file instead of a directory, the directory containing the file is used as the source directory.
+    - aws s3 sync /tmp/foo s3://bucket/
+        => The source directory is /tmp/foo
+        => Any include/exclude filters will be evaluated with the source directory prepended.
+
+
+4. The "aws s3 sync" command determines that a file needs to sync by the following standard by default,
+    it is possible to change the default by the command-line argument "--size-only".
+
+    - The file does not exist at the destination
+    - The file size is different between the source and the destination
+    - The modification time of the file at the source is newer than the destination

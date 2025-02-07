@@ -27,3 +27,8 @@ if __name__ == '__main__':
             con=con,
             use_column_names=True
         )
+
+        # The default con.autocommit can change with different awswragler versions
+        # 1. Call the commit() for safety
+        # 2. If no active transaction, commit() does nothing
+        con.commit()
