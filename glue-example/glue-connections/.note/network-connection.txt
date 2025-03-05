@@ -1,0 +1,21 @@
+Glue can not be provisioned into a VPC, but it can use connections to access resources in the VPC
+
+With NETWORK connection, the glue job can issue HTTP requests to host only accessible within the VPC
+
+Terraform - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_connection
+
+In particular, it is possible to create a "NETWORK" connection type:
+connection_type – (Optional) Type of the connection. Valid values: 
+AZURECOSMOS, AZURESQL, BIGQUERY, CUSTOM, JDBC, KAFKA, MARKETPLACE, MONGODB, NETWORK, OPENSEARCH, SNOWFLAKE. Defaults to JDBC.
+
+A NETWORK connection, need the physical_connection_requirements Block with the following arguments:
+
+- availability_zone - (Optional) The availability zone of the connection.
+    This field is redundant and implied by subnet_id, but is currently an api requirement.
+- security_group_id_list - (Optional) The security group ID list used by the connection.
+- subnet_id - (Optional) The subnet ID used by the connection.
+
+Reference - https://medium.com/@alibinfarooq9/setting-up-a-glue-connection-network-to-access-data-stores-in-a-private-subnet-3c98fe0ae7f2
+
+The security group needs a self referencing inbound and a self referencing outbound rule to all ports
+- More experiment is needed to see if this is really needed

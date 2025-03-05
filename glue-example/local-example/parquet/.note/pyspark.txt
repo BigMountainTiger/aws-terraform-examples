@@ -1,0 +1,20 @@
+# glue pyspark
+
+# "data" is a list of python dict objects
+# pyspark automatically ignores the empty dict {}, so we do not need mark_empty_dict_to_none when using pandas
+
+rdd = sc.parallelize([json.dumps(data)])
+
+# FAILFAST - fail the job instead of igbnoring the offending data
+# We want to know if offending data comes, but not to ignore it
+df = spark.read.json(rdd, multiLine=True, mode='FAILFAST')
+df = df.coalesce(1)
+print(f'Shape {(df.count(), len(df.columns))}')
+
+df.printSchema()
+
+bucket = 'bucket_name'
+bucket_directory = 'bucket_directory_name'
+s3_active_path = f's3://{bucket}/{bucket_directory}'
+
+df.write.save(path=s3_active_path, format='parquet', mode='overwrite')
