@@ -11,7 +11,7 @@ sc.setLogLevel('ERROR')
 def run():
     print()
 
-    FILE_PATH = 'data/bing_covid-19_data.parquet'
+    FILE_PATH = 'workspace/data/bing_covid-19_data.parquet'
 
     print(f'Loading from local {FILE_PATH}')
     df = spark.read.parquet(FILE_PATH)
@@ -25,6 +25,7 @@ def run():
 
     print()
     print(f'Saving to {S3_PATH}')
+    df = df.coalesce(1)
     df.write.save(path=S3_PATH, format='parquet', mode='overwrite')
     print('Done saving to s3')
 

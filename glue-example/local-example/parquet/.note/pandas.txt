@@ -1,0 +1,35 @@
+# pandas
+# use awswragler
+
+def mark_empty_dict_to_none(data):
+    # Need to replace empty dict to None if the data has empty {}
+    # it causes problem to pyarrow when generating parquet files
+    # pyarrow is unable to infer the data type because the dict is empty
+    if isinstance(data, dict):
+        if len(data) == 0:
+            return None
+        return {k: mark_empty_dict_to_none(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [mark_empty_dict_to_none(item) for item in data]
+    else:
+        return data
+
+
+def s3_parquet_dump_type_1(entities):
+    # "entities" is a list of dict objects
+    entities = mark_empty_dict_to_none(entities)
+
+    # max_level=0 => Do not expand objects
+    df = pd.json_normalize(entities, sep='_', max_level=0)
+
+    def write_to_s3():
+        parquet_path = f's3://bucket_name/s3_prefix/file_name.parquet'
+        wr.s3.to_parquet(df=df, path=parquet_path)
+        print(f'{df.shape[0]} records saved to {parquet_path}')
+
+    def write_to_local():
+        parquet_path = f'.logs/active_records_type_1.parquet'
+        df.to_parquet(parquet_path)
+        print(f'{df.shape[0]} records saved to {parquet_path}')
+
+    write_to_s3()
