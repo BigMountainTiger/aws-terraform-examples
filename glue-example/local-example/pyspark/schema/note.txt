@@ -1,0 +1,22 @@
+Find example in the docker-example directory under glue-example
+----------------------------------------------------
+
+Refer to pyspark_utils.py
+
+To use generate_schema, pass a dict (sample data) as value to generate_schema function
+key is None => generate_schema(None, json_value)
+-----------------------------------------------------
+
+use schema
+
+rdd = sc.parallelize([json.dumps(data)])
+df = spark.read.json(rdd, multiLine=True, mode='FAILFAST', schema=schema)
+df = df.coalesce(1)
+
+# df = df.select(*schema_json.keys())
+df.printSchema()
+logger.info(f'Shape {(df.count(), len(df.columns))}')
+
+
+-----------------------------------
+If we generate a parquet file with schema, AWS crawler can find the schema even without any data
