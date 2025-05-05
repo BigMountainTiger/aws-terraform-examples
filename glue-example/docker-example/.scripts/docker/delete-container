@@ -1,7 +1,0 @@
-#!/bin/bash
-
-CONTAINER_NAME="glue_local"
-
-if [ "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
-    docker container rm "$CONTAINER_NAME"
-fi
