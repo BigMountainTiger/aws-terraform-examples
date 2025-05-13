@@ -13,14 +13,29 @@
 # Use realpath for the absolute path
 SCRIPT_PATH="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
 
-HOST_GLUE_WORKSPACE="$SCRIPT_PATH/../../workspace/glue"
+HOST_GLUE_WORKSPACE="$SCRIPT_PATH/../../../workspace/glue"
 CONTAINER_GLUE_WORKSPACE="/home/glue_user/workspace/glue"
 
 IMAGE="amazon/aws-glue-libs:glue_libs_4.0.0_image_01"
-CONTAINER_NAME="glue_local"
+CONTAINER_NAME="glue_libs_4.0.0_image_01"
+
+if [ "$1" == "-d" ]; then
+    read -p "Are you sure to delete the docker container $CONTAINER_NAME? (y/N) " -n 1 -r
+
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        if [ "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
+            echo -e "\nClearing the $CONTAINER_NAME"
+            docker container rm "$CONTAINER_NAME"
+        else
+            echo -e "\n$CONTAINER_NAME does not exist"
+        fi
+    fi
+
+    exit 0
+fi
 
 if [ ! "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
-    
+
     docker run -it \
         -v $HOST_GLUE_WORKSPACE:$CONTAINER_GLUE_WORKSPACE:rw \
         -e DISABLE_SSL=true \
