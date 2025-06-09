@@ -1,0 +1,10 @@
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_resource_policy
+
+The resource based IAM policy on cloudwatch log groups is different
+- It is not attached to any log group
+- It is set on the cloudwatch logs in general
+- It can not be set through the AWS console, it can be set by AWS CLI and terraform
+
+See the example in the iam.tf.
+The name of the policy needs to be unique among all "aws_cloudwatch_log_resource_policy", either created by
+terraform, AWS CLI or any other means
