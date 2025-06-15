@@ -1,0 +1,21 @@
+#!/bin/bash
+
+EVENT_BUS="default"
+
+ENTRIES='[
+  {
+    "DetailType": "Glue Job State Change",
+    "Source": "aws.glue",
+    "Time": "'"$(date +%FT%T%z)"'",
+    "Resources": [],
+    "Detail": {
+        "jobName": "simulated-glue-job-example",
+        "severity": "INFO",
+        "state": "SUCCEEDED",
+        "message": "Job run succeeded"
+    }
+  }
+]'
+
+aws events put-events \
+  --entries "$ENTRIES"
