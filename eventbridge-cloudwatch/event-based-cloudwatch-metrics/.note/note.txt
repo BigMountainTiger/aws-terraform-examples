@@ -1,0 +1,12 @@
+{
+    "detail-type": "Glue Job State Change",
+    "source": "aws.glue",
+    "time": "2025-06-16T18:32:05Z",
+    "resources": [],
+    "detail": {
+        "jobName": "simulated-glue-job-example",
+        "severity": "INFO",
+        "state": "SUCCEEDED",
+        "message": "Job run succeeded"
+    }
+}
