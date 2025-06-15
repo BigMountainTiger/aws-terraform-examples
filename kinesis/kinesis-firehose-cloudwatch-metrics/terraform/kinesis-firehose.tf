@@ -57,6 +57,8 @@ resource "aws_kinesis_firehose_delivery_stream" "http" {
 
     request_configuration {
       
+      # https://docs.aws.amazon.com/firehose/latest/dev/httpdeliveryrequestresponse.html
+      # common_attributes are sent to target as the header attribute => "X-Amz-Firehose-Common-Attributes"
       common_attributes {
         name  = "example_attribute_1"
         value = "example_value_1"
