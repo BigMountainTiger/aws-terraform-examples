@@ -18,5 +18,6 @@
         "**/lambdas_copy": true
     },
     "python.terminal.activateEnvironment": false,
-    "terminal.integrated.gpuAcceleration": "off"
+    "terminal.integrated.gpuAcceleration": "off",
+    "gitlens.mode.active": "zen"
 }
