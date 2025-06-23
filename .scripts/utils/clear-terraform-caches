@@ -1,0 +1,23 @@
+#!/bin/bash
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+WHAT=$1
+case "$WHAT" in
+list | l)
+    find . -type d -name ".terraform" -print
+    ;;
+delete | d)
+    find . -type d -name ".terraform" -print | xargs -I {} rm -rf {}
+    find . -type d -name ".terraform" -print
+    ;;
+*)
+    echo -e "This command deletes the .terraform directories that take large disk spaces"
+    echo -e "Only the following operations are supported:\n"
+    echo -e "clear-terraform-caches $(red l) | list - list all the .terraform directories"
+    echo -e "clear-terraform-caches $(red d) | delete - delete all the .terraform directories"
+    exit 1
+    ;;
+esac

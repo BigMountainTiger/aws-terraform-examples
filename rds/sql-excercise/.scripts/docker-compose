@@ -9,16 +9,16 @@ red() {
 }
 
 case "$WHAT" in
-    "u"|"up") 
-        docker compose -f $SCRIPT_PATH/docker-compose.yml up -d
+"u" | "up")
+    docker compose -f $SCRIPT_PATH/docker-compose.yml up -d
     ;;
-    "d"|"down")
-        docker compose -f $SCRIPT_PATH/docker-compose.yml down
-        ;;
-    *)
-        echo -e "Only the following operations are supported:\n"
-        echo -e "docker-compose $(red u)|up"
-        echo -e "docker-compose $(red d)|down"
-        exit 1
-        ;;
+"d" | "down")
+    docker compose -f $SCRIPT_PATH/docker-compose.yml down --volumes
+    ;;
+*)
+    echo -e "Only the following operations are supported:\n"
+    echo -e "docker-compose $(red u)|up"
+    echo -e "docker-compose $(red d)|down"
+    exit 1
+    ;;
 esac

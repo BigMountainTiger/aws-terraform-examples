@@ -1,4 +1,16 @@
 {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "args": [
+                "-l"
+            ],
+            "env": {
+                "PROJECT_BASE": "/home/song/Sandbox/aws-terraform-examples"
+            }
+        }
+    },
     "files.exclude": {
         "**/.git": true,
         "**/.terraform": true,
