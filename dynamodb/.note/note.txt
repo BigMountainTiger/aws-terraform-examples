@@ -1,0 +1,7 @@
+1. Dynamodb point-in-time recovery is pretty cheap and the price only depends on the size of the table, but not the backups
+    - https://stackoverflow.com/questions/75473284/pricing-of-dynamodb-continuous-backups
+    - https://aws.amazon.com/dynamodb/pitr/
+
+2. Dynamodb put and update are similar, but put "REPLACE" the item if already exists, but update so an "UPDATE" on the attributes
+    - If an attribute is not in the payload, it will not be updated (no change)
+    - https://stackoverflow.com/questions/43667229/difference-between-dynamodb-putitem-vs-updateitem
