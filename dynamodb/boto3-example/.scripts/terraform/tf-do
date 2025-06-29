@@ -9,7 +9,7 @@ fi
 
 cd terraform
 
-terraform init -reconfigure
+terraform init -reconfigure -upgrade
 
 case "${what}" in
     "p")
