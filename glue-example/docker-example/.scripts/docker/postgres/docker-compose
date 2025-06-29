@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+WHAT=$1
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+case "$WHAT" in
+"u" | "up")
+    docker compose -f $SCRIPT_PATH/docker-compose.yml up -d
+    ;;
+"d" | "down")
+    docker compose -f $SCRIPT_PATH/docker-compose.yml down --volumes
+    ;;
+*)
+    echo -e "Only the following operations are supported:\n"
+    echo -e "docker-compose $(red u)|up"
+    echo -e "docker-compose $(red d)|down"
+    exit 1
+    ;;
+esac

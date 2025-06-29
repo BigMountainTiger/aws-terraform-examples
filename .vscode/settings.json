@@ -30,6 +30,7 @@
         "**/lambdas_copy": true
     },
     "python.terminal.activateEnvironment": false,
+    "python.languageServer": "Default",
     "terminal.integrated.gpuAcceleration": "off",
     "gitlens.mode.active": "zen"
 }

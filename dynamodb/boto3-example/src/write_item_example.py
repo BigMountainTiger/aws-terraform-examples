@@ -7,6 +7,7 @@ TABLE_NAME = 'dynamodb-transaction-example-table'
 def put():
     client = boto3.client('dynamodb')
 
+    # None is not acceptable as string type in dynamodb, so make it ''
     item = {'id': {'S': '1'}, 'entry_name': {'S': None or ''}}
 
     response = None
@@ -77,7 +78,7 @@ def read():
     # If no item in the dynamodb, the following willl throw exception
     # because item is None
     item = response.get('Item')
-    
+
     # If no entry_name attribute in the item, the following willl throw exception
     # because attribute is None
     attribute = item.get('entry_name')

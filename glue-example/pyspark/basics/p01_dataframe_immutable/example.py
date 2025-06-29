@@ -1,0 +1,27 @@
+import pyspark.sql.functions as psf
+from pyspark.sql import SparkSession
+
+spark: SparkSession = SparkSession.builder.getOrCreate()
+spark.sparkContext.setLogLevel('ERROR')
+
+
+if __name__ == '__main__':
+
+    data = [
+        {'id': None, 'student': 'X', 'score': 100},
+        {'id': 1, 'student': 'Song', 'score': 100},
+        {'id': 2, 'student': 'Trump', 'score': 20},
+        {'id': 3, 'student': 'Biden', 'score': 20}
+    ]
+
+    df = spark.createDataFrame(data)
+
+    # 1. Single '&' is for 'and'
+    # 2. Explict () may be needed, ie. "(df['score'] > 50)""
+    sub_df = df.filter((df['score'] > 50) & df['id'].isNotNull())
+
+    print('The sub dataframe')
+    sub_df.show()
+
+    print('The original dataframe is not modified. pyspark dataframes are immutable')
+    df.show()
