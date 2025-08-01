@@ -42,3 +42,16 @@ if __name__ == '__main__':
     column_name = 'Students'
     exits = column_name.lower() in (n.lower() for n in df.columns)
     print(f'column "{column_name}" exists = {exits}')
+
+    # Use set can improve performance
+    print()
+    print('Use set for fast checks')
+    column_names = set((n.lower() for n in df.columns))
+
+    column_name = 'ID'
+    exits = column_name.lower() in column_names
+    print(f'column "{column_name}" exists = {exits}')
+
+    column_name = 'Students'
+    exits = column_name.lower() in column_names
+    print(f'column "{column_name}" exists = {exits}')
