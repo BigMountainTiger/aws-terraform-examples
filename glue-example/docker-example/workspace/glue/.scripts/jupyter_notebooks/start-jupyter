@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# 1. To start jupyter notebook in the glue docker container, run the jupyter_start.sh in the container
+#    We can read the script:
+#    cat ~/jupyter/jupyter_start.sh
+
+# 2. If need to change where the notebook files are saved, need to edit he "jupyter_start.sh" file to change the notebook workspace location
+#    the container has nano installed by default
+#    We can actually edit the "jupyter_start.sh" like the following
+
+WHOAMI="$(whoami)"
+if [[ "$WHOAMI" != "glue_user" ]]; then
+    echo "This script is expected to run by glue_user inside the container, not by $WHOAMI"
+    exit
+fi
+
+JUPYTER_WORKSPACE="/home/glue_user/workspace/glue/jupyter_workspace/"
+
+SCRIPT='
+#!/bin/bash
+# source /home/glue_user/.bashrc
+if [[ ! "$?" -eq 1 ]]; then
+    livy-server start
+    if [[ -z ${DISABLE_SSL} ]]; then
+        echo "Starting Jupyter with SSL"
+        jupyter lab --no-browser --ip=0.0.0.0 --allow-root \
+        --ServerApp.root_dir='"$JUPYTER_WORKSPACE"' \
+        --ServerApp.token='' \
+        --ServerApp.password='' \
+        --certfile=/home/glue_user/.certs/container_certs/my_key_store.pem \
+        --keyfile /home/glue_user/.certs/container_certs/my_key_store_key.key
+    else
+        echo "SSL Disabled"
+        jupyter lab --no-browser --ip=0.0.0.0 --allow-root \
+        --ServerApp.root_dir='"$JUPYTER_WORKSPACE"' \
+        --ServerApp.token='' \
+        --ServerApp.password=''
+    fi
+fi
+'
+
+echo "$SCRIPT" > ~/jupyter/jupyter_start.sh
+
+# 3. In order the container has access to the workspace location, need to change the permission on the folder from the host computer
+#    for example:
+#    chmod 777 workspace/glue/jupyter_notebooks/ where the glue directory is mapped to "/home/glue_user/workspace/glue" in the notebook (in image 4.0) 
+
+# 4. If need to export additional environment variables, we can set them before running "jupyter_start.sh"
+
+export AWS_REGION="us-east-1"
+export AWS_DEFAULT_REGION="us-east-1"
+
+# 5. If need to have AWS credentials, we can export the environment variables before running "" as well
+#    for example:
+#    export AWS_ACCESS_KEY_ID=$AccessKeyId
+#    export AWS_SECRET_ACCESS_KEY=$SecretAccessKey
+#    export AWS_SESSION_TOKEN=$SessionToken
+
+# 6. The docker container needs to map the 8888 port to the host so the notebook is accessible
+#    -p 8888:8888
+
+# Now start the jupyter notebook
+# ** We need to change the current script file to 777 as well so the glue_user can run it
+~/jupyter/jupyter_start.sh
+
+
+# The notebook is accessible by - http://127.0.0.1:8888/lab
