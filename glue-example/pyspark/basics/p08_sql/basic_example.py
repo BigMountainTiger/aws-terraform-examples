@@ -24,6 +24,7 @@ if __name__ == '__main__':
     df_student_score = spark.read.json(rdd, multiLine=True, mode='FAILFAST')
 
 
+    # The name of a temp view has to be a single part string (no dot '.' to simulate database schema_name.table_name structure)
     df_student.createOrReplaceTempView('student')
     df_student_score.createOrReplaceTempView('student_score')
 

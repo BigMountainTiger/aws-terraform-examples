@@ -42,6 +42,7 @@ if [ ! "$CONTAINER_EXITS" ]; then
         -v $HOST_GLUE_WORKSPACE:$CONTAINER_GLUE_WORKSPACE:rw \
         -e DISABLE_SSL=true \
         -p 4040:4040 \
+        -p 8888:8888 \
         -p 18080:18080 \
         --name "$CONTAINER_NAME" \
         --add-host "host.docker.internal:host-gateway" \
