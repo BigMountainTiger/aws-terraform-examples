@@ -1,0 +1,8 @@
+#!/bin/bash
+
+name="sqs-message-publisher"
+
+aws lambda invoke \
+    --function-name $name \
+    --output json \
+    /dev/stdout

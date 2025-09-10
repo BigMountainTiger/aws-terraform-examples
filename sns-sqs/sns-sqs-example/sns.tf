@@ -22,8 +22,8 @@ resource "aws_sns_topic_policy" "example_sns_topic" {
       "Resource": "${aws_sns_topic.example_sns_topic.arn}",
       "Condition": {
         "StringEquals": {
-          "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}"
-          }
+          "aws:PrincipalAccount": "${data.aws_caller_identity.current.account_id}"
+        }
       }
     },
     {
