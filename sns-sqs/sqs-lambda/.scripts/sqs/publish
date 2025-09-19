@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sqs_url="https://sqs.us-east-1.amazonaws.com/939653976686/example-sqs-queue"
+
+
+aws sqs send-message \
+    --queue-url $sqs_url \
+    --message-body "This is my message content"
