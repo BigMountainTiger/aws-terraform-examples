@@ -1,6 +1,6 @@
 #!/bin/bash
 
-name="sqs-message-publisher"
+name="sns-message-publisher"
 
 aws lambda invoke \
     --function-name $name \

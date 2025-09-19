@@ -1,7 +1,7 @@
 data "archive_file" "zip_publisher" {
   type        = "zip"
-  output_path = "${path.module}/.tf-zip/sqs_publisher.zip"
-  source_dir  = "${path.module}/lambdas/sqs_publisher"
+  output_path = "${path.module}/.tf-zip/sns_publisher.zip"
+  source_dir  = "${path.module}/lambdas/sns_publisher"
 }
 
 
