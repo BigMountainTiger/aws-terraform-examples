@@ -1,6 +1,5 @@
 locals {
-  sqs_name    = "sqs-lambda-example"
-  lambda_publisher_name = "sqs-message-publisher"
-  lambda_consumer_name = "sqs-lambda-example-processor"
-  visibility_timeout = 60
+  sns_name    = "sns-lambda-example"
+  lambda_publisher_name = "sns-message-publisher"
+  lambda_subscriber_name = "sns-lambda-example-subcriber"
 }

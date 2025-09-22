@@ -5,9 +5,9 @@ def lambdaHandler(event, context):
 
     Records = event['Records']
     for record in Records:
-        body = record['body']
+        message = record['Sns']['Message']
 
-        print(body)
+        print(message)
 
     return {
         'statusCode': 200,

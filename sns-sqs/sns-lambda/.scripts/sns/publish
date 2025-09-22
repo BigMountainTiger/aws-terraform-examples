@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sns_arn="arn:aws:sns:us-east-1:939653976686:sns-lambda-example"
+
+aws sns publish \
+    --topic-arn  $sns_arn \
+    --message "This is my message content"

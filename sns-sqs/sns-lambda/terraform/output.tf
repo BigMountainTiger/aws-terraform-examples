@@ -1,5 +1,5 @@
-output "sqs_url" {
-  value = aws_sqs_queue.queue.url
+output "sns_arn" {
+  value = aws_sns_topic.topic.arn
 }
 
 output "publisher_lambda_name" {
