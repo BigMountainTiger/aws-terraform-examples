@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Need the following information
 # 1. The lambda name
@@ -19,13 +19,21 @@ WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
     cd $WORKSPACE/lambda
 
     if [ -f "$REQUIREMENTS" ]; then
+        if ! [ -x "$(command -v pip)" ]; then
+            echo 'pip is not installed, we need pip to create the deployment package' >&2
+            exit 1
+        fi
 
         # May need the --platform to install the dependencies for aws lambda
         # --platform=manylinux2014_x86_64 --only-binary=:all:
         pip install -r "$REQUIREMENTS" -q -t .
     fi
 
-    zip -rq "../lambda.zip" .
+    find . -type d -name "__pycache__" -exec rm -rf {} +
+    rm -f $REQUIREMENTS
+
+    ZIP_FILE="../lambda.zip"
+    zip -rq $ZIP_FILE . && du -h $ZIP_FILE && echo "Created the deployment package"
 )
 
 (

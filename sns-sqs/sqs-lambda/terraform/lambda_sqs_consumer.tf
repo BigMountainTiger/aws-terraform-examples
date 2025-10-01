@@ -61,6 +61,17 @@ resource "aws_iam_role_policy" "lambda_consumer_execution_role" {
         "Resource" : [
           "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/*"
         ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes"
+        ],
+        "Resource" : [
+          "${aws_sqs_queue.queue.arn}"
+        ]
       }
     ]
   })

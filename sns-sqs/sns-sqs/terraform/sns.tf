@@ -22,8 +22,8 @@ resource "aws_sns_topic_policy" "topic" {
           ],
           "Resource" : "${aws_sns_topic.topic.arn}",
           "Condition" : {
-            "StringEquals" : {
-              "aws:PrincipalAccount" : "${data.aws_caller_identity.current.account_id}"
+            "ArnLike" : {
+              "aws:PrincipalArn" : "arn:aws:*:*:${data.aws_caller_identity.current.account_id}:*"
             }
           }
         }
