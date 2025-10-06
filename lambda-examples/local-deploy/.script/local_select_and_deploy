@@ -1,0 +1,104 @@
+#!/bin/bash -e
+
+# This script look at the folder for all the sub-folders
+# It gives the options to select to deploy which lambda
+
+# It is better to assign absolute paths, so the script can be executed at any PWD
+LAMDBA_PATH="The_path_that_has_the_lambda_folders"
+TEMP_WORKSPACE="The_directory_used_as_temporary_workspace_to_create_the_zip_to_deploy"
+
+ENV="$1"
+
+if ! [[ "$ENV" == "dev" || "$ENV" == "qa" ]]; then
+    echo "You need to give the environment i.e. dev/qa"
+    exit 1
+fi
+
+lambda=""
+select_lambda() {
+
+    lambdas=($(cd $LAMDBA_PATH && find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n'))
+    lambdas=($(echo "${lambdas[@]}" | tr ' ' '\n' | sort))
+
+    for i in "${!lambdas[@]}"; do
+        echo "$i - ${lambdas[$i]}"
+    done
+    echo -n "Please select which lambda to deploy: "
+    read -r i
+
+    if [[ ! $i =~ ^[0-9]+$ ]]; then
+        echo "You need type an integer >= 0"
+        exit 1
+    fi
+
+    lambda="${lambdas[$i]}"
+    if [[ -z ${lambda} ]]; then
+        echo "Your selection $i is not valid"
+        exit 1
+    fi
+}
+
+deploy_lambda() {
+
+    LAMBDA_DIR="$LAMDBA_PATH/$lambda"
+
+    if ! [ -d "$LAMBDA_DIR" ]; then
+        echo "The $LAMBDA_DIR directory does not exist"
+        exit 1
+    fi
+
+    (
+        rm -rf $TEMP_WORKSPACE && mkdir -p $TEMP_WORKSPACE
+        cp -r $LAMBDA_DIR $TEMP_WORKSPACE/lambda
+    )
+
+    (
+        REQUIREMENTS="requirements.txt"
+        cd $TEMP_WORKSPACE/lambda
+
+        CUSTOM_INSTALL="./custom_install"
+        if [ -f "$CUSTOM_INSTALL" ]; then
+            echo "Running custom install"
+            . "$CUSTOM_INSTALL"
+        else
+            if [ -f "$REQUIREMENTS" ]; then
+                if ! [ -x "$(command -v pip)" ]; then
+                    echo 'pip is not installed, we need pip to create the deployment package' >&2
+                    exit 1
+                fi
+
+                pip install -r "$REQUIREMENTS" -q -t .
+            fi
+        fi
+
+        find . -type d -name "__pycache__" -exec rm -rf {} +
+        rm -f $REQUIREMENTS $CUSTOM_INSTALL
+
+        ZIP_FILE="../lambda.zip"
+        zip -rq $ZIP_FILE . && du -h $ZIP_FILE && echo "Created the deployment package"
+    )
+
+    (
+        cd $TEMP_WORKSPACE
+        lambda_name="$lambda-$ENV"
+        aws lambda update-function-code \
+            --region us-east-1 \
+            --function-name "$lambda_name" \
+            --zip-file fileb://lambda.zip 1>/dev/null
+
+        echo "Lambda code deployed to $lambda_name"
+        echo "Waiting for aws to complete the update"
+        aws lambda wait function-updated --region us-east-1 --function-name $lambda_name
+
+        echo "Done"
+    )
+}
+
+clean_up() {
+    rm -rf $TEMP_WORKSPACE
+}
+
+trap clean_up EXIT
+
+select_lambda
+deploy_lambda

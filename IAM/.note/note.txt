@@ -1,0 +1,5 @@
+Request context
+https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html
+
+principal - The user, service, or account that receives permissions that are defined in a policy
+https://docs.aws.amazon.com/glossary/latest/reference/glos-chap.html?icmpid=docs_homepage_addtlrcs#principal
