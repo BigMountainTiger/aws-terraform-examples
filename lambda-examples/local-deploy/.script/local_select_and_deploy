@@ -9,10 +9,14 @@ TEMP_WORKSPACE="The_directory_used_as_temporary_workspace_to_create_the_zip_to_d
 
 ENV="$1"
 
-if ! [[ "$ENV" == "dev" || "$ENV" == "qa" ]]; then
-    echo "You need to give the environment i.e. dev/qa"
+if ! [[ "$ENV" == "sbx" || "$ENV" == "dev" || "$ENV" == "qa" ]]; then
+    echo "You need to give the environment i.e. sbx/dev/qa"
     exit 1
 fi
+
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
 
 lambda=""
 select_lambda() {
@@ -20,10 +24,11 @@ select_lambda() {
     lambdas=($(cd $LAMDBA_PATH && find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n'))
     lambdas=($(echo "${lambdas[@]}" | tr ' ' '\n' | sort))
 
+    echo -e "Available lambdas:\n"
     for i in "${!lambdas[@]}"; do
         echo "$i - ${lambdas[$i]}"
     done
-    echo -n "Please select which lambda to deploy: "
+    echo -en "\nPlease select which lambda to deploy: "
     read -r i
 
     if [[ ! $i =~ ^[0-9]+$ ]]; then
@@ -67,7 +72,7 @@ deploy_lambda() {
                     exit 1
                 fi
 
-                pip install -r "$REQUIREMENTS" -q -t .
+                pip install --platform=manylinux2014_x86_64 --only-binary=:all: -r "$REQUIREMENTS" -q -t .
             fi
         fi
 
@@ -75,7 +80,18 @@ deploy_lambda() {
         rm -f $REQUIREMENTS $CUSTOM_INSTALL
 
         ZIP_FILE="../lambda.zip"
-        zip -rq $ZIP_FILE . && du -h $ZIP_FILE && echo "Created the deployment package"
+
+        if command_exists zip; then
+            zip -9 -rq $ZIP_FILE .
+        elif command_exists 7z; then
+            7z -mx=9 a $ZIP_FILE . 1>/dev/null
+        else
+            echo "No zip utility found in your environment, i.e. zip or 7z"
+            echo "Please install either zip or 7z"
+            exit 1
+        fi
+
+        du -h $ZIP_FILE && echo "Created the deployment package"
     )
 
     (
