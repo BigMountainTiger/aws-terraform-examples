@@ -21,7 +21,7 @@ init() {
     WORKSPACE="${WORKSPACE_NAME/$ENV_PLACE_HOLDER/$env}"
     export TF_WORKSPACE="$WORKSPACE"
 
-    echo "Initializing $WORKSPACE ..."
+    echo -e "\nInitializing $WORKSPACE"
     terraform init -upgrade
 
     unset TF_WORKSPACE
@@ -49,4 +49,5 @@ case "$1" in
         exit 1
         ;;
 esac
+
 
