@@ -99,8 +99,8 @@ finally:
 
 # ------------------------------------------------
 
-salesforce_csv = f's3://{s3_bucket}/salesforce_ingestion/SF_2025_10.csv'
-df = pd.read_csv(salesforce_csv)
+example_csv = f's3://{s3_bucket}/example_ingestion/SF_2025_10.csv'
+df = pd.read_csv(example_csv)
 df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 df = df.rename(columns={c[0]: c[0].replace(' ', '_') for c in df.dtypes.items()})
 
@@ -140,7 +140,7 @@ def save_to_parquet_glue_table(database_name, table_name, df):
     
     print(f'The query {state}')
     
-save_to_parquet_glue_table(database_name, 'salesforce_ingestion', df)
+save_to_parquet_glue_table(database_name, 'example_ingestion', df)
 
 print('Done')
 

@@ -36,7 +36,8 @@ if __name__ == '__main__':
     try:
         df_new_data = pd.DataFrame({
             'id': [1, 2, 3],
-            'name': ['Alice', 'Bob', 'Charlie']
+            'name': ['Alice', 'Song', 'Ben'],
+            'deleted': [1, 0, 0]
         })
 
         clean_up()
@@ -50,9 +51,13 @@ if __name__ == '__main__':
             table=temp_upsert_source
         )
 
+        # Athena does not support FULL Merge syntax
+        # Using the source.deleted marker for deletion require the target table has the row in the target (MATCHED)
+        # Otherwise it will be an insertion because it is NOT MATCHED
         merge_sql = f"""
             MERGE INTO {database_name}.{table_name} AS target
             USING {database_name}.{temp_upsert_source} AS source ON target.id = source.id
+            WHEN MATCHED AND source.deleted = 1 THEN DELETE
             WHEN MATCHED THEN UPDATE SET name = source.name
             WHEN NOT MATCHED THEN INSERT (id, name) VALUES (source.id, source.name)
         """
@@ -70,7 +75,10 @@ if __name__ == '__main__':
 
         QueryExecutionId = response['QueryExecutionId']
         print(f'Waiting for {QueryExecutionId} to complete')
-        wr.athena.wait_query(QueryExecutionId)
+        result = wr.athena.wait_query(QueryExecutionId)
+        state = result['Status']['State']
+
+        print(state)
 
     finally:
         clean_up()

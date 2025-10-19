@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Use this script to do local pushed plan on HCP terraform workspaces
+
+WORKSPACE_PATH="$PROJECT_BASE/$PROJECT_NAME/terraform"
+WORKSPACE_NAME="prefix-{{ENV}}-postfix"
+declare -a ENVS=("env1" "env2" "env3" "env4")
+
+init() {
+
+    for i in "${!ENVS[@]}"; do
+        echo "$i - ${ENVS[$i]}"
+    done
+    echo -n "Please select the environment to initialize: "
+    read -r i
+
+    if [[ ! $i =~ ^[0-9]+$ ]]; then echo "You need to type an integer >= 0" && exit 1; fi
+
+    env="${ENVS[$i]}"
+    if [[ -z $env ]]; then echo "Your selection $i is not valid" && exit 1; fi
+
+    ENV_PLACE_HOLDER="{{ENV}}"
+    WORKSPACE="${WORKSPACE_NAME/$ENV_PLACE_HOLDER/$env}"
+    export TF_WORKSPACE="$WORKSPACE"
+
+    echo -e "\nInitializing $WORKSPACE"
+    terraform init -upgrade
+
+    unset TF_WORKSPACE
+    terraform workspace select $WORKSPACE
+    terraform workspace show
+}
+
+cd $WORKSPACE_PATH
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+case "$1" in
+    "login") terraform login ;;
+    "init"|"i") init ;;
+    "which"|"w") terraform workspace show ;;
+    "plan"|"p") terraform plan ;;
+    *)
+        echo -e "Only the following operations are supported:\n"
+        echo "run login"
+        echo -e "run [$(red i)]nit"
+        echo -e "run [$(red w)]hich"
+        echo -e "run [$(red p)]lan"
+        exit 1
+        ;;
+esac
+
