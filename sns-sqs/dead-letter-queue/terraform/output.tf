@@ -1,0 +1,3 @@
+output "sql_url" {
+  value = aws_sqs_queue.queue.url
+}

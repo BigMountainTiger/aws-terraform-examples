@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sqs_url=""
+
+
+aws sqs send-message \
+    --queue-url $sqs_url \
+    --message-body "This is a test message"

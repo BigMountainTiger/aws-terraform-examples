@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export AWS_REGION="us-east-1"
+export AWS_DEFAULT_REGION="us-east-1"
+
+spark-submit python/ATest_utils.py
