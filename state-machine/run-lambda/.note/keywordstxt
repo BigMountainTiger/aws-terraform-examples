@@ -1,0 +1,11 @@
+1. InputPath: What goes to input
+
+2. Parameters - Json send to the task, it can be constructed with both dynamic JSONPATH values & static values
+
+3. ACTUAL TASK (pass (Parameters becomes Result with no modifications), wait, lambda, or glue, etc)
+
+4. Result - default is the task output, Use "Result" property to override it. It can be constructed with only static values
+
+5. ResultPath: How to merge the input and the result (Default is the Result to replace input)
+
+6. OutputPath: What goes to the output
