@@ -1,0 +1,11 @@
+#!/bin/bash
+
+input='{
+    "glue_job_arguments": {
+        "--parameter_1": "value_1"
+    }
+}'
+
+aws stepfunctions start-execution \
+    --state-machine-arn "arn:aws:states:us-east-1:939653976686:stateMachine:state-machine-run-glue-job-example" \
+    --input "$input"

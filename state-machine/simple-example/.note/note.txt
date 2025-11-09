@@ -1,0 +1,35 @@
+1. InputPath:
+
+-- InputPath selects a specific portion of the state's input JSON to be passed to the state's task (e.g., a Lambda function).
+-- If InputPath is omitted, the entire input JSON ($) is passed.
+-- If InputPath is set to null, the input is entirely discarded, meaning the task receives an empty input.
+
+2. ResultPath:
+
+-- ResultPath determines how the result of a state's task is combined with the original state input.
+-- By default, the task's result replaces the entire input ($).
+-- ResultPath can be used to insert the result into a specific location within the original input, or to completely replace the input with the result.
+-- If ResultPath is set to null, the task's result is discarded, and the original state input remains unchanged for subsequent processing within the state.
+
+3. OutputPath:
+
+-- OutputPath filters the final JSON output of a state before it is passed as input to the next state in the workflow.
+-- It selects a specific portion of the state's internal output (which includes the result of ResultPath processing).
+-- If OutputPath is omitted, the entire internal output ($) is passed to the next state.
+-- If OutputPath is set to null, the output to the next state will be an empty JSON object ({}). This differs from omitting OutputPath, where the full processed state output is passed.
+
+
+4. $$ allows you to access fields within the Context Object
+
+-- $$.Execution.Input: This refers to the original input provided when the Step Function execution was initiated. This is useful when you need to access a piece of data from the initial input at any point in your workflow, even if it has been filtered or transformed by previous states.
+-- $$.Execution.Id: This provides the unique ID of the current Step Functions execution.
+-- $$.StateMachine.Id: This provides the ID of the state machine currently executing.
+-- $$.State.EnteredTime: This provides the timestamp when the current state was entered.
+
+5. step function use jsonpath to access the parameters
+
+-- https://jsonpath.com/
+-- $.variable => to get the value of the variable from the json
+-- variable.$ => the value of the variable will be dynamically constructed during the execution
+
+6. step functions do not support ternary operator. Need to use "choice" for case switchs

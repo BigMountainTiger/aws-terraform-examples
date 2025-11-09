@@ -5,4 +5,4 @@ sqs_url="https://sqs.us-east-1.amazonaws.com/939653976686/example-queue"
 
 aws sqs send-message \
     --queue-url $sqs_url \
-    --message-body "This is a test message"
+    --message-body "This is a test sqs message"
