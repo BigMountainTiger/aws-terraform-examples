@@ -1,5 +1,5 @@
 locals {
-  step_function_name      = "state-machine-run-glue-job-example"
+  step_function_name      = "glue-job-example"
   step_function_role_name = "${local.step_function_name}-role"
 }
 

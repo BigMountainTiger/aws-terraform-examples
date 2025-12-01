@@ -26,10 +26,18 @@
 -- $$.StateMachine.Id: This provides the ID of the state machine currently executing.
 -- $$.State.EnteredTime: This provides the timestamp when the current state was entered.
 
-5. step function use jsonpath to access the parameters
+5. step function use jsonpath to access the parameters ".$" vs "$."
 
 -- https://jsonpath.com/
 -- $.variable => to get the value of the variable from the json
 -- variable.$ => the value of the variable will be dynamically constructed during the execution
 
-6. step functions do not support ternary operator. Need to use "choice" for case switchs
+7. "Parameters"
+
+-- a JSON object that defines a collection of key-value pairs used to pass data to a service API
+-- In a "pass" step it will by default become the Result of the step and passed to the next step
+-- "Parameters" support both static values and dynamically assigned JSONPATH values
+
+8. step functions do not support ternary operator. Need to use "choice" for case switchs
+
+
