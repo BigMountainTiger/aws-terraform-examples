@@ -1,14 +1,14 @@
 import pandas as pd
 import awswrangler as wr
 from athena_client import AthenaClient
-from parquet_client import ParquetClient
+from csv_client import CSVClient
 
 database_name = 'athena_example_database'
 bucket = 'athena-example-huge-head-li'
 s3_database_dir = f's3://{bucket}/database/{database_name}'
 s3_athena_output_dir = f's3://{bucket}/temp/athena'
 
-parquet_client = ParquetClient()
+csv_client = CSVClient()
 athena_client = AthenaClient(database_name, s3_athena_output_dir)
 
 DATA_SET_1 = [
@@ -24,10 +24,10 @@ DATA_SET_2 = [
 ]
 
 
-class TableParquetSimple:
+class TableCSVSimple:
     def __init__(self):
         self.database_name = database_name
-        self.table_name = 'table_parquet_simple'
+        self.table_name = 'table_csv_simple'
         self.s3_table_path = f'{s3_database_dir}/{self.table_name}'
 
     def create_table(self):
@@ -35,18 +35,26 @@ class TableParquetSimple:
             CREATE EXTERNAL TABLE IF NOT EXISTS {self.database_name}.{self.table_name} (
                 id INT, name STRING, age INT
             )
-            STORED AS PARQUET
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            WITH SERDEPROPERTIES (
+                'separatorChar' = ',',
+                'quoteChar' = '"'
+            )
+            STORED AS TEXTFILE
             LOCATION '{self.s3_table_path}'
+            TBLPROPERTIES (
+                'skip.header.line.count'='1'
+            )
         """
 
         athena_client.execute_sql_query(sql)
 
     def insert_data(self):
         df1 = pd.DataFrame(DATA_SET_1)
-        parquet_client.write_parquet(df1, f'{self.s3_table_path}/data1.parquet')
+        csv_client.write_csv(df1, f'{self.s3_table_path}/data1.csv')
 
         df2 = pd.DataFrame(DATA_SET_2)
-        parquet_client.write_parquet(df2, f'{self.s3_table_path}/data2.parquet')
+        csv_client.write_csv(df2, f'{self.s3_table_path}/data2.csv')
 
         athena_client.repair_glue_table(self.table_name)
 
@@ -59,13 +67,13 @@ class TableParquetSimple:
         self.create_table()
         self.insert_data()
 
-        print('Tested TableParquetSimple.')
+        print('Tested TableCSVSimple')
 
 
-class TableParquetPartitioned:
+class TableCSVPartitioned:
     def __init__(self):
         self.database_name = database_name
-        self.table_name = 'table_parquet_partitioned'
+        self.table_name = 'table_csv_partitioned'
         self.s3_table_path = f'{s3_database_dir}/{self.table_name}'
 
     def create_table(self):
@@ -74,18 +82,26 @@ class TableParquetPartitioned:
                 id INT, name STRING, age INT
             )
             PARTITIONED BY (team INT)
-            STORED AS PARQUET
+            ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+            WITH SERDEPROPERTIES (
+                'separatorChar' = ',',
+                'quoteChar' = '"'
+            )
+            STORED AS TEXTFILE
             LOCATION '{self.s3_table_path}'
+            TBLPROPERTIES (
+                'skip.header.line.count'='1'
+            )
         """
 
         athena_client.execute_sql_query(sql)
 
     def insert_data(self):
         df1 = pd.DataFrame(DATA_SET_1)
-        parquet_client.write_parquet(df1, f'{self.s3_table_path}/team=1/data1.parquet')
+        csv_client.write_csv(df1, f'{self.s3_table_path}/team=1/data1.csv')
 
         df2 = pd.DataFrame(DATA_SET_2)
-        parquet_client.write_parquet(df2, f'{self.s3_table_path}/team=2/data2.parquet')
+        csv_client.write_csv(df2, f'{self.s3_table_path}/team=2/data2.csv')
 
         athena_client.repair_glue_table(self.table_name)
 
@@ -98,12 +114,12 @@ class TableParquetPartitioned:
         self.create_table()
         self.insert_data()
 
-        print('Tested TableParquetPartitioned.')
+        print('Tested TableCSVPartitioned')
 
 
 if __name__ == '__main__':
-    table_parquet_simple = TableParquetSimple()
-    table_parquet_simple.run()
+    table_csv_simple = TableCSVSimple()
+    table_csv_simple.run()
 
-    table_parquet_partitioned = TableParquetPartitioned()
-    table_parquet_partitioned.run()
+    table_csv_partitioned = TableCSVPartitioned()
+    table_csv_partitioned.run()
