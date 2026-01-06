@@ -35,6 +35,5 @@
     "[terraform]": {
         "editor.tabSize": 2,
         "editor.detectIndentation": false
-    },
-    "gitlens.mode.active": "zen"
+    }
 }
