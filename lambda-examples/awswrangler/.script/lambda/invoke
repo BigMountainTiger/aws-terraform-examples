@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+LAMBDA="awswrangler_example"
+
+aws lambda invoke \
+    --region us-east-1 \
+    --function-name $LAMBDA

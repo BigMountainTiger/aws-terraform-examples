@@ -5,8 +5,8 @@
 # 2. The directory of the lambda source code
 # 3. The temporary folder to do the work. The source code it copied to the workspace so it does not affect the soure directory
 
-LAMBDA="external-code-deploy-example"
-LAMBDA_DIR="/home/song/Sandbox/aws-terraform-examples/lambda-examples/external-code-deploy/lambdas/external-lambda-code"
+LAMBDA="awswrangler_example"
+LAMBDA_DIR="/home/song/Sandbox/aws-terraform-examples/lambda-examples/awswrangler/lambdas/awswrangler_example"
 WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
 
 (
@@ -24,12 +24,12 @@ WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
             exit 1
         fi
 
-        # May need the --platform to install the dependencies for aws lambda
-        # --platform=manylinux2014_x86_64 --only-binary=:all:
-        pip install -r "$REQUIREMENTS" -q -t .
+        # pip install -r "$REQUIREMENTS" -q -t .
+        pip install -r "$REQUIREMENTS" -q -t . --platform=manylinux2014_x86_64 --only-binary=:all:
     fi
 
     find . -type d -name "__pycache__" -exec rm -rf {} +
+    find . -type d -name "*.dist-info" -exec rm -rf {} +
     rm -f $REQUIREMENTS
 
     ZIP_FILE="../lambda.zip"
@@ -38,25 +38,13 @@ WORKSPACE="/home/song/Sandbox/aws-terraform-examples/.zip"
 
 (
     cd $WORKSPACE
-    FUNCTION_NAME=$(aws lambda update-function-code \
+    echo "Updating the lambda function: $LAMBDA"
+    aws lambda update-function-code \
         --region us-east-1 \
-        --no-verify-ssl \
         --function-name "$LAMBDA" \
-        --zip-file fileb://lambda.zip 2>/dev/null | jq .FunctionName)
+        --zip-file fileb://lambda.zip 1>/dev/null
 
-    # Possible to improve for error reporting here
-    # (
-    #     RESPONSE=$(aws lambda update-function-code \
-    #         --region us-east-1 \
-    #         --no-verify-ssl \
-    #         --function-name "abc$LAMBDA" \
-    #         --zip-file fileb://lambda.zip)
-    # )
-
-    echo $?
-
-    echo "Lambda code deployed for $FUNCTION_NAME"
-    echo "Waiting for aws to complete the update"
+    echo "Waiting for the update to complete..."
     aws lambda wait function-updated --function-name $LAMBDA
 
     echo "Done"
