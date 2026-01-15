@@ -2,6 +2,7 @@
 
 LAMBDA="awswrangler_example"
 
-aws lambda invoke \
+time aws lambda invoke \
     --region us-east-1 \
-    --function-name $LAMBDA
+    --function-name $LAMBDA \
+    --output json /dev/stdout
