@@ -1,15 +1,28 @@
+import os
 import awswrangler as wr
 import pandas as pd
 import json
 
 
-def lambdaHandler(event, context):
+def lambda_handler(event, context):
 
-    body = 'Initial Value'
+    S3_BUCKET = os.environ['S3_BUCKET']
+    csv_path = f's3://{S3_BUCKET}/example.csv'
 
-    # The lambda code is deployed outside of terraform
+    df = pd.DataFrame({
+        'id': [1, 2, 3, 4],
+        'name': ['Alice', 'Bob', 'Charlie | " D', '"'],
+        'age': [25, 30, 35, 40]
+    })
+
+    df = df.convert_dtypes()
+    df.to_csv(csv_path, sep='|', index=False)
+
+
+    df = pd.read_csv(csv_path, sep='|')
+    print(df)
 
     return {
         'statusCode': 200,
-        'body': body
+        'body': S3_BUCKET
     }
