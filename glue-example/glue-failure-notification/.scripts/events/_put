@@ -2,11 +2,17 @@
 
 EVENT_BUS="default"
 
+
+MSG="Job run succeeded"
+if [[ $STATE == "FAILED" ]]; then
+  MSG="Job run failed"
+fi
+
 DETAIL='{
     "jobName": "simulated-glue-job-example",
     "severity": "INFO",
     "state": "'"$STATE"'",
-    "message": "Job run succeeded"
+    "message": "'"$MSG"'"
 }'
 
 DETAIL=${DETAIL//\"/\\\"}
