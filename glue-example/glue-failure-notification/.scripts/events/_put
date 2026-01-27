@@ -1,0 +1,28 @@
+#!/bin/bash
+
+EVENT_BUS="default"
+
+DETAIL='{
+    "jobName": "simulated-glue-job-example",
+    "severity": "INFO",
+    "state": "'"$STATE"'",
+    "message": "Job run succeeded"
+}'
+
+DETAIL=${DETAIL//\"/\\\"}
+DETAIL=${DETAIL//$'\n'/}
+
+# We can not put source as "aws.glue"
+# so we use "song.example.glue" to simulate a glue job event
+ENTRIES='[
+  {
+    "DetailType": "Glue Job State Change",
+    "Source": "song.example.glue",
+    "Time": "'"$(date +%FT%T%z)"'",
+    "Resources": [],
+    "Detail": "'"$DETAIL"'"
+  }
+]'
+
+aws events put-events \
+  --entries "$ENTRIES"
