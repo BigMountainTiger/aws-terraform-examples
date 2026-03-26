@@ -1,5 +1,17 @@
 Install aws-cli
 
 For linux, download is needed - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+1. download
+2. unzip
+3. run "install" in the unzipped folder
+
+Past releases:
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-version.html
+https://raw.githubusercontent.com/aws/aws-cli/v2/CHANGELOG.rst
+Use change log to find the correct zip file name
+
+Additional download:
+URL="https://nexus.ci.$COMPANY-$FULL_NAME_POST_FIX.app/repository/$COMPANY-cne-raw-awscli/awscli-exe-linux-x86_64-2.33.18.zip"
+curl "$URL" -o "awscliv2.zip"
 
 
