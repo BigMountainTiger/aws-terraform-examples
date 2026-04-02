@@ -29,6 +29,7 @@
         "**/.zip": true,
         "**/lambdas_copy": true
     },
+    "workbench.colorTheme": "Dark Modern",
     "python.terminal.activateEnvironment": false,
     "python.languageServer": "Default",
     "terminal.integrated.gpuAcceleration": "off",
