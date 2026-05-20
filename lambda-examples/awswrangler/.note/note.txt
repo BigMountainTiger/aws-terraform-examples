@@ -1,0 +1,5 @@
+Basics
+https://aws-sdk-pandas.readthedocs.io/en/stable/install.html
+
+List of the layers
+https://aws-sdk-pandas.readthedocs.io/en/stable/layers.html

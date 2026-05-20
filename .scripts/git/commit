@@ -4,8 +4,10 @@ git reset --soft HEAD~
 git add-commit -m "Updated the aws-terraform-examples"
 git push -f
 
-echo
-echo "Wait for a second ..."
-sleep 1
+echo && git fetch
+echo -e "Wait for a second ...\n" && sleep 1
 
-git log
+echo "Changes in the last commit:"
+git diff HEAD~1 HEAD --name-only && echo
+
+git log -2

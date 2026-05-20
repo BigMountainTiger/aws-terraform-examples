@@ -1,0 +1,5 @@
+This example:
+
+1. sqs queue
+2. a dead-letter queue
+3. A lambda that always fail so the messages eventually land in the dead letter queue

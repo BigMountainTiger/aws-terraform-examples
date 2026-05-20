@@ -1,0 +1,11 @@
+AWS batch has almost the same functionality as ECS
+It is more difficult to use, and the AWS console UI has some bugs, looks like not many people using It
+AWS batch creates an ECS cluster and use it (which is easy to do by ourselves).
+
+This batch example works
+But ECS is more easy to use for the same capability
+
+AWS batch requires 3 IAM roles:
+1. The role on the compute environment is to grant it the ablility to manage the a ECS cluster
+2. There are 2 roles on the Job definition in the container property. The Execution role is for it to pull the docker images and start the container
+3. The job role is for the job to perform its actual work, like S3, etc.

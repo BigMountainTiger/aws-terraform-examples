@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+ROOT_DIR="/home/song/Sandbox/aws-terraform-examples"
+
+# Virutalenv
+export AWS_LAMBDAS_PYTHON_EXE="python3.10"
+export AWS_LAMBDAS_VIRTUALENV="$ROOT_DIR/.env-3.10"
+export AWS_LAMBDAS_VIRTUALENV_SOURCE_COMMAND=". $AWS_LAMBDAS_VIRTUALENV/bin/activate"
+
+# Lambda source base dirctory
+export AWS_LAMBDAS_SOURCE_BASE_DIR="$ROOT_DIR/api-gw/api-method-example/lambdas"
+
+# Deployment zip base directory
+export AWS_LAMBDAS_ARTIFACTS_BASE_DIR="$ROOT_DIR/.aws-lambda-artifacts"

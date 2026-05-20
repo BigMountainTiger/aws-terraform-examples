@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sleep="$1"
+
+if [ -z "$sleep" ]; then
+  echo "Please give a sleep time in seconds"
+  exit 1
+fi
+
+curl -i -X GET https://www.bigmountaintiger.com/get?sleep=$sleep
+echo

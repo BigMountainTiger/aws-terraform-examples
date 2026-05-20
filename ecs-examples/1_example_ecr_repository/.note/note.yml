@@ -1,0 +1,10 @@
+Note: This is an example of ecr
+Items:
+  - Create a ecr repository - terraform
+  - Build a docker image
+  - Run the docker image locally
+  - Push the docker image to ecr
+  - Delete the docker image locally
+
+General purpose build-utility script:
+  location: .scripts/docker/basic_example/build-utility

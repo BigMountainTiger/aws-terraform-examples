@@ -1,0 +1,2 @@
+Updating cidr after the resources created can be tedious
+May requires a terraform destroy and re-apply

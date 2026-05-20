@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+# https://stackoverflow.com/questions/33006303/cli-to-put-data-into-aws-firehose
+
+FIREHOSE_NAME="kinesis-firehose-kinesis-example-huge-head-li"
+
+TIMESTAMP=$(date '+%Y-%m-%d %T.%3N %z')
+
+data="{\"time\": \"$TIMESTAMP\"}" 
+data_base64=$(echo $data | base64)
+
+echo $data_base64 | base64 -d
+
+aws firehose put-record --delivery-stream-name ${FIREHOSE_NAME} \
+    --record "{\"Data\":\"$data_base64\"}"

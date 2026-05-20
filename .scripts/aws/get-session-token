@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+token="$(aws sts get-session-token --duration-seconds 14400)"
+
+Credentials="$(jq .Credentials <<<$token)"
+
+AccessKeyId="$(jq -r .AccessKeyId <<<$Credentials)"
+SecretAccessKey="$(jq -r .SecretAccessKey <<<$Credentials)"
+SessionToken="$(jq -r .SessionToken <<<$Credentials)"
+
+echo "export AWS_ACCESS_KEY_ID=$AccessKeyId"
+echo "export AWS_SECRET_ACCESS_KEY=$SecretAccessKey"
+echo "export AWS_SESSION_TOKEN=$SessionToken"

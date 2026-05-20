@@ -1,0 +1,60 @@
+#!/bin/bash
+
+if [[ -z "$ENV" ]]; then
+    ENV="sbx"
+    echo "ENV is not set, default to $ENV"
+fi
+
+declare -a JOBS=(
+    "job-name-1"
+    "job-name-2"
+)
+
+read -p "Do you want start the job with enhanced logging? (y/N)" answer
+if [[ "$answer" == "y" ]]; then
+    ENHANCED_LOGGING="true"
+else
+    ENHANCED_LOGGING="false"
+fi
+ARGUMENTS='{
+    "--enable_enhanced_logging": "'$ENHANCED_LOGGING'"
+}'
+
+start_job() {
+    JOB_NAME="$1"
+
+    echo "$JOB_NAME"
+    response="$(
+        aws glue get-job-runs \
+            --region us-east-1 \
+            --max-items 1 \
+            --job-name $JOB_NAME
+    )"
+    JobRuns="$(jq .JobRuns <<<$response)"
+    length=$(jq '. | length' <<<$JobRuns)
+
+    if [[ $length == 0 ]]; then
+        JobRunState="NEVER_RUN"
+    else
+        JobRunState="$(jq -r .[0].JobRunState <<<$JobRuns)"
+    fi
+
+    echo "Last run - $JobRunState"
+    if [[ $JobRunState = @(STARTING|RUNNING|STOPPING) ]]; then
+        echo "Skip starting the job"
+        return
+    fi
+
+    response="$(
+        aws glue start-job-run \
+            --region us-east-1 \
+            --arguments "$ARGUMENTS" \
+            --job-name $JOB_NAME
+    )"
+
+    echo $response
+}
+
+for j in "${JOBS[@]}"; do
+    start_job "$j-$ENV"
+done

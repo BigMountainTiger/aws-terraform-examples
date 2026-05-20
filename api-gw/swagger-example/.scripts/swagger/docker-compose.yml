@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  postgres:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    ports:
+      - 8080:8080
+    volumes:
+      - ${PWD}/.swagger:/var/specs
+    environment:
+      - SWAGGER_JSON=/var/specs/swagger-example-swagger.json
+

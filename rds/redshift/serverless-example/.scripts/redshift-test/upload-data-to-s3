@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FOLDER="data"
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+FILES=$SCRIPT_PATH/../../$FOLDER/
+
+BUCKET="redshift-serverless-example-huge-head-li"
+
+aws s3 cp $FILES s3://${BUCKET}/${FOLDER}/ --recursive

@@ -1,0 +1,110 @@
+#!/bin/bash
+
+build_context() {
+    REPOSITORY=example_ecr_repository
+    TAG=basic_example
+    RUN_ENV=()
+
+    SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+    BUILD_DIRECTORY="$SCRIPT_PATH/../../../docker/basic_example"
+
+    AWS_REGION=us-east-1
+    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+    ARN_PREFIX="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+}
+build_context
+
+build() {
+    (
+        cd $BUILD_DIRECTORY && ls -la
+
+        echo && docker build \
+            --platform=linux/amd64 \
+            -t "$REPOSITORY:$TAG" .
+
+        docker images "$REPOSITORY"
+    )
+}
+
+get_aws_session_token() {
+    cache_file="$HOME/.aws/cached/cached_session_token.json"
+
+    Credentials='{"Expiration":"1970-01-01T00:00:00Z"}'
+    if [[ -f "$cache_file" ]]; then
+        Credentials="$(<"$cache_file")"
+    fi
+
+    Expiration="$(jq -r .Expiration <<<$Credentials)"
+    if [[ "$(date -d "$Expiration" +%s)" -lt "$(($(date +%s) - 60 * 30))" ]]; then
+        echo "AWS session is expired or expiring, fetching new token..."
+        token="$(aws sts get-session-token --duration-seconds 28800)"
+        Credentials="$(jq .Credentials <<<$token)"
+
+        mkdir -p "$(dirname "$cache_file")" && touch "$cache_file"
+        echo $Credentials > "$cache_file"
+    fi
+
+    AccessKeyId="$(jq -r .AccessKeyId <<<$Credentials)"
+    SecretAccessKey="$(jq -r .SecretAccessKey <<<$Credentials)"
+    SessionToken="$(jq -r .SessionToken <<<$Credentials)"
+
+    AWS_SESSION_ENV=(-e AWS_ACCESS_KEY_ID="$AccessKeyId" -e AWS_SECRET_ACCESS_KEY="$SecretAccessKey" -e AWS_SESSION_TOKEN="$SessionToken")
+}
+
+run() {
+    if [[ " $@ " =~ " -b " ]]; then
+        build && echo
+    fi
+
+    get_aws_session_token
+    echo "Running the Docker container"
+
+    args=(--rm "${AWS_SESSION_ENV[@]}" "${RUN_ENV[@]}" "$REPOSITORY:$TAG")
+    if [[ " $@ " =~ " -it " ]]; then
+        args=(-it "${args[@]}" bash)
+    fi
+
+    docker run "${args[@]}"
+}
+
+push() {
+    if [[ " $@ " =~ " -b " ]]; then
+        build && echo
+    fi
+
+    local_IMAGE="$REPOSITORY:$TAG"
+    remote_IMAGE="$ARN_PREFIX/$local_IMAGE"
+
+    aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin ${ARN_PREFIX}
+    docker tag "$local_IMAGE" "$remote_IMAGE"
+    docker push "$remote_IMAGE"
+}
+
+delete() {
+    image_id="$(docker images -q "$REPOSITORY:$TAG")"
+    if [[ -z "$image_id" ]]; then
+        echo "No image found for $REPOSITORY:$TAG"
+        exit 0
+    fi
+
+    docker image rm -f "$image_id"
+}
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+case "$1" in
+    "build"|"b") build ;;
+    "run"|"r") run "$@" ;;
+    "push"|"p") push "$@" ;;
+    "delete"|"d") delete ;;
+    *)
+        echo -e "Only the following operations are supported:"
+        echo -e "run $(red b)uild - Build the docker image"
+        echo -e "run $(red r)un - Run the docker container locally, options: -b to build before running, -it for interactive mode"
+        echo -e "run $(red p)ush - Push the docker image to ECR, option: -b to build before pushing"
+        echo -e "run $(red d)elete - Delete the locally built docker image"
+        exit 1
+        ;;
+esac

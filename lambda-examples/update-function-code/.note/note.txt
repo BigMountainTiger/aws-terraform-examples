@@ -1,0 +1,16 @@
+1. It is possible to for a lambda to get re-created by the following property
+
+    # replace_triggered_by
+    lifecycle {
+        replace_triggered_by = [
+            terraform_data.lambda_runtime
+        ]
+    }
+
+2. We can pass variables to terraform by environment variables
+
+    export TF_VAR_lambda_runtime_config='{
+        update_runtime_on: "FunctionUpdate",
+        qualifier: null,
+        runtime_version_arn: null
+    }'

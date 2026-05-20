@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    encrypt        = true
-    bucket         = "terraform.huge.head.li.2023"
-    dynamodb_table = "terraform-state-lock"
-    region         = "us-east-1"
+    encrypt      = true
+    bucket       = "terraform.huge.head.li.2023"
+    use_lockfile = true
+    region       = "us-east-1"
   }
 }
 

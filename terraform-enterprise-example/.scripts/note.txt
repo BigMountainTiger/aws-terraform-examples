@@ -1,0 +1,4 @@
+Run the following command to find how the script is used
+.scripts/terraform/run
+
+The configuration is in config/common file

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+TASK_ID="dms-example-postgres-to-s3-task-csv"
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+echo $SCRIPT_PATH
+
+$SCRIPT_PATH/_start-replicaton-task $TASK_ID

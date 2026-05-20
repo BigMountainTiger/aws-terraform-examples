@@ -1,0 +1,6 @@
+https://aws.amazon.com/blogs/big-data/analyze-and-visualize-nested-json-data-with-amazon-athena-and-amazon-quicksight/
+
+1. Define the nested field as string
+2. Use the following functions to parse the nested data
+    - json_extract()
+    - json_extract_scalar()

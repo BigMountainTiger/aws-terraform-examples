@@ -1,0 +1,134 @@
+#!/bin/bash
+
+SCRIPT_PATH=$(dirname "$(realpath "$0")")
+source $SCRIPT_PATH/config/common
+
+WHAT=$1
+
+which () {
+    # List the environment
+    echo "HOST_NAME = ${HOST_NAME}"
+    echo "ORGANIZATION = ${ORGANIZATION}"
+    echo "PROJECT_ROOT_DIR = ${PROJECT_ROOT_DIR}"
+    echo "PROJECT = ${PROJECT}"
+    echo "WORKSPACE = ${WORKSPACE}"
+}
+
+venv() {
+    ENV_PROJECT="$2"
+    ENV_WORKSPACE="$3"
+
+    if [ -z "${ENV_PROJECT}" ]; then
+        echo "Need to specify a project-name"
+        echo "For example: run venv project-name workspace-nme"
+        exit 1
+    fi
+
+    ENV_PROJECT_DIR="$PROJECT_ROOT_DIR/$ENV_PROJECT"
+    if [ ! -d "$ENV_PROJECT_DIR" ]; then
+        echo "The directory $ENV_PROJECT_DIR does not exist."
+        exit 1
+    fi
+
+    if [ -z "${ENV_WORKSPACE}" ]; then
+        echo "Need to specify a workspace-name"
+        echo "For example: run venv project-name workspace-nme"
+        exit 1
+    fi
+
+    ENV_SCRIPT="#!/bin/bash"
+    ENV_SCRIPT="${ENV_SCRIPT}\nexport PROJECT=\"$ENV_PROJECT\""
+    ENV_SCRIPT="${ENV_SCRIPT}\nexport WORKSPACE=\"$ENV_WORKSPACE\""
+    ENV_SCRIPT="${ENV_SCRIPT}\n"
+    ENV_SCRIPT="${ENV_SCRIPT}\n"'SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"'
+    ENV_SCRIPT="${ENV_SCRIPT}\n"'$SCRIPT_PATH/../../run init'
+    ENV_SCRIPT="${ENV_SCRIPT}\n"
+
+    ENV_DIR="$SCRIPT_PATH/environments/$ENV_PROJECT"
+    ENV_FILE="$ENV_DIR/$ENV_WORKSPACE"
+
+    mkdir -p $ENV_DIR
+    echo -e $ENV_SCRIPT > $ENV_FILE
+    chmod +x $ENV_FILE
+
+    ENV_FILE=$(realpath --relative-to=. $ENV_FILE)
+    echo "Environment $ENV_PROJECT/$ENV_WORKSPACE created, run the following command to activate it:"
+    echo "source $ENV_FILE"
+}
+
+init() {
+    # Init the workspace as defined by $PROJECT and $WORKSPACE
+    which
+
+    if [ -z "${PROJECT}" ]
+    then
+        echo "No project folder provided, exit"
+        exit 1
+    fi
+
+    if [ -z "${WORKSPACE}" ]
+    then
+        echo "No project workspace provided, exit"
+        exit 1
+    fi
+
+    BACKEND_PATH="$SCRIPT_PATH/config/__backend"
+    BACKEND_FILE="${BACKEND_PATH}/backend.hcl"
+    rm -rf ${BACKEND_PATH}
+    mkdir -p ${BACKEND_PATH}
+
+    BACKEND="hostname=\"${HOST_NAME}\"\n"
+    BACKEND="${BACKEND}organization=\"${ORGANIZATION}\"\n"
+    BACKEND="${BACKEND}workspaces{name=\"${PROJECT}-${WORKSPACE}\"}\n"
+
+    echo
+    printf ${BACKEND} >> ${BACKEND_FILE}
+    echo "Backend configuration:"
+    cat ${BACKEND_FILE}
+
+    echo
+    cd ${PROJECT_ROOT_DIR}/${PROJECT}/
+    echo "Project directory - $PWD"
+    echo "Backend configuration file - $BACKEND_FILE"
+
+    terraform init \
+        -reconfigure \
+        -backend-config="${BACKEND_FILE}"
+}
+
+plan() {
+    # Make a plan, workspace init is requried before running the plan
+    which
+
+    if [ -z "${PROJECT}" ]
+    then
+        echo "No project folder provided, exit"
+        exit 1
+    fi
+
+    if [ -z "${WORKSPACE}" ]
+    then
+        echo "No project workspace provided, exit"
+        exit 1
+    fi
+
+    cd ${PROJECT_ROOT_DIR}/${PROJECT}/
+    terraform plan
+}
+
+case "$WHAT" in
+    "login") terraform login ${HOST_NAME} ;;
+    "venv") venv $@;;
+    "init") init ;;
+    "which") which ;;
+    "plan") plan ;;
+    *)
+        echo -e "Only the following operations are supported:\n"
+        echo "run login"
+        echo "run venv project-name workspace-nme - e.g. => run venv database dev"
+        echo "run init (you normally do not need to run init directly)"
+        echo "run which"
+        echo "run plan"
+        exit 1
+        ;;
+esac

@@ -1,0 +1,5 @@
+* This example is used to see if the JSON records dumped to s3 by firehose can be loaded by Glue/spark
+
+1. Yes, it can be loaded by Glue/spark
+2. This example is further used to study how the number of the files in s3 influences the number of Spark partitions
+    - The Glue glueContext.create_dynamic_frame and spark.read behave totally different

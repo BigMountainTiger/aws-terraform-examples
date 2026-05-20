@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudwatch/index.html#cli-aws-cloudwatch
+
+echo "Putting a cloudwatch metrics"
+
+REGION="us-east-1"
+NAMESPACE="custom-metrics-example-namespace"
+NAME="custom-metrics-example"
+
+aws cloudwatch put-metric-data \
+    --region ${REGION} \
+    --namespace ${NAMESPACE} \
+    --metric-name ${NAME} \
+    --unit "Count" \
+    --value 10 

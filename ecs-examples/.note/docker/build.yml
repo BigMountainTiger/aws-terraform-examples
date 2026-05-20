@@ -1,0 +1,26 @@
+Note:
+  - Definition of build context:
+      - The build context is the set of files and directories accessible to the Docker engine during the image creation
+        process
+      - It is the last argument in the `docker build` command. Most commonly, it is the curent directory (`.`)
+      - Only files within the specified build context can be used with COPY or ADD instructions in your Dockerfile
+  - DockerFile:
+      - How to specify the location of the Dockerfile:
+          - By default, docker looks for the Dockerfile in the root of the build context
+          - But we can specify a different location by the "-f" or "--file" option
+      - Inside a Dockerfile:
+          - COPY:
+              - 1. COPY is recursive. If you specify a directory, all its contents will be copied
+              - 2. If you want to COPY only the content of a directory, you can use a wildcard (e.g., `COPY python/* .`)
+                or specify the files explicitly
+          - ADD:
+              - Similar to COPY but with additional features:
+                  - 1. Extracting tar files & Supporting URLs
+                  - 2. For simple file copying, COPY is generally preferred for its clarity and simplicity
+                  - 3. For downloading, curl or wget in a RUN instruction is often more suitable than using ADD with a
+                    URL
+                  - 4. It is recommended to use COPY for copying files and directories, and only use ADD when you need
+                    its specific features
+  - Platform:
+      - Specify the target platform in the Dockerfile is discouraged that makes the Dockerfile less portable
+      - It is recommended to specify it in the `docker build` command using the `--platform` option if needed

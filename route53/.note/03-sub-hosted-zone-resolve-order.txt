@@ -1,0 +1,7 @@
+If a record shows in both parent zone and sub-zone:
+
+1. The one in the sub-zone will take effect
+2. If the NS record is configured in the parent zone, the record matches the sub-zone pattern will be ignored
+3. If the record is not in the sub-zone, it is not resolvable, even it is in the parent zone
+
+At least it is the Route53 bahavior

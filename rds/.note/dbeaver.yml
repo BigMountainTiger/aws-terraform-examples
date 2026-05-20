@@ -1,0 +1,13 @@
+install:
+  - Reference: https://dbeaver.io/download/
+  - Add the DBeaver repository to your system:
+      - For Debian/Ubuntu (-4 means use IPv4): |
+          sudo wget -4 -q -O - https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/dbeaver.gpg
+          echo "deb [signed-by=/usr/share/keyrings/dbeaver.gpg] https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+          sudo apt-get update && sudo apt-get install dbeaver-ce
+      - PPA (the launchpad.net may be down sometimes): |
+          sudo add-apt-repository ppa:serge-rider/dbeaver-ce
+          sudo apt update
+          sudo apt install dbeaver-ce
+
+  - Version history: https://dbeaver.io/category/releases/

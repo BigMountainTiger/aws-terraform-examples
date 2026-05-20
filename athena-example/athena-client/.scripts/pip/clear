@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PKGS=$(pip freeze)
+if [ -z "$PKGS" ]; then
+    echo "No packages to uninstall."
+    exit 0
+fi
+
+echo "$PKGS" | xargs pip uninstall -y

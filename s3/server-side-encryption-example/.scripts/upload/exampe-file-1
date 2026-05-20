@@ -1,0 +1,6 @@
+#!/bin/bash
+
+BUCKET="s3-server-side-encryption-example-huge-head-li"
+FILE="exampe-file-1.txt"
+
+aws s3 cp ./example-files/$FILE s3://$BUCKET

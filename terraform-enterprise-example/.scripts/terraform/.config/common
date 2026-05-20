@@ -1,6 +1,0 @@
-#!/bin/bash
-
-export HOST_NAME="the hostname of the terraform enterprise server"
-export ORGANIZATION="the organization of the project"
-
-export PROJECT_ROOT_DIR="the-directory-that-has-the-terraform-projects"

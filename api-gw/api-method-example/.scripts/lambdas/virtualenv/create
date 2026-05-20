@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+if [[ -z "${AWS_LAMBDAS_VIRTUALENV}" ]]; then
+  echo "The environment variable AWS_LAMBDAS_VIRTUALENV is not set, skiping creation"
+  exit 1
+fi
+
+if [ ! -d "$AWS_LAMBDAS_VIRTUALENV" ]; then
+    echo "Creating virtualenv"
+    $AWS_LAMBDAS_PYTHON_EXE -m venv $AWS_LAMBDAS_VIRTUALENV
+else
+    echo "Virtualenv exists, skiping creation"
+fi
+

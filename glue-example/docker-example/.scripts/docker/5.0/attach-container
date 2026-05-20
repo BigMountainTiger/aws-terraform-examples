@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# 1. If the host is Windows, the WORKSPACE_LOCATION path needs to be in the windows format
+#   - It need to pre-exists before attached to the docker container, otherwise it will be some permission issues
+# 2. It is better to create folders and files within the container (mkdir, touch, etc)
+#   - Files created in Windows shows weird permissions in linx
+# 3. May need to run as root => --user root, so we can work on the folders and files in the host
+# 3. The current image "lue_libs_4.0.0_image_01" using python3.10.2 => python3 --version
+# 4. If additional python packages needed, we need to install it like => python3 -m pip "package-name"
+# 5. In Linux host, the glue_user in the container does not have the permission to create and edit files in the workspace
+#   - It is OK because we will be using VSCODE to edit file most of the times
+
+# Use realpath for the absolute path
+SCRIPT_PATH="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
+
+HOST_GLUE_WORKSPACE="$SCRIPT_PATH/../../../workspace/glue"
+
+# 5.0 user is hadoop
+CONTAINER_GLUE_WORKSPACE="/home/hadoop/workspace/glue"
+
+IMAGE="public.ecr.aws/glue/aws-glue-libs:5.0.3"
+CONTAINER_NAME="glue_libs_5.0"
+
+if [ "$1" == "-d" ]; then
+    read -p "Are you sure to delete the docker container $CONTAINER_NAME? (y/N) " -n 1 -r
+
+    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        if [ "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
+            echo -e "\nClearing the $CONTAINER_NAME"
+            docker container rm "$CONTAINER_NAME"
+        else
+            echo -e "\n$CONTAINER_NAME does not exist"
+        fi
+    fi
+
+    exit 0
+fi
+
+if [ ! "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
+
+    AWS_PROFILE="default"
+    CREDENTIAL=$(aws sts --profile $AWS_PROFILE get-session-token | jq .Credentials)
+    if [ -z "$CREDENTIAL" ]; then
+        echo "Unable to get the AWS credentials"
+        exit 1
+    fi
+
+    AWS_ACCESS_KEY_ID=$(echo $CREDENTIAL | jq -r .AccessKeyId)
+    AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIAL | jq -r .SecretAccessKey)
+    AWS_SESSION_TOKEN=$(echo $CREDENTIAL | jq -r .SessionToken)
+
+    docker run -it \
+        -v $HOST_GLUE_WORKSPACE:$CONTAINER_GLUE_WORKSPACE:rw \
+        -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+        -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+        -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN \
+        -w $CONTAINER_GLUE_WORKSPACE \
+        --name "$CONTAINER_NAME" \
+        "$IMAGE"
+
+else
+    docker container start -i "$CONTAINER_NAME"
+fi

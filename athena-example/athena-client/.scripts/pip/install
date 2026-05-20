@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PKGS=(
+    boto3
+    s3fs
+    awswrangler
+)
+
+for pkg in "${PKGS[@]}"; do
+    pip install "$pkg"
+done

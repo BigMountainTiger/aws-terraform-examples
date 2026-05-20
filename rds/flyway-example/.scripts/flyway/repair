@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+URL="jdbc:postgresql://localhost:5432/postgres"
+USR="postgres"
+PWD="docker"
+LOCATION="filesystem:./flyway/sql"
+
+flyway repair \
+    -url="${URL}" \
+    -user="${USR}" \
+    -password="${PWD}" \
+    -locations="${LOCATION}"

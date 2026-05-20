@@ -1,0 +1,2 @@
+Confirmed:
+- Without force_destroy, terraform will not delete the bucket if it is not empty

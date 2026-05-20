@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+source $SCRIPT_PATH/common
+
+URL="$URL_BASE/sect-1/the-parameter-1/sect-2/the-parameter-2/"
+
+# authorization header is required
+# Check the terraform on the "apigw-step-3-authorizer.tf" file
+TOKEN="abcd"
+curl -i -H "Authorization: Bearer $TOKEN" ${URL}
+
+echo

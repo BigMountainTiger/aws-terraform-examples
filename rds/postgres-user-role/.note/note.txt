@@ -1,0 +1,17 @@
+-- https://www.postgresql.org/docs/current/sql-createrole.html
+-- https://www.postgresql.org/docs/current/sql-droprole.html
+-- https://www.postgresql.org/docs/current/sql-grant.html
+
+1. In postgres, a user is actually a role that has the login capability
+
+2. Database roles are global across a database cluster installation
+    - Not per individual database
+    - https://www.postgresql.org/docs/8.1/user-manag.html
+
+3. To drop a role
+    - You must drop/reassign all the objects it owns
+    - Revoke any privileges the role has been granted on other objects
+    - It is not necessary to remove role memberships involving the role
+    
+4. Droping an database object seems automatically revoke all the privileges to it
+    - Most dropping of database objects has the "CASCADE" option

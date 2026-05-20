@@ -1,0 +1,68 @@
+#!/bin/bash
+
+if [[ -z "$ENV" ]]; then
+    ENV="sbx"
+    echo "ENV is not set, default to $ENV"
+fi
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+green() {
+    echo '\033[1;32m'$1'\033[0m'
+}
+
+yellow() {
+    echo '\033[1;33m'$1'\033[0m'
+}
+
+orange() {
+    echo '\033[0;33m'$1'\033[0m'
+}
+
+declare -a JOBS=(
+    "job-name-1"
+    "job-name-2"
+)
+
+monitor_job() {
+    JOB_NAME="$1"
+
+    response="$(
+        aws glue get-job-runs \
+            --region us-east-1 \
+            --max-items 1 \
+            --job-name $JOB_NAME
+    )"
+    JobRuns="$(jq .JobRuns <<<$response)"
+    length=$(jq '. | length' <<<$JobRuns)
+
+    JobRunState="NEVER_RUN"
+    StartedOn="N/A"
+    if [[ $length > 0 ]]; then
+        JobRun="$(jq .[0] <<<$JobRuns)"
+        JobRunState="$(jq -r .JobRunState <<<$JobRun)"
+        StartedOn="$(jq -r .StartedOn <<<$JobRun)"
+    fi
+
+    if [[ $JobRunState = @(STARTING|RUNNING|STOPPING|NEVER_RUN) ]]; then
+        JobRunState="$(yellow $JobRunState)"
+    elif [[ $JobRunState == "SUCCEEDED" ]]; then
+        JobRunState="$(green $JobRunState)"
+    else
+        JobRunState="$(red $JobRunState)"
+    fi
+
+    if [[ $StartedOn == *"$(date +%Y-%m-%d)"* ]]; then
+        StartedOn="$(green $StartedOn)"
+    else
+        StartedOn="$(yellow $StartedOn)"
+    fi
+
+    echo -e "$(orange $JOB_NAME) => Last started: $StartedOn, Status: $JobRunState"
+}
+
+for j in "${JOBS[@]}"; do
+    monitor_job "$j-$ENV"
+done

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+SAMPLE_FILE="$SCRIPT_PATH/files/sample.json"
+S3_PATH="s3://kinesis-firehose-example-huge-head-li/data"
+
+NUM_OF_COPIES="$1"
+if [ -z "${NUM_OF_COPIES}" ]; then
+  echo "Need to provide number of copies to send to S3"
+  exit 1
+fi
+
+echo "Sending $NUM_OF_COPIES of copies of files to s3 ..."
+for i in $(seq 1 $1); do
+  FILE_NAME="$(date +%FT%T.%6N%z)"
+  aws s3 cp "$SAMPLE_FILE" "$S3_PATH/$FILE_NAME"
+done

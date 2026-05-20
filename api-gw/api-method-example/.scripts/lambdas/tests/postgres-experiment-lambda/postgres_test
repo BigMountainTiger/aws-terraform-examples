@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+$SCRIPT_PATH/../../utilities/unittest_run "postgres-experiment-lambda" "postgres_test"

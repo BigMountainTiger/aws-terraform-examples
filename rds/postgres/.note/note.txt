@@ -1,0 +1,1 @@
+This is an example is to provision a simple postgres RDS instance for testing purpose

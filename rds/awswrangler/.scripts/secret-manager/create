@@ -1,0 +1,16 @@
+#!/bin/bash
+
+NAME="docker-secret"
+VALUE='{
+    "host": "localhost",
+    "port": "5432",
+    "engine": "postgresql",
+    "timeout": 20,
+    "dbname": "postgres",
+    "username": "postgres",
+    "password": "docker"
+}'
+
+aws secretsmanager create-secret \
+    --name $NAME \
+    --secret-string "$VALUE"

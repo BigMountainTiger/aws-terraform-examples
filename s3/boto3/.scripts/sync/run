@@ -1,0 +1,32 @@
+#!/bin/bash
+
+BUCKET="s3-boto3-example-huge-head-li"
+PREFIX="synced-files"
+LOCAL_PATH="./example-files"
+
+
+sync() {
+    S3_URI="s3://$BUCKET/$PREFIX/"
+    aws s3 sync $1 \
+        --delete \
+        $LOCAL_PATH $S3_URI
+
+}
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+case "$1" in
+sync | s)
+    sync
+    ;;
+dryrun | d)
+    sync --dryrun
+    ;;
+*)
+    echo -e "To sync files to s3 bucket\n"
+    echo -e "run $(red s)|sync to perform a sync"
+    echo -e "run $(red d)|dryrun to perform a dry-run"
+    ;;
+esac

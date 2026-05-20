@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+URL="https://www.bigmountaintiger.com/example"
+
+curl -i ${URL}
+
+echo

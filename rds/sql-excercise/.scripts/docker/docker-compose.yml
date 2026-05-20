@@ -1,0 +1,12 @@
+# https://hub.docker.com/_/postgres
+
+services:
+  postgres:
+    image: postgres:17.5-alpine3.21
+    container_name: postgres-sql-excercise
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker

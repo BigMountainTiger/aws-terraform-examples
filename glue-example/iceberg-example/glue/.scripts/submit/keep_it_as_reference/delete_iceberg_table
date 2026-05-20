@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export AWS_REGION="us-east-1"
+export AWS_DEFAULT_REGION="us-east-1"
+
+spark-submit python/keep_it_as_reference/delete_iceberg_table.py

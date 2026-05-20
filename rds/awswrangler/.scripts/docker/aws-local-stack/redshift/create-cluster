@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# https://docs.localstack.cloud/user-guide/aws/redshift/
+
+REDSHIFT_CLUSTER_IDENTIFIER="docker_redshift_cluster"
+REDSHIFT_DATABASE_NAME="example"
+REDSHIFT_USERNAME="docker"
+REDSHIFT_PASSWORD="docker"
+NODE_TYPE="n1"
+
+aws-local redshift create-cluster \
+      --cluster-identifier $REDSHIFT_CLUSTER_IDENTIFIER \
+      --db-name $REDSHIFT_DATABASE_NAME \
+      --master-username $REDSHIFT_USERNAME \
+      --master-user-password $REDSHIFT_PASSWORD \
+      --node-type $NODE_TYPE \
+      --publicly-accessible

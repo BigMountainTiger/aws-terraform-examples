@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [[ -z "$ENV" ]]; then
+    ENV="sbx"
+    echo "ENV is not set, default to $ENV"
+fi
+
+response="$(
+    aws glue list-jobs \
+        --region us-east-1
+)"
+
+echo
+JOB_NAME_PATTERN="some_pattern"
+
+echo -e "Jobs prefixed with $JOB_PREFIX:\n"
+JOBS=($(jq -r '.JobNames[] | select(. | contains("'"$JOB_NAME_PATTERN"'"))' <<<$response))
+
+for j in "${JOBS[@]}"; do
+    echo $j
+done
+
+echo -e "\nTotal ${#JOBS[@]} jobs"

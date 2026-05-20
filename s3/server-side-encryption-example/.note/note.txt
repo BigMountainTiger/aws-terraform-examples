@@ -1,0 +1,2 @@
+Confirmed:
+- Setting bucket_key_enabled = true after files saved to the bucket do not have any bad effects

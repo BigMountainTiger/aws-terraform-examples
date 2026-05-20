@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export STATE="FAILED"
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+$SCRIPT_PATH/_put

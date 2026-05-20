@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+# https://stackoverflow.com/questions/53579171/amazon-rds-iam-pam-auth-failed
+# https://repost.aws/knowledge-center/rds-postgresql-connect-using-iam
+# https://www.youtube.com/watch?v=ihAgMHP3jPk&ab_channel=AmazonWebServices

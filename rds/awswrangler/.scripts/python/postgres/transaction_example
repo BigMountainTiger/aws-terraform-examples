@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python python/postgres/transaction_example.py

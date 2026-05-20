@@ -1,0 +1,75 @@
+#!/bin/bash
+
+cd docker/
+
+TAG=basic-example
+REPOSITORY=aws-batch-example
+ARN="939653976686.dkr.ecr.us-east-1.amazonaws.com"
+
+LOCAL_NAME=${REPOSITORY}:${TAG}
+REMOTE_NAME=${ARN}/${LOCAL_NAME}
+
+clear_dangling_images() {
+    DANGLINGS=$(docker images -f dangling=true -q)
+    if [ ! -z "$DANGLINGS" ]; then
+        echo $DANGLINGS | xargs docker image rm
+    fi
+}
+
+build() {
+    docker build -t $LOCAL_NAME -f Dockerfile .
+    clear_dangling_images
+}
+
+run() {
+    if [[ "$2" == "-r" ]]
+    then
+        build
+    fi
+
+    docker run \
+        --rm $LOCAL_NAME
+}
+
+push() {
+    if [[ "$2" == "-r" ]]
+    then
+        build
+    fi
+
+    docker tag $LOCAL_NAME $REMOTE_NAME
+    clear_dangling_images
+
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ARN
+    docker push $REMOTE_NAME
+}
+
+
+WHAT=$1
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+case "$WHAT" in
+    build|b) 
+        build
+    ;;
+    run|r)
+        run $@
+        ;;
+    push|p)
+        push $@
+        ;;
+    clear|c)
+        clear_dangling_images
+        ;;
+    *)
+        echo -e "Only the following operations are supported:\n"
+        echo -e "dock [$(red b)]uild"
+        echo -e "dock [$(red r)]un (-r to rebuild)"
+        echo -e "dock [$(red p)]ush (-r to rebuild)"
+        echo -e "dock [$(red c)]lear (clear the dangling images)"
+        exit 1
+        ;;
+esac

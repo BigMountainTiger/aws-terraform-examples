@@ -1,0 +1,34 @@
+#!/bin/bash
+
+SCRIPT_FILE=$(basename "$0")
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+VENV_NAME=".env-3*"
+
+WHAT=$1
+case "$WHAT" in
+list | l)
+    find . -type d -name "$VENV_NAME" -print
+    find . -type d -name ".tf-zip" -print
+    find . -type d -name "__pycache__" -print
+    ;;
+delete | d)
+    find . -type d -name "$VENV_NAME" -print | xargs -I {} rm -rf {}
+    find . -type d -name ".tf-zip" -print | xargs -I {} rm -rf {}
+    find . -type d -name "__pycache__" -print | xargs -I {} rm -rf {}
+
+    find . -type d -name "$VENV_NAME" -print
+    find . -type d -name ".tf-zip" -print
+    find . -type d -name "__pycache__" -print
+    ;;
+*)
+    echo -e "This command deletes the python caches that take large disk spaces"
+    echo -e "Only the following operations are supported:\n"
+    echo -e "$SCRIPT_FILE $(red l) | list - list all the directories and files"
+    echo -e "$SCRIPT_FILE $(red d) | delete - delete all the directories and files"
+    exit 1
+    ;;
+esac

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ARN="arn:aws:iam::939653976686:role/apigateway_cloudwatch_role"
+aws apigateway update-account \
+    --patch-operations \
+    op='replace',path='/cloudwatchRoleArn',value="$ARN"

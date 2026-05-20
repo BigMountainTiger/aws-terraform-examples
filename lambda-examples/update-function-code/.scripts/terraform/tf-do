@@ -1,0 +1,40 @@
+#!/bin/bash
+
+what=$1
+if [ -z "${what}" ]; then
+    echo "default action to plan"
+    what="p"
+fi
+
+cd terraform
+
+init() {
+    terraform init -reconfigure -upgrade
+}
+
+# Pass variables to terraform
+# Manual, FunctionUpdate, or Auto
+# Manual requires runtime_version_arn
+export TF_VAR_lambda_runtime_config='{
+    update_runtime_on: "FunctionUpdate",
+    qualifier: null,
+    runtime_version_arn: null
+}'
+
+case "${what}" in
+"p")
+    init
+    terraform plan
+    ;;
+"a")
+    init
+    terraform apply -auto-approve
+    ;;
+"d")
+    init
+    terraform destroy -auto-approve
+    ;;
+*)
+    echo "Nothing to do for ${what}. Available options: p,a,d"
+    ;;
+esac

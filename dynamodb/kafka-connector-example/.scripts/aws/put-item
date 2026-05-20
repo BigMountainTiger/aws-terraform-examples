@@ -1,0 +1,14 @@
+#!/bin/bash
+
+TABLE="kafka-connector-example-table"
+
+# NOW=$(date -u +"%Y-%m-%dT%H:%M:%S%z")
+# With -u, we get the UTC time
+
+NOW=$(date +"%Y-%m-%dT%H:%M:%S%z")
+DATA='{"id":{"S":"1"},"time":{"S":"'$NOW'"}}'
+
+aws dynamodb put-item --table-name $TABLE \
+    --item $DATA
+
+echo "Exit code $?"

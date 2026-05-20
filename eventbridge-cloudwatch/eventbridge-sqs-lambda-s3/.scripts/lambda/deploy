@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+PROJECT_PATH="$SCRIPT_PATH/../.."
+
+LAMBDA="sqs_event_handler"
+
+ZIP_PATH="$PROJECT_PATH/.zip"
+DEST="$ZIP_PATH/$LAMBDA"
+SOURCE="$PROJECT_PATH/lambdas/$LAMBDA"
+
+rm -rf $ZIP_PATH
+mkdir -p $ZIP_PATH
+
+cp -r $SOURCE $ZIP_PATH
+cd $DEST
+
+pip install -r "requirements.txt" -t .
+
+zip -rq "../$LAMBDA.zip" * -x ./tests/\*
+
+cd ..
+
+S3="example-bucket-huge-head-li"
+
+echo "Uploading the zip file to s3"
+aws s3 cp $LAMBDA.zip "s3://$S3/lambdas/"
+
+echo "Deploying the lambda"
+aws lambda update-function-code \
+    --region us-east-1 \
+    --no-verify-ssl \
+    --function-name eventbridge_sqs_event_handler \
+    --s3-bucket $S3 \
+    --s3-key "lambdas/$LAMBDA.zip"

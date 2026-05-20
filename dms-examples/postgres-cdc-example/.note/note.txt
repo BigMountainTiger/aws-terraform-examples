@@ -1,0 +1,2 @@
+Need to add parameter group for rds.logical_replication=1
+to enable the CDC on postgres

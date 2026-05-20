@@ -1,4 +1,16 @@
 {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "args": [
+                "-l"
+            ],
+            "env": {
+                "PROJECT_BASE": "/home/song/Sandbox/aws-terraform-examples"
+            }
+        }
+    },
     "files.exclude": {
         "**/.git": true,
         "**/.terraform": true,
@@ -9,7 +21,24 @@
         "**/node_modules": true,
         "**/package-lock.json": true,
         "**/__pycache__": true,
-        "**/.env-3.10": true,
-        "**/.env-3.11": true
+        "**/.env-3.*": true,
+        "**/.aws-lambda-artifacts": true,
+        "**/.ipynb_checkpoints": true,
+        "**/.swagger": true,
+        "**/flyway-example/report.*": true
+    },
+    "workbench.colorTheme": "Dark Modern",
+    "python.terminal.activateEnvironment": false,
+    "python.languageServer": "Default",
+    "terminal.integrated.gpuAcceleration": "off",
+    "[terraform]": {
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false
+    },
+    "yaml.format.printWidth": 120,
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false
     }
 }

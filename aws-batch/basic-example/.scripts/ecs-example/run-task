@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CLUSTER="aws-batch-basic-example-cluster"
+TASK_DEFINITION="aws-batch-basic-example-ecs-task"
+
+SG="sg-0e2f662f76c54c301"
+SUBNETS="subnet-0f22dd415ee7089f2, subnet-02b1edc745b9e0ff4"
+
+task_raw=$(aws ecs run-task \
+    --task-definition ${TASK_DEFINITION} \
+    --launch-type FARGATE \
+    --platform-version "1.4.0" \
+    --cluster ${CLUSTER} \
+    --network-configuration \
+      "awsvpcConfiguration={subnets=[${SUBNETS}],securityGroups=[${SG}],assignPublicIp=ENABLED}")
+
+taskArn=$(echo $task_raw | jq '.tasks[0].taskArn')
+
+echo -e "Task Started\n$taskArn"
+

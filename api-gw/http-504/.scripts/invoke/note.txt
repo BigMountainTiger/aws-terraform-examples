@@ -1,0 +1,2 @@
+As of 11/28/2024, it is not possible to increase the gateway integration timeout beyond 29 seconds
+Refer to - apigw-get.tf

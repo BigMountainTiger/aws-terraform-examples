@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+source $SCRIPT_PATH/_URL
+
+curl -i \
+    -H 'accept: */*' \
+    -H 'Authorization: ALLOW' \
+    $URL/get?name=OK
+
+echo

@@ -1,0 +1,2 @@
+To install pyspark - "pip install pyspark"
+    - pyspark need at least a version of JAVA installed on the computer (Tested and confirmed)

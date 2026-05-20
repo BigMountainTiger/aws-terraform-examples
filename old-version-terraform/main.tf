@@ -9,10 +9,10 @@ resource "aws_s3_bucket" "terraform_s3" {
 
 terraform {
   backend "s3" {
-    encrypt        = true
-    bucket         = "terraform.huge.head.li"
-    dynamodb_table = "terraform-state-lock"
-    key            = "old-version-terraform-example"
-    region         = "us-east-1"
+    encrypt      = true
+    bucket       = "terraform.huge.head.li"
+    use_lockfile = true
+    key          = "old-version-terraform-example"
+    region       = "us-east-1"
   }
 }

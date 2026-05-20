@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TABLE="kafka-connector-example-table"
+
+aws dynamodb scan --table-name $TABLE

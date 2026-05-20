@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+
+$SCRIPT_PATH/../virtualenv/create
+$AWS_LAMBDAS_VIRTUALENV_SOURCE_COMMAND
+pip --version
+
+LAMBDA_DIR=$1
+TEST_NAME=$2
+
+LAMBDA_FULL_DIR="$AWS_LAMBDAS_SOURCE_BASE_DIR/$LAMBDA_DIR"
+
+cd $LAMBDA_FULL_DIR
+pip install -r requirements-dev.txt --quiet
+
+echo
+cd src
+python -m unittest tests.$TEST_NAME

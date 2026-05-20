@@ -7,9 +7,11 @@ then
     what="p"
 fi
 
+terraform init -reconfigure -upgrade
+
 case "${what}" in
     "i")
-        terraform init -reconfigure
+        terraform init -reconfigure -upgrade
         ;;
     "p")
         terraform plan

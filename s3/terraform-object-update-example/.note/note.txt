@@ -1,0 +1,14 @@
+This example experiments how terraform update file to s3 bucket
+
+https://registry.terraform.io/providers/-/aws/latest/docs/resources/s3_object
+
+1. Terraform only upload the file once
+2. If we want the terraform to upload the file when it changes, we need to add the "etag" property
+3. It is better to use "source_hash" because it does not have the limitations on the "etag"
+
+Differences:
+
+The "source_hash" is saved in terraform state
+The "etag" is a property of the aws resource
+
+It seems sha512 is unable to include the changes on file "-rw-rw-r--"

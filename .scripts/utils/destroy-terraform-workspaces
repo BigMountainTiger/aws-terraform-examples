@@ -1,0 +1,34 @@
+#!/bin/bash
+
+red() {
+    echo '\033[1;31m'$1'\033[0m'
+}
+
+terraform_destroy() {
+    directory="$1"
+    echo "Destroying terraform workspace in $directory"
+    (
+        cd "$directory"
+        terraform init -reconfigure
+        terraform destroy -auto-approve
+    )
+}
+
+export -f terraform_destroy
+
+WHAT=$1
+case "$WHAT" in
+list | l)
+    find . -type d -name "terraform" -print
+    ;;
+delete | d)
+    find . -type d -name "terraform" -print | xargs -I {} bash -c 'terraform_destroy "{}"'
+    ;;
+*)
+    echo -e "This command destroys all the terraform workspaces"
+    echo -e "Only the following operations are supported:\n"
+    echo -e "destroy-terraform-workspaces $(red l) | list - list all the terraform directories"
+    echo -e "destroy-terraform-workspaces $(red d) | destroy - destroy all the terraform workspaces"
+    exit 1
+    ;;
+esac

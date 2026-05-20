@@ -1,0 +1,4 @@
+This is an example to use KMS
+    - How to use a KMS key in secret manager
+    - What are the permissions needed in a lambda to access the secret encrypted by the KMS key
+
