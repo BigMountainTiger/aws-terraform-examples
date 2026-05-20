@@ -1,9 +1,9 @@
 #!/bin/bash
 
 build_context() {
-    REPOSITORY=example_ecr_repository
-    TAG=basic_example
-    RUN_ENV=()
+    REPOSITORY=basic_ecs_example_ecr_repository
+    TAG=latest
+    RUN_ENV=(-e target_s3_bucket="basic-ecs-example-s3-bucket-huge-head-li")
 
     SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
     BUILD_DIRECTORY="$SCRIPT_PATH/../../../docker/basic_example"
