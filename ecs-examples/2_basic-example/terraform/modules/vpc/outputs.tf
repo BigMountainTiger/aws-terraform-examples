@@ -1,8 +1,8 @@
-output "vpc_id" {
+output "default_vpc_id" {
   value = data.aws_vpc.default.id
 }
 
-output "aws_security_group_id" {
+output "default_aws_security_group_id" {
   value = data.aws_security_group.default.id
 }
 

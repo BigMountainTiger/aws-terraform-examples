@@ -7,16 +7,19 @@ locals {
 }
 
 resource "aws_ecs_task_definition" "basic-fargate-task" {
-  family = var.task_name
+  family = var.task_definition_name
 
   container_definitions = jsonencode([
     {
-      "name" : "${var.task_name}",
+      "name" : "${var.task_definition_name}",
       "image" : "${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${var.docker_image}",
+      environment = [
+        { name = "target_s3_bucket", value = "${var.target_s3_bucket}" }
+      ],
       "logConfiguration" : {
         "logDriver" : "awslogs",
         "options" : {
-          "awslogs-group" : "ecs/${var.task_name}",
+          "awslogs-group" : "ecs/${var.task_definition_name}",
           "awslogs-region" : "${local.region}",
           "awslogs-create-group" : "true",
           "awslogs-stream-prefix" : "ecs"

@@ -1,4 +1,4 @@
-variable "task_name" {
+variable "task_definition_name" {
   type = string
 }
 
@@ -14,4 +14,8 @@ variable "cpu" {
 variable "memory" {
   type = number
   default = 512
+}
+
+variable "target_s3_bucket" {
+  type = string
 }

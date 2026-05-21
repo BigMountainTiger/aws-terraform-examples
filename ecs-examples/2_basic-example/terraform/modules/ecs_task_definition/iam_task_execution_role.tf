@@ -1,5 +1,5 @@
 resource "aws_iam_role" "task_execution_role" {
-  name = "${var.task_name}-task-execution-role"
+  name = "${var.task_definition_name}-task-execution-role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
