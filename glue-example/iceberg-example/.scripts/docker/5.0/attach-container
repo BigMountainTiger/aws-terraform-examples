@@ -6,7 +6,7 @@ SCRIPT_PATH="$(realpath "$(dirname -- "${BASH_SOURCE[0]}")")"
 HOST_GLUE_WORKSPACE="$SCRIPT_PATH/../../../glue"
 CONTAINER_GLUE_WORKSPACE="/home/hadoop/workspace/"
 
-IMAGE="public.ecr.aws/glue/aws-glue-libs:5.0.3"
+IMAGE="public.ecr.aws/glue/aws-glue-libs:5.1.0"
 CONTAINER_NAME="glue_libs_5.0_iceberg_example"
 
 if [ "$1" == "-d" ]; then
