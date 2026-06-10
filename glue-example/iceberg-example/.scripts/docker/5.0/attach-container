@@ -15,7 +15,7 @@ if [ "$1" == "-d" ]; then
     if [[ "$REPLY" =~ ^[Yy]$ ]]; then
         if [ "$(docker container ls -a | grep "$CONTAINER_NAME")" ]; then
             echo -e "\nClearing the $CONTAINER_NAME"
-            docker container rm "$CONTAINER_NAME"
+            docker container rm -v "$CONTAINER_NAME"
         else
             echo -e "\n$CONTAINER_NAME does not exist"
         fi

@@ -27,9 +27,16 @@
         "**/.swagger": true,
         "**/flyway-example/report.*": true
     },
+    "git.repositoryScanMaxDepth": 1,
     "workbench.colorTheme": "Dark Modern",
     "python.terminal.activateEnvironment": false,
-    "python.languageServer": "Default",
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.autopep8",
+      "editor.formatOnType": true
+    },
+    "autopep8.args": [
+        "--max-line-length=200"
+    ],
     "terminal.integrated.gpuAcceleration": "off",
     "[terraform]": {
         "editor.tabSize": 2,
