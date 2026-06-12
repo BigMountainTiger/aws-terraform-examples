@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")"
+cd ${SCRIPT_PATH}/../../../../python/awswrangler/simple
+
+python 2_delete_table_if_exists.py

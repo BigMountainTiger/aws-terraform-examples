@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")"
+cd ${SCRIPT_PATH}/../../../../python/awswrangler/nested
+
+python 2_read_nested_types.py
