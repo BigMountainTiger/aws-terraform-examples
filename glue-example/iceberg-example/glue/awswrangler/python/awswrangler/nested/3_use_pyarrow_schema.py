@@ -1,10 +1,7 @@
-import io
-import json
 from athena_client import AthenaClient
 import awswrangler as wr
 import pandas as pd
 import pyarrow as pa
-import pyarrow.json as pj
 
 
 s3_bucket = "iceberg-example-huge-head-li"
@@ -67,8 +64,9 @@ if __name__ == "__main__":
     insert_data(df)
 
     # Second batch
+    # The extra_field will be ignored by pyarrow, it is not in the schema
     data = [
-        {"id": 4, "student": {"name": "David", "score": 100, "age": 20}},
+        {"id": 4, "student": {"name": "David", "score": 100, "age": 20, "extra_field": "value"}},
         {"id": 5, "student": {"name": "Eve", "hobbies": []}},
         {"id": 6, "student": {"name": "Frank", "hobbies": ["hiking", "photography"]}},
         {"id": 7, "student": None},

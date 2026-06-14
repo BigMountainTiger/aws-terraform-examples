@@ -1,0 +1,3 @@
+1: pyarrow schema can be used to control the iceberg table schema
+2: with pyarrow schema, the pandas dataframe ignores entries in the (json) data that are not defined in the schema
+3: pyarrow schema is restrictive that has no generic object type

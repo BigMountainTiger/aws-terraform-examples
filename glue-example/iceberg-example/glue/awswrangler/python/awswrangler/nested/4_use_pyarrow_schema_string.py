@@ -1,8 +1,8 @@
-import io
 import json
 from athena_client import AthenaClient
 import awswrangler as wr
 import pandas as pd
+import pyarrow as pa
 
 
 s3_bucket = "iceberg-example-huge-head-li"
@@ -15,6 +15,10 @@ if __name__ == "__main__":
 
     database_name = "awswrangler_iceberg_example_db"
     table_name = "student_nested"
+
+    def drop_table():
+        athena_client.execute_sql_query(f"DROP TABLE IF EXISTS {database_name}.{table_name}")
+        print("Table dropped")
 
     def insert_data(df):
         wr.athena.to_iceberg(
@@ -31,16 +35,19 @@ if __name__ == "__main__":
 
         print(f"Data inserted into table '{table_name}' in database '{database_name}'")
 
+    def get_pandas_dataframe(data):
+        schema = pa.schema([
+            pa.field("id", pa.int64()),
+            pa.field("student", pa.string())
+        ])
+
+        table = pa.Table.from_pylist(data, schema=schema)
+        df = table.to_pandas(types_mapper=pd.ArrowDtype)
+
+        return df
+
     # 1. Drop the table
-    athena_client.execute_sql_query(f"DROP TABLE IF EXISTS {database_name}.{table_name}")
-    print("Table dropped")
-
-    def object_as_string(data):
-        for e in data:
-            for key, value in e.items():
-                if isinstance(value, dict) or isinstance(value, list):
-                    e[key] = json.dumps(value)
-
+    drop_table()
 
     # 2. Insert first batch of data
     data = [
@@ -48,23 +55,21 @@ if __name__ == "__main__":
         {"id": 2, "student": {"name": "Bob", "score": 90, "hobbies": ["gaming", "cooking"]}},
         {"id": 3, "student": {"name": "Charlie", "score": 80, "hobbies": ["hiking", "photography"]}}
     ]
-    object_as_string(data)
+    for d in data:
+        d["student"] = json.dumps(d["student"])
 
-    df = pd.read_json(io.StringIO(json.dumps(data))).convert_dtypes()
+    df = get_pandas_dataframe(data)
     insert_data(df)
-
-    print("first batch of data inserted")
 
     # 4. Insert second batch of data
     data = [
         {"id": 4, "student": {"name": "David", "score": 100, "age": 20}},
         {"id": 5, "student": {"name": "Eve", "hobbies": []}},
         {"id": 6, "student": {"name": "Frank", "hobbies": ["hiking", "photography"]}},
-        {"id": 7, "student": None},
-        {"id": 8, "student": "invalid_student_data"}
+        {"id": 7, "student": None}
     ]
-    object_as_string(data)
-    df = pd.read_json(io.StringIO(json.dumps(data))).convert_dtypes()
-    insert_data(df)
+    for d in data:
+        d["student"] = json.dumps(d["student"])
 
-    print("second batch of data inserted")
+    df = get_pandas_dataframe(data)
+    insert_data(df)

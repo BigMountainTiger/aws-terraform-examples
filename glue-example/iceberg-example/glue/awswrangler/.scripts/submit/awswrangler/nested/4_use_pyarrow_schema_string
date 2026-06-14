@@ -3,4 +3,4 @@
 SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")"
 cd ${SCRIPT_PATH}/../../../../python/awswrangler/nested
 
-python 4_pyarrow_struct.py
+python 4_use_pyarrow_schema_string.py
