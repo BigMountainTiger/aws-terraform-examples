@@ -1,3 +1,14 @@
-1: pyarrow schema can be used to control the iceberg table schema
-2: with pyarrow schema, the pandas dataframe ignores entries in the (json) data that are not defined in the schema
-3: pyarrow schema is restrictive that has no generic object type
+1. pyarrow schema can be used to control the iceberg table schema:
+  It seems to be the schema that awswrangler sends to the iceberg table
+
+2. pyarrow schema is restrictive that has no generic object type:
+  If entry in schema is missing in json:
+    - The enty is parsed as null
+  If entry is present in json but not in schema:
+    - The entry is ignored
+  If entry is present in both json and schema and have different types:
+    - An error will be raised
+
+3. Json data do not match to string type in schema:
+  - It is an error
+  - Pyarrow even refuses to cast int to string (at least for the version tested - pyarrow==24.0.0)

@@ -39,7 +39,8 @@ if __name__ == "__main__":
             pa.field("name", pa.string()),
             pa.field("score", pa.int64()),
             pa.field("hobbies", pa.list_(pa.string())),
-            pa.field("age", pa.int64())
+            pa.field("age", pa.int64()),
+            pa.field("tags", pa.map_(pa.string(), pa.string()))
         ])
 
         schema = pa.schema([
@@ -71,7 +72,9 @@ if __name__ == "__main__":
         {"id": 6, "student": {"name": "Frank", "hobbies": ["hiking", "photography"]}},
         {"id": 7, "student": None},
         {"id": 8, "student": {}},
-        {"id": 9}
+        {"id": 9},
+        {"id": 10, "student": {"tags": {"key1": "value1", "key2": "value2"}}}
+        
     ]
     df = get_pandas_dataframe(data)
     insert_data(df)

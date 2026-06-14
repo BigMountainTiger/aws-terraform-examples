@@ -1,22 +1,23 @@
 import pyarrow as pa
 
+
 def infer_pyarrow_type(data):
     """Recursively infers PyArrow types from nested Python data structures."""
     if isinstance(data, dict):
         # Recursively build fields for the StructType
         fields = [
-            pa.field(key, infer_pyarrow_type(value)) 
+            pa.field(key, infer_pyarrow_type(value))
             for key, value in data.items()
         ]
         return pa.struct(fields)
-    
+
     elif isinstance(data, list):
         if not data:
             # Handle empty list default
             return pa.list_(pa.null())
         # Infer type from the first element of the list
         return pa.list_(infer_pyarrow_type(data[0]))
-    
+
     elif isinstance(data, int):
         return pa.int64()
     elif isinstance(data, float):
@@ -30,13 +31,15 @@ def infer_pyarrow_type(data):
     else:
         raise TypeError(f"Unsupported data type: {type(data)}")
 
+
 def generate_schema(sample_dict):
     """Generates a top-level PyArrow Schema from a root dictionary."""
     fields = [
-        pa.field(key, infer_pyarrow_type(value)) 
+        pa.field(key, infer_pyarrow_type(value))
         for key, value in sample_dict.items()
     ]
     return pa.schema(fields)
+
 
 # ==========================================
 # Example Usage
@@ -64,4 +67,9 @@ nested_sample = {
 
 # Generate and print the schema
 schema = generate_schema(nested_sample)
-print(schema)
+schema_string = schema.to_string()
+
+strs = schema_string.split('\n')
+for s in strs:
+    if not s.startswith((' ', '\t')):
+        print(s)
