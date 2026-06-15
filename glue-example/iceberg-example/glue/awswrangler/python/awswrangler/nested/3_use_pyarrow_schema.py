@@ -1,8 +1,9 @@
+import logging
 from athena_client import AthenaClient
 import awswrangler as wr
-import pandas as pd
-import pyarrow as pa
+from schema.pyarrow_util import PyArrowPandasDataframeGenerator
 
+logging.basicConfig(level=logging.INFO)
 
 s3_bucket = "iceberg-example-huge-head-li"
 s3_athena_output_dir = f's3://{s3_bucket}/temp/athena'
@@ -34,24 +35,19 @@ if __name__ == "__main__":
 
         print(f"Data inserted into table '{table_name}' in database '{database_name}'")
 
-    def get_pandas_dataframe(data):
-        student_type = pa.struct([
-            pa.field("name", pa.string()),
-            pa.field("score", pa.int64()),
-            pa.field("hobbies", pa.list_(pa.string())),
-            pa.field("age", pa.int64()),
-            pa.field("tags", pa.map_(pa.string(), pa.string()))
-        ])
+    schema_template = {
+        "id": 0,
+        "student": {
+            "name": "",
+            "score": 0,
+            "hobbies": [""],
+            "age": 0,
+            "tags": {"": ""}
+        }
+    }
 
-        schema = pa.schema([
-            pa.field("id", pa.int64()),
-            pa.field("student", student_type)
-        ])
-
-        table = pa.Table.from_pylist(data, schema=schema)
-        df = table.to_pandas(types_mapper=pd.ArrowDtype)
-
-        return df
+    dataframe_generator = PyArrowPandasDataframeGenerator(schema_template)
+    dataframe_generator.print_schema()
 
     drop_table()
 
@@ -61,7 +57,7 @@ if __name__ == "__main__":
         {"id": 2, "student": {"name": "Bob", "score": 90, "hobbies": ["gaming", "cooking"]}},
         {"id": 3, "student": {"name": "Charlie", "score": 80, "hobbies": ["hiking", "photography"]}}
     ]
-    df = get_pandas_dataframe(data)
+    df = dataframe_generator.generate_dataframe(data)
     insert_data(df)
 
     # Second batch
@@ -74,7 +70,7 @@ if __name__ == "__main__":
         {"id": 8, "student": {}},
         {"id": 9},
         {"id": 10, "student": {"tags": {"key1": "value1", "key2": "value2"}}}
-        
+
     ]
-    df = get_pandas_dataframe(data)
+    df = dataframe_generator.generate_dataframe(data)
     insert_data(df)

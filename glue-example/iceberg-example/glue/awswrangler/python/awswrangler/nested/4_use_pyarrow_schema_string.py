@@ -1,9 +1,10 @@
+import logging
 import json
 from athena_client import AthenaClient
 import awswrangler as wr
-import pandas as pd
-import pyarrow as pa
+from schema.pyarrow_util import PyArrowPandasDataframeGenerator
 
+logging.basicConfig(level=logging.INFO)
 
 s3_bucket = "iceberg-example-huge-head-li"
 s3_athena_output_dir = f's3://{s3_bucket}/temp/athena'
@@ -35,16 +36,13 @@ if __name__ == "__main__":
 
         print(f"Data inserted into table '{table_name}' in database '{database_name}'")
 
-    def get_pandas_dataframe(data):
-        schema = pa.schema([
-            pa.field("id", pa.int64()),
-            pa.field("student", pa.string())
-        ])
+    schema_template = {
+        "id": 0,
+        "student": ""
+    }
 
-        table = pa.Table.from_pylist(data, schema=schema)
-        df = table.to_pandas(types_mapper=pd.ArrowDtype)
-
-        return df
+    dataframe_generator = PyArrowPandasDataframeGenerator(schema_template)
+    dataframe_generator.print_schema()
 
     # 1. Drop the table
     drop_table()
@@ -58,10 +56,10 @@ if __name__ == "__main__":
     for d in data:
         d["student"] = json.dumps(d["student"])
 
-    df = get_pandas_dataframe(data)
+    df = dataframe_generator.generate_dataframe(data)
     insert_data(df)
 
-    # 4. Insert second batch of data
+    # 3. Insert second batch of data
     data = [
         {"id": 4, "student": {"name": "David", "score": 100, "age": 20}},
         {"id": 5, "student": {"name": "Eve", "hobbies": []}},
@@ -71,5 +69,5 @@ if __name__ == "__main__":
     for d in data:
         d["student"] = json.dumps(d["student"])
 
-    df = get_pandas_dataframe(data)
+    df = dataframe_generator.generate_dataframe(data)
     insert_data(df)

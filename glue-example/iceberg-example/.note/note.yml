@@ -1,0 +1,9 @@
+References: 
+  - https://docs.aws.amazon.com/athena/latest/ug/querying-iceberg.html
+
+Both pyspark and awswrangler can be used to interact with Iceberg tables in AWS Glue:
+  - pyspark: Comprehensive support including merge operations
+  - awswrangler:
+      - If only appending operations, it can be easy to use and more efficient
+      - Nested data types can be achieved using pyarrow schema
+
