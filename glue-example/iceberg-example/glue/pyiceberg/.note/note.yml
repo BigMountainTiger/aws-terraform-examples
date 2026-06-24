@@ -1,0 +1,3 @@
+Dependencies:
+  pyiceberg[glue,s3fs,pyarrow]
+  pandas
