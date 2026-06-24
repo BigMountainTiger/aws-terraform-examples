@@ -1,6 +1,6 @@
 #!/bin/bash
 
 SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")"
-cd ${SCRIPT_PATH}/../../../../python/awswrangler/simple
+cd ${SCRIPT_PATH}/../../../python/awswrangler/simple
 
 python 4_insert_another_bactch.py

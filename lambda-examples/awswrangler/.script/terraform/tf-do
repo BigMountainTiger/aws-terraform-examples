@@ -24,6 +24,9 @@ case "${what}" in
 "d")
     init
     terraform destroy -auto-approve
+
+    # clear the temporary files
+    rm -rf .zip
     ;;
 *)
     echo "Nothing to do for ${what}. Available options: p,a,d"

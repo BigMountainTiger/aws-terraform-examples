@@ -1,0 +1,14 @@
+{
+    "id": 0,
+    "student": {
+        "name": "",
+        "score": 0,
+        "hobbies": [
+            ""
+        ],
+        "age": 0,
+        "tags": {
+            "": ""
+        }
+    }
+}

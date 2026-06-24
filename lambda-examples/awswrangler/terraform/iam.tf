@@ -28,6 +28,7 @@ resource "aws_iam_role_policy" "lambda_execution_role" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "s3:GetBucketLocation",
           "s3:ListBucket",
           "s3:GetObject",
           "s3:PutObject",
@@ -37,6 +38,31 @@ resource "aws_iam_role_policy" "lambda_execution_role" {
           aws_s3_bucket.s3.arn,
           "${aws_s3_bucket.s3.arn}/*"
         ]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "athena:StartQueryExecution",
+          "athena:GetQueryExecution",
+          "athena:GetQueryResults",
+          "athena:StopQueryExecution",
+          "athena:GetWorkGroup"
+        ],
+        "Resource" : ["*"]
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "glue:CreateDatabase",
+          "glue:GetDatabase",
+          "glue:GetTable",
+          "glue:CreateTable",
+          "glue:UpdateTable",
+          "glue:DeleteTable",
+          "glue:GetPartitions",
+          "glue:BatchCreatePartition"
+        ],
+        "Resource" : ["*"]
       }
     ]
   })

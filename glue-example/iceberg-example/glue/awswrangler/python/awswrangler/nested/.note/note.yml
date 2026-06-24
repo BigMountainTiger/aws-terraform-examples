@@ -12,3 +12,6 @@
 3. Json data do not match to string type in schema:
   - It is an error
   - Pyarrow even refuses to cast int to string (at least for the version tested - pyarrow==24.0.0)
+
+4. The keep_files=True option in wr.athena.to_iceberg() function:
+  - It only keep the temporary files but it will delete the temporary glue tables

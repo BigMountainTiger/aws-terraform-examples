@@ -29,4 +29,9 @@ ALTER TABLE awswrangler_iceberg_example_db.student_nested
 CHANGE COLUMN student.age age bigint;
 
 
+----------- Update date value of a child property --------------
+-- It is not possible by standard SQL
+-- Must construct a whole parent record to update it as a whole
+
+
 

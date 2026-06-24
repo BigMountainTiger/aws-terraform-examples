@@ -7,4 +7,7 @@ then
     echo "default to git log ${l}"
 fi
 
+echo && echo "Changes in the last commit:"
+git diff HEAD~1 HEAD --name-only && echo
+
 git log ${l}
