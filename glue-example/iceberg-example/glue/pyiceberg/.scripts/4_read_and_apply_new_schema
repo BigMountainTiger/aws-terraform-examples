@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(dirname "${BASH_SOURCE[0]}")"
+cd ${SCRIPT_PATH}/../python/
+
+python 4_read_and_apply_new_schema.py

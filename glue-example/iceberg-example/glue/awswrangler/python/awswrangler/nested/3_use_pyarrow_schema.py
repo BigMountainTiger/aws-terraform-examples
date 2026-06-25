@@ -42,7 +42,11 @@ if __name__ == "__main__":
             "score": 0,
             "hobbies": [""],
             "age": 0,
-            "tags": {"": ""}
+            "tags": {"": ""},
+            "physics": {
+                "height": 0.0,
+                "weight": 0.0
+            }
         }
     }
 
@@ -53,9 +57,9 @@ if __name__ == "__main__":
 
     # First batch
     data = [
-        {"id": 1, "student": {"name": "Alice", "score": 100, "hobbies": ["reading"]}},
+        {"id": 1, "student": {"name": "Alice", "score": 100, "hobbies": ["reading"], "physics": {"height": 160.0, "weight": 55.0}}},
         {"id": 2, "student": {"name": "Bob", "score": 90, "hobbies": ["gaming", "cooking"]}},
-        {"id": 3, "student": {"name": "Charlie", "score": 80, "hobbies": ["hiking", "photography"]}}
+        {"id": 3, "student": {"name": "Charlie", "score": 80, "hobbies": ["hiking", "photography"], "physics": {"height": 170.0, "weight": 60.0}}}
     ]
     df = dataframe_generator.generate_dataframe(data)
     insert_data(df)
