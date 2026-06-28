@@ -1,9 +1,13 @@
+resource "aws_glue_catalog_database" "iceberg_example" {
+  name = "iceberg_example"
+}
+
 resource "aws_glue_catalog_database" "database" {
   name = "awswrangler_iceberg_example_db"
 }
 
-resource "aws_glue_catalog_database" "iceberg_example" {
-  name = "iceberg_example"
+resource "aws_glue_catalog_database" "pyspark_iceberg_example_db" {
+  name = "pyspark_iceberg_example_db"
 }
 
 

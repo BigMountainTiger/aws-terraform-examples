@@ -1,9 +1,9 @@
 #!/bin/bash
 
-file_name="2_create_table.py"
+file_name="3_insert.py"
 
 SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
-python_file="$(realpath "$SCRIPT_PATH/../python/$file_name")"
+python_file="$(realpath "$SCRIPT_PATH/../../python/flat_table/$file_name")"
 
 echo $python_file
 time spark-submit $python_file
