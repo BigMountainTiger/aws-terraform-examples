@@ -29,6 +29,7 @@ if [ ! "$CONTAINER_EXITS" ]; then
 
     docker run -it \
         -v $HOST_GLUE_WORKSPACE:$CONTAINER_GLUE_WORKSPACE:rw \
+        -v ~/.aws:/home/glue_user/.aws:ro \
         -e DISABLE_SSL=true \
         -e DATALAKE_FORMATS=hudi,delta,iceberg \
         -p 4040:4040 \

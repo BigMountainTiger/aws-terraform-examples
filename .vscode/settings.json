@@ -31,8 +31,8 @@
     "workbench.colorTheme": "Dark Modern",
     "python.terminal.activateEnvironment": false,
     "[python]": {
-      "editor.defaultFormatter": "ms-python.autopep8",
-      "editor.formatOnType": true
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnType": true
     },
     "autopep8.args": [
         "--max-line-length=200"
@@ -47,5 +47,9 @@
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
         "editor.detectIndentation": false
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "mkhl.shfmt",
+        "editor.tabSize": 4
     }
 }
