@@ -1,6 +1,6 @@
 #!/bin/bash
 
-file_name="1_drop_table.py"
+file_name="2_create_and_insert.py"
 
 SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
 python_file="$(realpath "$SCRIPT_PATH/../../python/nested_data/$file_name")"

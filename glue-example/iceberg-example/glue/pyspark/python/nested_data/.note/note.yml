@@ -1,0 +1,11 @@
+Schema evolution:
+  To enable:
+    1: spark.conf.set("spark.sql.iceberg.check-ordering", "false")
+    2: >
+      df.writeTo(full_table_name).using("iceberg").tableProperty("location", s3_path) \
+        .option("mergeSchema", "true").append()
+    3: spark.sql(f"ALTER TABLE {full_table_name} SET TBLPROPERTIES ('write.spark.accept-any-schema'='true')")
+  Result:
+    1: New property is added to the end
+    2: Missing property is ignored
+    3: Mismatch type on the same property is an error

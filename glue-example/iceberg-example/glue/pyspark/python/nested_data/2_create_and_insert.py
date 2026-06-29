@@ -28,7 +28,7 @@ def get_glue_table():
 if __name__ == "__main__":
     spark = pyspark_utils.get_spark_session()
 
-    def create_data_frame():
+    def create_date_schema():
         schema_template = {
             "id": 0,
             "student": {
@@ -40,13 +40,18 @@ if __name__ == "__main__":
             }
         }
 
+        return pyspark_utils.generate_schema_from_json_data(schema_template)
+
+    pyspark_schema = create_date_schema()
+
+    def create_data_frame():
         data = [
-            {"id": 1, "student": {"name": "Alice", "score": 100, "hobbies": ["reading"], "age": 20, "tags": {"grade": "A"}}},
+            {"id": 1, "student": {"name": "Alice", "score": 100, "hobbies": ["reading"]}},
             {"id": 2, "student": {"name": "Bob", "score": 90, "hobbies": ["gaming", "cooking"]}},
             {"id": 3, "student": {"name": "Charlie", "score": 80, "hobbies": ["hiking", "photography"]}}
         ]
 
-        df = spark.createDataFrame(data)
+        df = spark.createDataFrame(data, schema=pyspark_schema)
         return df
 
     glue_table = get_glue_table()
