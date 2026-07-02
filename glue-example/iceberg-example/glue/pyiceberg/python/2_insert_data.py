@@ -1,36 +1,12 @@
-from pyiceberg.catalog import load_catalog
-from pyiceberg.io.pyarrow import _pyarrow_to_schema_without_ids
 from utils.pyarrow_util import PyArrowPandasDataframeGenerator
-from utils.athena_client import AthenaClient
+from utils import pyiceberg_util
 
 s3_bucket = "iceberg-example-huge-head-li"
-s3_database_dir = f's3://{s3_bucket}/databases'
 s3_athena_output_dir = f's3://{s3_bucket}/athena'
 
 database_name = "iceberg_example"
 table_name = "student"
-
-
-def drop_table_if_exists(s3_athena_output_dir, database_name, table_name):
-    athena_client = AthenaClient(s3_athena_output_dir=s3_athena_output_dir)
-    athena_client.execute_sql_query(f"DROP TABLE IF EXISTS {database_name}.{table_name};")
-
-
-def get_or_create_table(database_name, table_name, s3_database_dir, arrow_schema):
-    catalog = load_catalog("glue_catalog", **{"type": "glue", "warehouse": s3_database_dir})
-    catalog.create_namespace_if_not_exists(database_name)
-
-    iceberg_schema = _pyarrow_to_schema_without_ids(arrow_schema)
-    table_identifier = f"{database_name}.{table_name}"
-
-    try:
-        table = catalog.load_table(table_identifier)
-        print(f"Table '{table_identifier}' already exists. Load existing table.")
-    except Exception as e:
-        table = catalog.create_table(identifier=table_identifier, schema=iceberg_schema)
-        print(f"Table '{table_identifier}' created successfully.")
-
-    return table
+s3_table_location = f's3://{s3_bucket}/tables/{database_name}.{table_name}'
 
 
 schema_template = {
@@ -46,10 +22,10 @@ schema_template = {
 
 dataframe_generator = PyArrowPandasDataframeGenerator(schema_template)
 
-drop_table_if_exists(s3_athena_output_dir, database_name, table_name)
+pyiceberg_util.drop_table_if_exists(s3_athena_output_dir, database_name, table_name)
 print(f"Table '{database_name}.{table_name}' dropped")
 
-table = get_or_create_table(database_name, table_name, s3_database_dir, dataframe_generator.arrow_schema)
+table = pyiceberg_util.get_or_create_table(database_name, table_name, dataframe_generator.arrow_schema, s3_table_location)
 print(f"Table '{database_name}.{table_name}' is ready for use.")
 
 # First batch

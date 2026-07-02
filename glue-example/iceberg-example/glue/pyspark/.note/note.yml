@@ -1,0 +1,3 @@
+pyspark does not support upsert to iceberg table:
+  - Create a delete SQL and run it
+  - Then append the new data

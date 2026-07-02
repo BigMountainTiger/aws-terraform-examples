@@ -1,18 +1,12 @@
-from pyiceberg.catalog import load_catalog
 from utils.pyarrow_util import PyArrowPandasDataframeGenerator
 import pyarrow as pa
+from utils import pyiceberg_util
 
-s3_bucket = "iceberg-example-huge-head-li"
-s3_database_dir = f's3://{s3_bucket}/databases'
 
 database_name = "iceberg_example"
 table_name = "student"
 
-catalog = load_catalog("glue_catalog", type="glue", warehouse=s3_database_dir)
-catalog.create_namespace_if_not_exists(database_name)
-
-table_identifier = f"{database_name}.{table_name}"
-table = catalog.load_table(table_identifier)
+table = pyiceberg_util.get_table(database_name, table_name)
 
 schema_template = {
     "id": 0,

@@ -1,0 +1,5 @@
+awswrangler supports upsert to iceberg table:
+  - merge_cols: |
+      list of columns to match for upsert
+      If not specified or empty list => append
+  - merge_condition: update/ignore, default update
