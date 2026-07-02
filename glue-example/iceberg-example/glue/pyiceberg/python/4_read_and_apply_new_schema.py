@@ -1,5 +1,5 @@
 from pyiceberg.catalog import load_catalog
-from schema.pyarrow_util import PyArrowPandasDataframeGenerator
+from utils.pyarrow_util import PyArrowPandasDataframeGenerator
 import pyarrow as pa
 
 s3_bucket = "iceberg-example-huge-head-li"
@@ -29,6 +29,6 @@ schema_template = {
 dataframe_generator = PyArrowPandasDataframeGenerator(schema_template)
 
 df = table.scan().to_pandas()
-tb = pa.Table.from_pandas(df, schema=dataframe_generator.schema)
+tb = pa.Table.from_pandas(df, schema=dataframe_generator.arrow_schema)
 
 print(tb.schema)

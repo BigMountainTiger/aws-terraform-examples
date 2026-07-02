@@ -65,22 +65,22 @@ class PyArrowSchemaGenerator:
 class PyArrowPandasDataframeGenerator:
 
     def __init__(self, schema_template):
-        self._schema = None
+        self._arrow_schema = None
         self.schema_template = schema_template
         self.pyarrow_schema_generator = PyArrowSchemaGenerator()
 
     @property
-    def schema(self):
-        if self._schema is None:
-            self._schema = self.pyarrow_schema_generator.generate_schema(self.schema_template)
+    def arrow_schema(self):
+        if self._arrow_schema is None:
+            self._arrow_schema = self.pyarrow_schema_generator.generate_schema(self.schema_template)
 
-        return self._schema
+        return self._arrow_schema
 
     def print_schema(self):
-        self.pyarrow_schema_generator.print_schema(self.schema)
+        self.pyarrow_schema_generator.print_schema(self.arrow_schema)
 
     def generate_pyarrow_table(self, data):
-        table = pa.Table.from_pylist(data, schema=self.schema)
+        table = pa.Table.from_pylist(data, schema=self.arrow_schema)
         return table
 
     def generate_dataframe(self, data):

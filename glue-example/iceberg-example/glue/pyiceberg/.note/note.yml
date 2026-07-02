@@ -1,4 +1,10 @@
 Dependencies:
-  pyiceberg[glue,s3fs,pyarrow]
-  pandas
-  iceberg_evolve
+  pyiceberg:
+  awswrangler: It includes pandas, pyarrow and boto3
+  iceberg_evolve: Not needed. Never succeeded to evolve any schema with it
+
+pyiceberg:
+  1: Support transactions
+  2: Support upsert (with option to do nothing when matched)
+
+

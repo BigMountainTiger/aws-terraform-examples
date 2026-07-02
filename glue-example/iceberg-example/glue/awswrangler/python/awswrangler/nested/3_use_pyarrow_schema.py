@@ -21,6 +21,10 @@ if __name__ == "__main__":
         print("Table dropped")
 
     def insert_data(df):
+        # Upsert:
+        # 1. merge_cols
+        # 2. merge_condition (update/ignore, default update)
+        # If merge_cols is not specified or empty list => append
         wr.athena.to_iceberg(
             df=df,
             database=database_name,
@@ -28,6 +32,8 @@ if __name__ == "__main__":
             table_location=f"{s3_database_dir}/{database_name}/{table_name}",
             s3_output=s3_athena_output_dir,
             temp_path=s3_athena_output_dir,
+            merge_cols=["id"],
+            merge_condition="update",
             keep_files=False,
             schema_evolution=False,
             fill_missing_columns_in_df=True
@@ -67,7 +73,7 @@ if __name__ == "__main__":
     # Second batch
     # The extra_field will be ignored by pyarrow, it is not in the schema
     data = [
-        {"id": 4, "student": {"name": "David", "score": 100, "age": 20, "extra_field": "value"}},
+        {"id": 1, "student": {"name": "Alice", "score": 100, "age": 20, "extra_field": "value", "tags": {"updated": "true"}}},
         {"id": 5, "student": {"name": "Eve", "hobbies": []}},
         {"id": 6, "student": {"name": "Frank", "hobbies": ["hiking", "photography"]}},
         {"id": 7, "student": None},

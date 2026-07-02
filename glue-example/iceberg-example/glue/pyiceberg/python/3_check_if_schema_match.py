@@ -1,11 +1,8 @@
 from pyiceberg.catalog import load_catalog
 from pyiceberg.io.pyarrow import _pyarrow_to_schema_without_ids
 from pyiceberg.schema import assign_fresh_schema_ids
+from utils.pyarrow_util import PyArrowPandasDataframeGenerator
 
-from iceberg_evolve.schema import Schema
-from iceberg_evolve.diff import SchemaDiff
-from iceberg_evolve.renderer import SchemaDiffRenderer
-from schema.pyarrow_util import PyArrowPandasDataframeGenerator
 
 s3_bucket = "iceberg-example-huge-head-li"
 s3_database_dir = f's3://{s3_bucket}/databases'
@@ -31,7 +28,7 @@ schema_template = {
 }
 
 dataframe_generator = PyArrowPandasDataframeGenerator(schema_template)
-new_schema = dataframe_generator.schema
+new_schema = dataframe_generator.arrow_schema
 new_schema = _pyarrow_to_schema_without_ids(new_schema)
 new_schema = assign_fresh_schema_ids(new_schema)
 

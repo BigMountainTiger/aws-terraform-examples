@@ -15,3 +15,9 @@
 
 4. The keep_files=True option in wr.athena.to_iceberg() function:
   - It only keep the temporary files but it will delete the temporary glue tables
+
+5. awswrangler supports upsert to iceberg table:
+  - merge_cols: |
+      list of columns to match for upsert
+      If not specified or empty list => append
+  - merge_condition: update/ignore, default update
