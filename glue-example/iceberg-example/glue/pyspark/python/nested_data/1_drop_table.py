@@ -1,5 +1,5 @@
-import pyspark_utils
-from athena_client import AthenaClient
+from utils import pyspark_utils
+from utils.athena_client import AthenaClient
 
 s3_bucket = "iceberg-example-huge-head-li"
 

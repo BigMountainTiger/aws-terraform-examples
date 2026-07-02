@@ -1,6 +1,5 @@
-from botocore.exceptions import ClientError
-import boto3
-import pyspark_utils
+from utils import pyspark_utils
+from utils import pyspark_iceberg_utils as piu
 from pyspark.sql import functions as F
 
 s3_bucket = "iceberg-example-huge-head-li"
@@ -10,34 +9,6 @@ table_name = "student"
 
 full_table_name = f'glue_catalog.{database_name}.{table_name}'
 s3_path = f's3://{s3_bucket}/{database_name}/{table_name}/'
-
-
-def get_glue_table():
-    try:
-        glue_client = boto3.client('glue')
-        response = glue_client.get_table(DatabaseName=database_name, Name=table_name)
-
-        return response['Table']
-    except ClientError as e:
-        if e.response['Error']['Code'] == 'EntityNotFoundException':
-            return None
-        else:
-            raise
-
-
-def validate_existing_table_is_iceberg(glue_table):
-    table_name = glue_table.get('Name')
-    parameters = glue_table.get('Parameters', {})
-    table_type = parameters.get('table_type') or parameters.get('TABLE_TYPE')
-    classification = parameters.get('classification')
-
-    is_iceberg = str(table_type).lower() == 'iceberg' or str(classification).lower() == 'iceberg'
-
-    if not is_iceberg:
-        raise RuntimeError(
-            f"Glue table '{table_name}' already exists but is not registered as an Iceberg table."
-            f"Current parameters: table_type={table_type}, classification={classification}."
-        )
 
 
 if __name__ == "__main__":
@@ -75,16 +46,30 @@ if __name__ == "__main__":
         df = spark.createDataFrame(data, schema=pyspark_schema)
         return df
 
-    glue_table = get_glue_table()
     df = create_data_frame()
+
+    # Add the batch column for de-duplication purpose
+    df = df.withColumn("batch_hour", F.lit(1).cast("int"))
+    df.printSchema()
     df.show()
 
+    glue_table = piu.get_glue_table(database_name, table_name)
+
     if glue_table is None:
-        df.writeTo(full_table_name).using("iceberg").tableProperty("location", s3_path).create()
+        df.writeTo(full_table_name) \
+            .using("iceberg") \
+            .tableProperty("location", s3_path) \
+            .tableProperty("write.spark.accept-any-schema", "true") \
+            .partitionedBy("batch_hour") \
+            .create()
+
         print(f"Table '{table_name}' created.")
     else:
-        validate_existing_table_is_iceberg(glue_table)
-        spark.sql(f"ALTER TABLE {full_table_name} SET TBLPROPERTIES ('write.spark.accept-any-schema'='true')")
+        piu.validate_existing_table_is_iceberg(glue_table)
 
-        df.writeTo(full_table_name).using("iceberg").tableProperty("location", s3_path).option("mergeSchema", "true").append()
+        batch_hours = [str(row["batch_hour"]) for row in df.collect()]
+        delete_sql = f"DELETE FROM {full_table_name} WHERE batch_hour IN ({','.join(batch_hours)});"
+        spark.sql(delete_sql)
+
+        df.writeTo(full_table_name).option("mergeSchema", "true").append()
         print(f"Data appended to table '{table_name}'.")
