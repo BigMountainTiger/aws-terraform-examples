@@ -1,11 +1,26 @@
 Schema evolution:
   To enable:
     1: spark.conf.set("spark.sql.iceberg.check-ordering", "false")
-    2: >
+    2: |
+      spark.sql(f"ALTER TABLE {full_table_name} SET TBLPROPERTIES ('write.spark.accept-any-schema'='true')")
+      or
+      use tableProperty("write.spark.accept-any-schema", "true")
+    3: >
       df.writeTo(full_table_name).using("iceberg").tableProperty("location", s3_path) \
         .option("mergeSchema", "true").append()
-    3: spark.sql(f"ALTER TABLE {full_table_name} SET TBLPROPERTIES ('write.spark.accept-any-schema'='true')")
+  Because the write.spark.accept-any-schema is not recognized by athena:
+    Use: DESCRIBE formatted pyspark_iceberg_example_db.student;
   Result:
     1: New property is added to the end
     2: Missing property is ignored
     3: Mismatch type on the same property is an error
+
+Partition:
+  1: .partitionedBy("batch_hour")
+
+DE-duplication:
+  Native: Pyspark does not have native upsert with iceberg
+  Custom Method:
+    1: Add a partition column to the table, e.g. Batch_idenitifier
+    2: Add a meaningful Batch_identifier to the data
+    3: Delete from the table with the same Batch_identifier before writing the new data
