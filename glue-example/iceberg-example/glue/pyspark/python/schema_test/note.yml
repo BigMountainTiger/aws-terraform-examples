@@ -1,0 +1,8 @@
+String type is flexible: String type can take any data including objects
+
+Schema compatibility:
+  1: string can take any types of data
+  2: Missing entries is OK
+  3: int/long can not take float type data
+  4: float/double can not take int type data
+  5: boolean type can only take boolean data

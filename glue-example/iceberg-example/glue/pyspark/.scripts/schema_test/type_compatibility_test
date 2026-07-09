@@ -1,0 +1,13 @@
+#!/bin/bash
+
+file_name="type_compatibility_test.py"
+
+SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+python_file="$(realpath "$SCRIPT_PATH/../../python/schema_test/$file_name")"
+
+submit_job() {
+	spark-submit "$1"
+}
+
+echo $python_file
+time submit_job "$python_file"

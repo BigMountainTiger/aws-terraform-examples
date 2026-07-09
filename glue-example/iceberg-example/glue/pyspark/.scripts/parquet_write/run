@@ -3,7 +3,7 @@
 file_name="run.py"
 
 SCRIPT_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
-python_file="$(realpath "$SCRIPT_PATH/../../python/schema_test/$file_name")"
+python_file="$(realpath "$SCRIPT_PATH/../../python/parquet_write/$file_name")"
 
 submit_job() {
 	spark-submit "$1"
