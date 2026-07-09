@@ -1,10 +1,9 @@
 #!/bin/bash -e
 
 what=$1
-if [ -z "${what}" ]
-then
-    echo "default action to plan"
-    what="p"
+if [ -z "${what}" ]; then
+	echo "default action to plan"
+	what="p"
 fi
 
 cd terraform
@@ -12,16 +11,21 @@ cd terraform
 terraform init -reconfigure -upgrade
 
 case "${what}" in
-    "p")
-        terraform plan
-        ;;
-    "a")
-        terraform apply -auto-approve
-        ;;
-    "d")
-        terraform destroy -auto-approve
-        ;;
-    *)
-        echo "Nothing to do for ${what}. Available options: p,a,d"
-        ;; 
+"p")
+	terraform plan -detailed-exitcode
+	TERRAFORM_EXIT_CODE=$?
+	if [[ "$TERRAFORM_EXIT_CODE" == "0" ]]; then
+		echo "outputs:"
+		terraform output
+	fi
+	;;
+"a")
+	terraform apply -auto-approve
+	;;
+"d")
+	terraform destroy -auto-approve
+	;;
+*)
+	echo "Nothing to do for ${what}. Available options: p,a,d"
+	;;
 esac

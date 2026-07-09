@@ -7,10 +7,6 @@ resource "aws_dynamodb_table" "time_tracker_control_table" {
     name = "table_name"
     type = "S"
   }
-
-  tags = {
-    name = "time_tracker_control_table"
-  }
 }
 
 

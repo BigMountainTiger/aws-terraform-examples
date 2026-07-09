@@ -1,0 +1,17 @@
+1. Combine columns stop partition prune:
+  Partition pruning will not happen: partition pruning will not happen if you combine the individual columns inside the WHERE clause function.
+  Partition pruning will happen: |
+    SELECT * 
+    FROM my_table
+    WHERE y = '2026'
+      AND m = '07'
+      AND d = '07'
+      AND h >= '12';
+
+2. Efficient way to get the max / min partition:
+  SQL example: |
+    SELECT year, month, day, hour 
+    FROM your_database_name."your_table_name$partitions"
+    ORDER BY year DESC, month DESC, day DESC, hour DESC
+    LIMIT 1;
+  Note: $partitions is a metadata table
