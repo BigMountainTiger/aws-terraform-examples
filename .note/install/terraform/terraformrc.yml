@@ -1,5 +1,5 @@
 The ~/.terraformrc file:
-  Purpose: onfigure the behavior of the terraform CLI
+  Purpose: configure the behavior of the terraform CLI
   common settings:
     Item list:
       - credentials
@@ -13,9 +13,9 @@ The ~/.terraformrc file:
           1: Common location for downloaded provider plugins
           2: For multiple Terraform projects, it speeds up subsequent runs by caching downloaded plugins
           3: It saves disk space because plugins are shared across different projects
-        Configuration entry: plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
+        Configuration entry: |
+          plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
         note: The $HOME/.terraform.d/plugin-cache directory need to exist before running terraform commands
-      
 
 The "~/.terraform.d" directory:
   Purpose: It is used to store Terraform-related data and configuration files.

@@ -1,0 +1,15 @@
+Terraform projects:
+
+The new terraform backend removed the need for dynamodb:
+  Example: |
+    terraform {
+      backend "s3" {
+        encrypt      = true
+        bucket       = "terraform.huge.head.li.2023"
+        use_lockfile = true
+        key          = "glue-example-iceberg-example"
+        region       = "us-east-1"
+      }
+    }
+
+  Explanation: It use the "use_lockfile = true" property

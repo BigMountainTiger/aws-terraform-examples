@@ -34,5 +34,5 @@ if __name__ == "__main__":
 
     print(df)
 
-    # 3. Clean up the S3 Athena output directory
+    # 4. Clean up the S3 Athena output directory
     athena_client.clear_s3_athena_output_dir()

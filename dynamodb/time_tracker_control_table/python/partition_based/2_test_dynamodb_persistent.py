@@ -8,6 +8,9 @@ if __name__ == '__main__':
 
     partition = tracker.get_last_partition()
     print(partition)
+    if partition:
+        # This is to verify the y,m,d,h are 0 padded
+        print(f"{partition.y}.{partition.m}.{partition.d}.{partition.h}")
 
     if partition is None:
         dt = datetime.now(tz=timezone.utc)
@@ -18,3 +21,4 @@ if __name__ == '__main__':
 
     partition = tracker.get_last_partition()
     print(partition)
+    print(f"{partition.y}.{partition.m}.{partition.d}.{partition.h}")
