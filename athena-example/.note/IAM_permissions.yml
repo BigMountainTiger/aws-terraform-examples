@@ -1,0 +1,57 @@
+S3 Permissions:
+  1:
+    What: The data to query
+    purpose: Need to read the data
+    example: |
+      {
+          "Sid": "AthenaSourceDataBucketRead",
+          "Effect": "Allow",
+          "Action": [
+              "s3:ListBucket",
+              "s3:GetObject"
+          ],
+          "Resource": [
+              "arn:aws:s3:::your-source-bucket",
+              "arn:aws:s3:::your-source-bucket/*"
+          ]
+      }
+
+  2:
+    What: The temporary result gernerated by athena
+    purpose: Put and read the temporary result gernerated by Athena
+    example: |
+      {
+          "Sid": "AthenaResultsBucketWriteRead",
+          "Effect": "Allow",
+          "Action": [
+              "s3:GetBucketLocation",
+              "s3:ListBucket",
+              "s3:GetObject",
+              "s3:PutObject"
+          ],
+          "Resource": [
+              "arn:aws:s3:::your-results-bucket",
+              "arn:aws:s3:::your-results-bucket/*"
+          ]
+      }
+
+  3:
+    What: I can not upload file to the Athena query result s3 bucket, but I can run Athena
+    Permissions:
+      1: Athena use the permission from the user/role to issue the athena query
+      2:
+        What: it it possible that the user/role only has permission to PUT data to the s3 through Athena
+        example: |
+          {
+              "Action": "s3:PutObject*",
+              "Condition": {
+                  "ForAnyValue:StringEquals": {
+                      "aws:CalledVia": [
+                          "athena.amazonaws.com"
+                      ]
+                  }
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+              "Sid": ""
+          }

@@ -39,7 +39,8 @@ if __name__ == "__main__":
         {"key_1": 1.1, "key_2": {"str_entry_1": 1.1, "int_entry": 0, "double_entry": 0.0}},
         {"key_1": True, "key_2": {"str_entry_1": False, "int_entry": 0, "double_entry": 0.0}},
         {"key_1": {}, "key_2": {"str_entry_1": {}, "int_entry": 0, "double_entry": 0.0}},
-        {"key_1": {"key": "value"}, "key_2": {"str_entry_1": {"key": "value"}, "int_entry": 0, "double_entry": 0.0}}
+        {"key_1": {"key": "value"}, "key_2": {"str_entry_1": {"key": "value"}, "int_entry": 0, "double_entry": 0.0}},
+        {"key_1": [], "key_2": {"str_entry_1": [{"k_1", "v_1"}, {"k_2": "v_2"}], "int_entry": 0, "double_entry": 0.0}}
     ])
 
     df.show()
