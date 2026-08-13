@@ -1,0 +1,17 @@
+Athena Permissions:
+  example: |
+    {
+        "Effect" : "Allow",
+        "Action" : [
+          "athena:StartQueryExecution",
+          "athena:GetQueryExecution",
+          "athena:GetQueryResults",
+          "athena:StopQueryExecution",
+          "athena:GetWorkGroup"
+        ],
+        "Resource" : ["*"]
+    }
+  The Resource: It is the workgroup that the Athena query runs through
+  awswranger:
+    1: In awswranger we can specify a workgroup
+    2: If not specified, default to the "primary" workgroup
