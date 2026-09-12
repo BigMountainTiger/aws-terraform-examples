@@ -1,0 +1,8 @@
+NTILE(n):
+  1: |
+    In AWS Athena, NTILE(n) is a ranking window function that divides an ordered dataset into n roughly equal-sized groups (buckets or tiles)
+    and assigns a bucket number (from 1 to n) to each row
+    
+  2: |
+    Because AWS Athena is built on the Trino/Presto distributed SQL engine,
+    it fully supports standard ANSI SQL window functions like NTILE
