@@ -18,3 +18,12 @@ resource "aws_athena_workgroup" "json_example" {
 
   force_destroy = true
 }
+
+removed {
+  # Let terraform to forget a resource it can not delete
+  from = aws_athena_workgroup.primary
+
+  lifecycle {
+    destroy = false
+  }
+}

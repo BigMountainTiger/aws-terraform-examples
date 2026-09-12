@@ -36,7 +36,7 @@ S3 Permissions:
       }
 
   3:
-    What: I can not upload file to the Athena query result s3 bucket, but I can run Athena
+    Question: I can not upload file to the Athena query result s3 bucket, but I can run Athena
     Permissions:
       1: Athena use the permission from the user/role to issue the athena query
       2:

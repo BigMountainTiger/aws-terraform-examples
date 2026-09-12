@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 what=$1
 if [ -z "${what}" ]
@@ -7,7 +7,9 @@ then
     what="p"
 fi
 
-terraform init -reconfigure
+cd terraform
+
+terraform init -reconfigure -upgrade
 
 case "${what}" in
     "p")

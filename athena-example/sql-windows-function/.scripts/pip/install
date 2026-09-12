@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PKGS=(
+    awswrangler
+)
+
+for pkg in "${PKGS[@]}"; do
+    pip install "$pkg"
+done
