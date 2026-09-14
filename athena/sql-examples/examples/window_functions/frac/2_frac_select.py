@@ -1,7 +1,7 @@
 from athena_client import AthenaClient
 
-s3_bucket = "sql-windows-function-huge-head-li"
-database = "sql_windows_function_database"
+s3_bucket = "athena-sql-examples-huge-head-li"
+database = "athena_sql_examples_database"
 table = "frac_example"
 
 

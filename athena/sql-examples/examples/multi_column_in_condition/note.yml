@@ -1,0 +1,19 @@
+Athena support: checking a multi-column tuple against an IN condition
+
+1. Multi-Column IN Condition: |
+  SELECT * 
+  FROM your_table
+  WHERE (column_1, column_2) IN (
+      ('value_A1', 'value_A2'),
+      ('value_B1', 'value_B2'),
+      ('value_C1', 'value_C2')
+  );
+
+2. Multi-Column IN with a Subquery: |
+  SELECT * 
+  FROM main_table
+  WHERE (status, region) IN (
+      SELECT status, region 
+      FROM filter_table 
+      WHERE is_active = true
+  );

@@ -1,7 +1,7 @@
 locals {
-  athena_example_s3_bucket_name = "sql-windows-function-huge-head-li"
-  athena_example_database_name  = "sql_windows_function_database"
-  athena_workgroup_name         = "sql_windows_function_workgroup"
+  athena_example_s3_bucket_name = "athena-sql-examples-huge-head-li"
+  athena_example_database_name  = "athena_sql_examples_database"
+  athena_workgroup_name         = "athena_sql_examples_workgroup"
 }
 
 

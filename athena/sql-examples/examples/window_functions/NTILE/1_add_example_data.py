@@ -1,8 +1,8 @@
 import awswrangler as wr
 import pandas as pd
 
-s3_bucket = "sql-windows-function-huge-head-li"
-database = "sql_windows_function_database"
+s3_bucket = "athena-sql-examples-huge-head-li"
+database = "athena_sql_examples_database"
 table = "ntile_example"
 
 
