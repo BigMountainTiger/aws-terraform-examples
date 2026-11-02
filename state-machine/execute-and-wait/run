@@ -1,0 +1,74 @@
+#!/bin/bash
+
+ENV=${ENV:-"dev"}
+
+if [[ "$ENV" == "prod" ]]; then
+    state_machine="state-machine_name-prod"
+    state_machine_arn="arn:aws:states:us-east-1:000000000000:stateMachine:$state_machine"
+else
+    state_machine="state-machine_name-dev"
+    state_machine_arn="arn:aws:states:us-east-1:000000000000:stateMachine:$state_machine"
+fi
+
+display_execution_time() {
+    total_seconds=$1
+    h=$(( total_seconds / 3600 ))
+    m=$(( (total_seconds % 3600) / 60 ))
+    s=$(( total_seconds % 60 ))
+
+    printf "\rExecution time: %02d:%02d:%02d " $h $m $s
+}
+
+execute() {
+    aws sts get-caller-identity 1>/dev/null
+
+    param1="$1"
+    param2="$2"
+
+    INPUT_DATA='{
+        "glue_job_arguments": {
+            "--param1": "'$param1'",
+            "--param2": "'$param2'"
+        }
+    }'
+
+    EXECUTION_NAME="$(uuidgen)"
+    echo && echo "Starting Step Functions execution..."
+    echo $INPUT_DATA
+    EXEC_RESPONSE=$(aws stepfunctions start-execution \
+        --no-verify-ssl \
+        --state-machine-arn "$state_machine_arn" \
+        --name "$EXECUTION_NAME" \
+        --input "$INPUT_DATA" 2>/dev/null)
+
+    EXECUTION_ARN=$(echo "$EXEC_RESPONSE" | jq -r '.executionArn')
+    echo "Execution ARN: $EXECUTION_ARN"
+
+    STATUS="RUNNING"
+    EXECUTION_SECONDS=0
+    while [[ "$STATUS" == "RUNNING" ]]; do
+        display_execution_time $EXECUTION_SECONDS
+        DESC_RESPONSE=$(aws stepfunctions describe-execution --no-verify-ssl --execution-arn "$EXECUTION_ARN" 2>/dev/null)
+        STATUS=$(echo "$DESC_RESPONSE" | jq -r '.status')
+        if [[ "$STATUS" == "RUNNING" ]]; then
+            sleep_seconds=30
+            sleep $sleep_seconds
+            EXECUTION_SECONDS=$(($EXECUTION_SECONDS + $sleep_seconds))
+        fi
+    done
+
+    echo "Execution finished with status: $STATUS"
+    if [[ "$STATUS" == "SUCCEEDED" ]]; then
+        echo "Output:"
+        echo "$DESC_RESPONSE" | jq -r '.output' && echo
+    else
+        echo "Execution failed"
+        echo "$DESC_RESPONSE" && echo
+        exit 1
+    fi
+}
+
+echo "$@"
+
+# pass the arguments to execute function
+execute "$@"
