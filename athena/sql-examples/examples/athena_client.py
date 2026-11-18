@@ -32,7 +32,7 @@ class AthenaClient:
         if state != 'SUCCEEDED':
             raise Exception(f'The execution {QueryExecutionId} state is {state}, SUCCEEDED is expected')
 
-        return state
+        return result
 
     def read_sql_query(self, sql, ctas_approach=False, unload_approach=True, chunksize=None):
         # https://aws-sdk-pandas.readthedocs.io/en/stable/stubs/awswrangler.athena.read_sql_query.html
